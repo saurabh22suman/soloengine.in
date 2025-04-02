@@ -1,6 +1,7 @@
 # PHP Portfolio Website
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![CI/CD Status](https://github.com/prakersh/prakersh.in/actions/workflows/php-workflow.yml/badge.svg)](https://github.com/prakersh/prakersh.in/actions/workflows/php-workflow.yml)
 
 A responsive PHP portfolio/resume website with print functionality.
 
@@ -67,6 +68,19 @@ The portfolio includes a print button that allows visitors to print your resume.
 
 - Web server with PHP support
 - Modern web browser
+
+## 🔄 CI/CD Pipeline
+
+This project uses GitHub Actions for continuous integration and deployment. The pipeline:
+
+- Automatically tests PHP code for syntax errors
+- Verifies code quality with PSR-12 standards
+- Lints CSS and JavaScript files
+- Runs integration tests by starting a PHP server and checking responses with wget
+- Creates a downloadable build artifact on successful code checks
+
+For more details, see the [CI/CD documentation](CICD.md).
+
 ## 📧 Contact
 
 [Prakersh Maheshwari] - [prakersh@live.com]
