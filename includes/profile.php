@@ -4,18 +4,18 @@
             <h3><i class="fas fa-user-circle me-2"></i>About Me</h3>
         </div>
         <div class="card-body">
-            <div class="row align-items-center">
-                <div class="col-md-3 text-center mb-4 mb-md-0">
-                    <div class="profile-image-container">
-                        <img src="assets/images/profile.jpg" alt="Prakersh Maheshwari Profile Picture" class="img-fluid profile-img border">
+            <div class="row">
+                <div class="col-12 position-relative">
+                    <div class="float-md-end ms-md-4 mb-4">
+                        <div class="profile-image-container">
+                            <img src="assets/images/profile.jpg" alt="Prakersh Maheshwari Profile Picture" class="img-fluid profile-img border">
+                        </div>
+                        <div class="social-links-container mt-3 d-print-none text-center">
+                            <a href="https://linkedin.com/in/prakersh" target="_blank" class="social-link mx-1"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="https://github.com/prakersh" target="_blank" class="social-link mx-1"><i class="fab fa-github"></i></a>
+                            <a href="mailto:prakersh@live.com" class="social-link mx-1"><i class="fas fa-envelope"></i></a>
+                        </div>
                     </div>
-                    <div class="social-links-container mt-3 d-print-none">
-                        <a href="https://linkedin.com/in/prakersh" target="_blank" class="social-link mx-1"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="https://github.com/prakersh" target="_blank" class="social-link mx-1"><i class="fab fa-github"></i></a>
-                        <a href="mailto:prakersh@live.com" class="social-link mx-1"><i class="fas fa-envelope"></i></a>
-                    </div>
-                </div>
-                <div class="col-md-9">
                     <h2 class="card-title mb-1">Prakersh Maheshwari</h2>
                     <h4 class="text-muted mb-3">Software Engineer</h4>
                     <div class="profile-summary mb-4">
@@ -48,6 +48,20 @@
                             <div class="contact-details">
                                 <span class="contact-label">LinkedIn</span>
                                 <a href="https://linkedin.com/in/prakersh" target="_blank" class="contact-value print-link">linkedin.com/in/prakersh</a>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-globe contact-icon"></i>
+                            <div class="contact-details">
+                                <span class="contact-label">Website</span>
+                                <a href="https://prakersh.in" target="_blank" class="contact-value print-link">prakersh.in</a>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fab fa-github contact-icon"></i>
+                            <div class="contact-details">
+                                <span class="contact-label">GitHub</span>
+                                <a href="https://github.com/prakersh" target="_blank" class="contact-value print-link">github.com/prakersh</a>
                             </div>
                         </div>
                     </div>

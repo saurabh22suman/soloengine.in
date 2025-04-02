@@ -16,7 +16,7 @@
                                 <h5 class="project-title">Reader Writer Lock</h5>
                                 <p class="project-description">A C-based implementation of a reader-writer lock for file sharing over NFS. Supports multiple concurrent readers with exclusive writer access.</p>
                                 <div class="d-flex justify-content-between mt-auto">
-                                    <a href="https://github.com/prakersh/Reader-Writer-Lock" class="btn btn-sm btn-outline-primary" target="_blank"><i class="fab fa-github me-1"></i> GitHub</a>
+                                    <a href="https://github.com/prakersh/reader-writer-lock" class="btn btn-sm btn-outline-primary" target="_blank"><i class="fab fa-github me-1"></i> GitHub</a>
                                 </div>
                                 <div class="project-tags mt-3">
                                     <span class="badge bg-primary me-1">C</span>
@@ -35,7 +35,7 @@
                                     <i class="fas fa-shield-alt fa-3x text-success"></i>
                                 </div>
                                 <h5 class="project-title">encr - Encryption Tool</h5>
-                                <p class="project-description">A Shell-based wrapper over OpenSSL that provides an easy-to-use interface for file encryption and decryption with AES-256.</p>
+                                <p class="project-description">A Shell-based wrapper over OpenSSL that provides an easy-to-use interface for file encryption and decryption with simple command line parameters.</p>
                                 <div class="d-flex justify-content-between mt-auto">
                                     <a href="https://github.com/prakersh/encr" class="btn btn-sm btn-outline-primary" target="_blank"><i class="fab fa-github me-1"></i> GitHub</a>
                                 </div>
@@ -58,7 +58,7 @@
                                 <h5 class="project-title">Python Progress Bar</h5>
                                 <p class="project-description">An implementation example of progress bars in Python for providing visual feedback to users during long-running operations.</p>
                                 <div class="d-flex justify-content-between mt-auto">
-                                    <a href="https://github.com/prakersh/Python-progress-bar" class="btn btn-sm btn-outline-primary" target="_blank"><i class="fab fa-github me-1"></i> GitHub</a>
+                                    <a href="https://github.com/prakersh/progressbar-python" class="btn btn-sm btn-outline-primary" target="_blank"><i class="fab fa-github me-1"></i> GitHub</a>
                                 </div>
                                 <div class="project-tags mt-3">
                                     <span class="badge bg-primary me-1">Python</span>
@@ -79,7 +79,7 @@
                                 <h5 class="project-title">ShortTouch</h5>
                                 <p class="project-description">A Python utility that enables quick interactions with your system through customizable shortcuts and automation features.</p>
                                 <div class="d-flex justify-content-between mt-auto">
-                                    <a href="https://github.com/prakersh/ShortTouch" class="btn btn-sm btn-outline-primary" target="_blank"><i class="fab fa-github me-1"></i> GitHub</a>
+                                    <a href="https://github.com/prakersh/shorttouch" class="btn btn-sm btn-outline-primary" target="_blank"><i class="fab fa-github me-1"></i> GitHub</a>
                                 </div>
                                 <div class="project-tags mt-3">
                                     <span class="badge bg-primary me-1">Python</span>
@@ -106,6 +106,27 @@
                                     <span class="badge bg-secondary me-1">PHP</span>
                                     <span class="badge bg-primary me-1">CodeIgniter</span>
                                     <span class="badge bg-info me-1">MySQL</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 6 -->
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card project-card h-100">
+                            <div class="card-body text-center">
+                                <div class="project-icon mb-4">
+                                    <i class="fas fa-file-code fa-3x text-info"></i>
+                                </div>
+                                <h5 class="project-title">Portfolio Website</h5>
+                                <p class="project-description">A responsive PHP portfolio/resume website with print functionality. Features modern design with Bootstrap and comprehensive resume sections.</p>
+                                <div class="d-flex justify-content-between mt-auto">
+                                    <a href="https://github.com/prakersh/prakersh.in" class="btn btn-sm btn-outline-primary" target="_blank"><i class="fab fa-github me-1"></i> GitHub</a>
+                                </div>
+                                <div class="project-tags mt-3">
+                                    <span class="badge bg-secondary me-1">CSS</span>
+                                    <span class="badge bg-primary me-1">PHP</span>
+                                    <span class="badge bg-info me-1">Bootstrap</span>
                                 </div>
                             </div>
                         </div>
