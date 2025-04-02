@@ -55,7 +55,7 @@
                                 <a class="nav-link" href="#projects"><i class="fas fa-code me-1"></i>Projects</a>
                             </li>
                             <li class="nav-item d-none d-print-none">
-                                <button onclick="window.print();" class="btn btn-print ms-2"><i class="fas fa-print me-1"></i>Print</button>
+                                <button class="btn btn-print ms-2" aria-label="Print Resume"><i class="fas fa-print me-1"></i>Print</button>
                             </li>
                         </ul>
                     </div>

@@ -80,10 +80,10 @@
                         </div>
                     </div>
                     <div class="mt-4 d-flex justify-content-end d-print-none">
-                        <button class="btn btn-outline-primary download-resume" onclick="window.open('assets/files/Prakersh_Resume.pdf', '_blank')">
+                        <button class="btn btn-outline-primary download-resume" id="download-resume-btn" aria-label="Download Resume PDF">
                             <i class="fas fa-download me-2"></i>Download Resume
                         </button>
-                        <button class="btn btn-print ms-2" onclick="window.print()">
+                        <button class="btn btn-print ms-2" id="print-resume-btn" aria-label="Print Resume">
                             <i class="fas fa-print me-2"></i>Print
                         </button>
                     </div>

@@ -7,14 +7,119 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Add a click event to the print button
-    const printButton = document.querySelector('button[onclick="window.print()"]');
-    if (printButton) {
-        printButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            window.print();
+    // Replace the print button functionality with enhanced version
+    const printButtons = document.querySelectorAll('button[onclick="window.print()"], .btn-print');
+    if (printButtons.length > 0) {
+        printButtons.forEach(button => {
+            // Remove the inline onclick attribute to prevent double execution
+            button.removeAttribute('onclick');
+            
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                handlePrint();
+            });
         });
     }
+    
+    // Add PDF download functionality
+    const downloadButton = document.getElementById('download-resume-btn');
+    if (downloadButton) {
+        downloadButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            generatePDF();
+        });
+    }
+    
+    function generatePDF() {
+        // Show loading indicator
+        const loadingMsg = document.createElement('div');
+        loadingMsg.className = 'print-message';
+        loadingMsg.innerHTML = '<p>Generating PDF, please wait...</p>';
+        loadingMsg.style.position = 'fixed';
+        loadingMsg.style.top = '0';
+        loadingMsg.style.left = '0';
+        loadingMsg.style.width = '100%';
+        loadingMsg.style.padding = '10px';
+        loadingMsg.style.backgroundColor = '#007bff';
+        loadingMsg.style.color = '#fff';
+        loadingMsg.style.textAlign = 'center';
+        loadingMsg.style.zIndex = '9999';
+        loadingMsg.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
+        document.body.appendChild(loadingMsg);
+        
+        // Generate a timestamp to prevent caching
+        const timestamp = new Date().getTime();
+        
+        // Redirect to the PDF generation script
+        window.location.href = `generate-pdf-wk.php?t=${timestamp}`;
+        
+        // Remove the loading message after a delay
+        setTimeout(() => {
+            if (document.body.contains(loadingMsg)) {
+                document.body.removeChild(loadingMsg);
+            }
+        }, 3000);
+    }
+    
+    function handlePrint() {
+        // Add a class to body for print preparation
+        document.body.classList.add('preparing-for-print');
+        
+        // Make sure all sections are visible
+        const allSections = document.querySelectorAll('section');
+        allSections.forEach(section => {
+            section.classList.add('print-visible');
+            
+            // Ensure all cards within this section are visible
+            const cards = section.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.classList.add('print-visible');
+            });
+        });
+        
+        // Optional: Show a print preparation message
+        const printMsg = document.createElement('div');
+        printMsg.className = 'print-message';
+        printMsg.innerHTML = '<p>Preparing document for printing...</p>';
+        printMsg.style.position = 'fixed';
+        printMsg.style.top = '0';
+        printMsg.style.left = '0';
+        printMsg.style.width = '100%';
+        printMsg.style.padding = '10px';
+        printMsg.style.backgroundColor = '#f8f9fa';
+        printMsg.style.textAlign = 'center';
+        printMsg.style.zIndex = '9999';
+        printMsg.style.borderBottom = '1px solid #dee2e6';
+        document.body.appendChild(printMsg);
+        
+        // Allow time for styles to apply and resources to load
+        setTimeout(() => {
+            // Remove the message before printing
+            document.body.removeChild(printMsg);
+            
+            // Execute print
+            window.print();
+            
+            // Remove preparing class after printing dialog is closed
+            setTimeout(() => {
+                document.body.classList.remove('preparing-for-print');
+                
+                // Reset any temporary classes we added
+                allSections.forEach(section => {
+                    section.classList.remove('print-visible');
+                });
+            }, 1000);
+        }, 300);
+    }
+    
+    // Listen for the beforeprint and afterprint events
+    window.addEventListener('beforeprint', () => {
+        document.body.classList.add('is-printing');
+    });
+    
+    window.addEventListener('afterprint', () => {
+        document.body.classList.remove('is-printing');
+    });
     
     // Smooth scrolling for all links with header offset adjustment
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {

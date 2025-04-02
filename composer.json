@@ -1,0 +1,13 @@
+{
+    "name": "prakersh/resume-site",
+    "description": "Personal portfolio and resume website",
+    "type": "project",
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    }
+}

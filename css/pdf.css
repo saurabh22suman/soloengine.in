@@ -1,0 +1,250 @@
+/* PDF-specific styles for mPDF generation */
+
+/* Basic page setup */
+@page {
+    size: A4;
+    margin: 1cm;
+}
+
+/* Reset styles */
+body {
+    font-family: DejaVu Sans, sans-serif;
+    font-size: 10pt;
+    line-height: 1.3;
+    background: #fff;
+    color: #000;
+    margin: 0;
+    padding: 0;
+}
+
+/* Hide elements not needed for PDF */
+.d-print-none,
+header button,
+footer,
+.btn,
+.navbar-toggler,
+.social-icon,
+.social-links-container,
+.profile-image-container .profile-socials,
+.print-message {
+    display: none !important;
+}
+
+/* Basic container styles */
+.container, .row, .col-md-10, .col-md-8, .col-md-6, .col-md-4, .col-md-3, .col-md-9 {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+/* Section styles */
+section {
+    display: block;
+    margin-bottom: 0.5cm;
+    page-break-inside: auto;
+}
+
+/* Card styles */
+.card {
+    border: 1px solid #ddd;
+    margin-bottom: 0.5cm;
+    page-break-inside: auto;
+    background: #fff;
+}
+
+.card-header {
+    background: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+    padding: 0.2cm;
+}
+
+.card-body {
+    padding: 0.2cm;
+}
+
+/* Typography */
+h2, .card-title {
+    font-size: 14pt;
+    margin-bottom: 0.2cm;
+    font-weight: bold;
+}
+
+h3 {
+    font-size: 13pt;
+    margin-bottom: 0.2cm;
+}
+
+h4 {
+    font-size: 12pt;
+    margin-bottom: 0.1cm;
+}
+
+h5 {
+    font-size: 11pt;
+    margin-bottom: 0.1cm;
+}
+
+p {
+    margin-bottom: 0.2cm;
+}
+
+/* Profile section */
+#profile .row {
+    display: block;
+}
+
+#profile .col-md-3 {
+    width: 25%;
+    float: left;
+    padding-right: 0.3cm;
+}
+
+#profile .col-md-9 {
+    width: 75%;
+    float: right;
+}
+
+.profile-image-container {
+    max-width: 2.5cm;
+    margin: 0 auto;
+}
+
+.profile-img {
+    max-width: 100%;
+    border: 1px solid #ccc;
+    padding: 2px;
+}
+
+/* Contact info */
+.contact-info-grid {
+    display: block;
+    margin-bottom: 0.2cm;
+}
+
+.contact-item {
+    width: 48%;
+    padding: 0.1cm;
+    margin-bottom: 0.1cm;
+    display: inline-block;
+}
+
+/* Skills section */
+#skills .card-body {
+    column-count: 2;
+    column-gap: 0.8cm;
+}
+
+.skill-category-title {
+    font-size: 11pt;
+    margin-top: 0.2cm;
+    margin-bottom: 0.2cm;
+    font-weight: bold;
+    break-after: avoid;
+}
+
+.skill-item {
+    margin-bottom: 0.15cm;
+    break-inside: avoid;
+}
+
+.progress {
+    height: 6px;
+    margin-bottom: 0.15cm;
+    background-color: #eee;
+}
+
+.progress-bar {
+    background-color: #007bff;
+}
+
+/* Badges */
+.badge {
+    font-size: 8pt;
+    padding: 0.05cm;
+    margin: 0.03cm;
+    border: 1px solid #999;
+    background-color: #f8f9fa;
+    color: #000;
+}
+
+/* Timeline items */
+.timeline-item {
+    padding-left: 0.4cm;
+    margin-bottom: 0.2cm;
+    border-left: 2px solid #007bff;
+    break-inside: avoid;
+}
+
+.timeline-title {
+    font-size: 11pt;
+    margin-bottom: 0.1cm;
+    font-weight: bold;
+}
+
+.timeline-subtitle {
+    font-size: 10pt;
+    font-weight: normal;
+}
+
+.timeline-date, .timeline-location {
+    font-size: 9pt;
+    display: inline-block;
+    margin-right: 0.3cm;
+}
+
+.timeline-content ul {
+    margin: 0.1cm 0;
+    padding-left: 0.6cm;
+}
+
+.timeline-content li {
+    font-size: 9pt;
+    margin-bottom: 0.03cm;
+    line-height: 1.3;
+}
+
+/* Project section */
+#projects .row {
+    display: block;
+}
+
+#projects .col-md-6, 
+#projects .col-lg-4 {
+    width: 48%;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 1%;
+    margin-bottom: 0.2cm;
+}
+
+.project-card {
+    border: 1px solid #ddd;
+    padding: 0.1cm;
+    margin-bottom: 0.1cm;
+}
+
+.project-icon {
+    display: none;
+}
+
+.project-title {
+    font-size: 10pt;
+    font-weight: bold;
+    margin-bottom: 0.05cm;
+}
+
+.project-description {
+    font-size: 9pt;
+    margin-bottom: 0.05cm;
+}
+
+.project-tags {
+    margin-top: 0.05cm;
+}
+
+/* Links */
+a {
+    color: #000;
+    text-decoration: none;
+} 
