@@ -1,0 +1,331 @@
+/* Print Styles for Portfolio */
+
+@page {
+    size: A4;
+    margin: 1cm;
+}
+
+@media print {
+    /* Hide elements not needed for print */
+    .d-print-none,
+    header button,
+    footer,
+    .btn,
+    .navbar-toggler,
+    .social-icon,
+    .social-links-container,
+    .profile-image-container .profile-socials {
+        display: none !important;
+    }
+    
+    /* General Print Settings */
+    body {
+        font-size: 9pt !important;
+        line-height: 1.2 !important;
+        background: #fff !important;
+        color: #000 !important;
+        margin: 0;
+        padding: 0;
+        width: 100% !important;
+    }
+    
+    /* Adjust main container */
+    .container, .row, .col-md-10, .col-md-8, .col-md-6, .col-md-4, .col-md-3, .col-md-9 {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 0 0 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    /* Fix row alignment */
+    .row {
+        display: block !important;
+    }
+    
+    /* Compact margins and paddings */
+    section {
+        margin-bottom: 0.3cm !important;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+    
+    /* Remove shadows and borders for cleaner print */
+    .card {
+        box-shadow: none !important;
+        border: none !important;
+        margin-bottom: 0.3cm !important;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+    
+    .card-header {
+        background: none !important;
+        color: #000 !important;
+        border-bottom: 1px solid #000 !important;
+        padding: 0.2cm 0 !important;
+        margin-bottom: 0.2cm !important;
+    }
+    
+    .card-header::before {
+        display: none !important;
+    }
+    
+    .card-body {
+        padding: 0 !important;
+    }
+    
+    /* Compressing profile section */
+    #profile .row {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: flex-start !important;
+    }
+    
+    #profile .col-md-3 {
+        width: 20% !important;
+        flex: 0 0 20% !important;
+        max-width: 20% !important;
+        padding-right: 0.5cm !important;
+        margin-right: 0.5cm !important;
+    }
+    
+    #profile .col-md-9 {
+        width: 80% !important;
+        flex: 0 0 80% !important;
+        max-width: 80% !important;
+    }
+    
+    #profile .card-title {
+        font-size: 14pt !important;
+        margin-bottom: 0 !important;
+    }
+    
+    #profile h4.text-muted {
+        font-size: 10pt !important;
+        margin-bottom: 0.1cm !important;
+    }
+    
+    #profile .lead {
+        font-size: 9pt !important;
+        margin-bottom: 0.2cm !important;
+    }
+    
+    .profile-image-container {
+        max-width: 2cm !important;
+        margin: 0 auto !important;
+        border-radius: 8px !important;
+    }
+    
+    .profile-img {
+        max-width: 2cm !important;
+        border: 1px solid #ccc !important;
+        padding: 2px !important;
+        border-radius: 8px !important;
+    }
+    
+    /* Fix contact grid in print */
+    .contact-info-grid {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 0.1cm !important;
+    }
+    
+    .contact-item {
+        width: 45% !important;
+        padding: 0.1cm !important;
+        background: none !important;
+        margin-bottom: 0.1cm !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+    
+    .contact-icon {
+        margin-right: 0.1cm !important;
+    }
+    
+    /* Fix links in print */
+    a.print-link {
+        color: black !important;
+        text-decoration: none !important;
+        font-weight: normal !important;
+    }
+    
+    /* Adjust skills section */
+    #skills .card-body {
+        columns: 2 !important;
+        column-gap: 0.8cm !important;
+    }
+    
+    .skill-category-title {
+        font-size: 10pt !important;
+        margin-top: 0.2cm !important;
+        margin-bottom: 0.1cm !important;
+        break-after: avoid !important;
+        page-break-after: avoid !important;
+    }
+    
+    .skill-item {
+        margin-bottom: 0.15cm !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+    }
+    
+    .progress {
+        height: 6px !important;
+        margin-bottom: 0.1cm !important;
+    }
+    
+    /* Make additional skills section more compact */
+    .row.mt-5 {
+        margin-top: 0.3cm !important;
+    }
+    
+    /* Adjust badges */
+    .badge {
+        font-size: 7pt !important;
+        padding: 0.05rem 0.15rem !important;
+        margin: 0.03cm !important;
+        border: 1px solid #999 !important;
+        background: white !important;
+        color: black !important;
+    }
+    
+    /* Adjust timeline items */
+    .timeline-item {
+        padding-left: 0.4cm !important;
+        margin-bottom: 0.2cm !important;
+        border-left-width: 1px !important;
+    }
+    
+    .timeline-item::before {
+        width: 8px !important;
+        height: 8px !important;
+        left: -5px !important;
+    }
+    
+    .timeline-title {
+        font-size: 10pt !important;
+        margin-bottom: 0 !important;
+    }
+    
+    .timeline-subtitle {
+        font-size: 9pt !important;
+    }
+    
+    .timeline-date, .timeline-location {
+        font-size: 8pt !important;
+        display: inline-block !important;
+        margin-right: 0.3cm !important;
+    }
+    
+    .timeline-content ul {
+        margin: 0.1cm 0 !important;
+        padding-left: 0.6cm !important;
+    }
+    
+    .timeline-content li {
+        font-size: 8pt !important;
+        margin-bottom: 0.03cm !important;
+        line-height: 1.2 !important;
+    }
+    
+    /* Projects section - make it compact */
+    #projects .card-body {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 0.2cm !important;
+        justify-content: space-between !important;
+    }
+    
+    .project-card {
+        width: 48% !important;
+        margin-bottom: 0.2cm !important;
+    }
+    
+    .project-card img {
+        height: 80px !important;
+    }
+    
+    .project-title {
+        font-size: 9pt !important;
+        margin-bottom: 0.05cm !important;
+    }
+    
+    .project-description {
+        font-size: 8pt !important;
+        margin-bottom: 0.05cm !important;
+    }
+    
+    /* Remove after content for links */
+    a:after {
+        content: none !important;
+    }
+    
+    /* Strategic page breaks */
+    #experience {
+        page-break-before: always;
+    }
+    
+    #achievements, #projects {
+        page-break-before: always;
+    }
+    
+    /* Adjust education and achievements sections */
+    #education, #achievements {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+    
+    /* Ensure header is clean */
+    header {
+        position: static !important;
+        print-color-adjust: exact !important;
+        -webkit-print-color-adjust: exact !important;
+        box-shadow: none !important;
+        padding: 0.2cm 0 !important;
+        margin-bottom: 0.2cm !important;
+        border-bottom: 1px solid #000;
+    }
+    
+    .navbar-brand {
+        font-size: 12pt !important;
+    }
+    
+    .navbar-nav {
+        display: none !important;
+    }
+    
+    /* Override colors for print */
+    * {
+        color: black !important;
+        border-color: #ddd !important;
+    }
+    
+    .progress-bar {
+        background-color: #666 !important;
+        border: none !important;
+    }
+    
+    /* Specific section tweaks */
+    h3 {
+        font-size: 12pt !important;
+        margin-bottom: 0.1cm !important;
+    }
+    
+    h4 {
+        font-size: 10pt !important;
+        margin-bottom: 0.1cm !important;
+    }
+    
+    p {
+        margin-bottom: 0.1cm !important;
+    }
+    
+    /* Remove animations and transforms */
+    * {
+        transition: none !important;
+        animation: none !important;
+        transform: none !important;
+    }
+} 
