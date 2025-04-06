@@ -774,6 +774,537 @@ if ($is_logged_in) {
         </div>
     </div>
     
+    <?php if ($is_logged_in): ?>
+    <!-- Add Experience Modal -->
+    <div class="modal fade" id="addExperienceModal" tabindex="-1" aria-labelledby="addExperienceModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addExperienceModalLabel">Add New Experience</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="admin.php">
+                        <div class="mb-3">
+                            <label for="exp_job_title" class="form-label">Job Title</label>
+                            <input type="text" class="form-control" id="exp_job_title" name="experience[job_title]" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exp_company" class="form-label">Company</label>
+                            <input type="text" class="form-control" id="exp_company" name="experience[company]" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exp_start_date" class="form-label">Start Date</label>
+                            <input type="text" class="form-control" id="exp_start_date" name="experience[start_date]" placeholder="MM/YYYY" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exp_end_date" class="form-label">End Date</label>
+                            <input type="text" class="form-control" id="exp_end_date" name="experience[end_date]" placeholder="MM/YYYY or Present" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exp_location" class="form-label">Location</label>
+                            <input type="text" class="form-control" id="exp_location" name="experience[location]" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Responsibilities</label>
+                            <div id="responsibilities_container">
+                                <!-- Container for responsibilities -->
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-primary" id="add_responsibility_item">
+                                <i class="fas fa-plus"></i> Add Responsibility
+                            </button>
+                        </div>
+                        <div class="text-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" name="add_experience" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit Experience Modal -->
+    <div class="modal fade" id="editExperienceModal" tabindex="-1" aria-labelledby="editExperienceModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editExperienceModalLabel">Edit Experience</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="admin.php">
+                        <input type="hidden" id="edit_exp_id" name="experience[id]">
+                        <div class="mb-3">
+                            <label for="edit_exp_job_title" class="form-label">Job Title</label>
+                            <input type="text" class="form-control" id="edit_exp_job_title" name="experience[job_title]" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_exp_company" class="form-label">Company</label>
+                            <input type="text" class="form-control" id="edit_exp_company" name="experience[company]" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_exp_start_date" class="form-label">Start Date</label>
+                            <input type="text" class="form-control" id="edit_exp_start_date" name="experience[start_date]" placeholder="MM/YYYY" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_exp_end_date" class="form-label">End Date</label>
+                            <input type="text" class="form-control" id="edit_exp_end_date" name="experience[end_date]" placeholder="MM/YYYY or Present" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_exp_location" class="form-label">Location</label>
+                            <input type="text" class="form-control" id="edit_exp_location" name="experience[location]" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Responsibilities</label>
+                            <div id="edit_responsibilities_container">
+                                <!-- Container for responsibilities -->
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-primary" id="edit_add_responsibility_item">
+                                <i class="fas fa-plus"></i> Add Responsibility
+                            </button>
+                        </div>
+                        <div class="text-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" name="update_experience" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Experience Modal -->
+    <div class="modal fade" id="deleteExperienceModal" tabindex="-1" aria-labelledby="deleteExperienceModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteExperienceModalLabel">Delete Experience</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete the experience: <span id="delete_exp_title" class="fw-bold"></span>?</p>
+                    <form method="post" action="admin.php">
+                        <input type="hidden" id="delete_exp_id" name="experience_id">
+                        <div class="text-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" name="delete_experience" class="btn btn-danger">Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Education Modal -->
+    <div class="modal fade" id="deleteEducationModal" tabindex="-1" aria-labelledby="deleteEducationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteEducationModalLabel">Delete Education</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete the education: <span id="delete_edu_title" class="fw-bold"></span>?</p>
+                    <form method="post" action="admin.php">
+                        <input type="hidden" id="delete_edu_id" name="education_id">
+                        <div class="text-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" name="delete_education" class="btn btn-danger">Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Skill Modal -->
+    <div class="modal fade" id="deleteSkillModal" tabindex="-1" aria-labelledby="deleteSkillModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteSkillModalLabel">Delete Skill</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete the skill: <span id="delete_skill_title" class="fw-bold"></span>?</p>
+                    <form method="post" action="admin.php">
+                        <input type="hidden" id="delete_skill_id" name="skill_id">
+                        <div class="text-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" name="delete_skill" class="btn btn-danger">Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Achievement Modal -->
+    <div class="modal fade" id="deleteAchievementModal" tabindex="-1" aria-labelledby="deleteAchievementModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteAchievementModalLabel">Delete Achievement</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete the achievement: <span id="delete_achievement_title" class="fw-bold"></span>?</p>
+                    <form method="post" action="admin.php">
+                        <input type="hidden" id="delete_achievement_id" name="achievement_id">
+                        <div class="text-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" name="delete_achievement" class="btn btn-danger">Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Project Modal -->
+    <div class="modal fade" id="deleteProjectModal" tabindex="-1" aria-labelledby="deleteProjectModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteProjectModalLabel">Delete Project</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete the project: <span id="delete_project_title" class="fw-bold"></span>?</p>
+                    <form method="post" action="admin.php">
+                        <input type="hidden" id="delete_project_id" name="project_id">
+                        <div class="text-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" name="delete_project" class="btn btn-danger">Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Education Modal -->
+    <div class="modal fade" id="addEducationModal" tabindex="-1" aria-labelledby="addEducationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addEducationModalLabel">Add New Education</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="admin.php">
+                        <div class="mb-3">
+                            <label for="edu_degree" class="form-label">Degree</label>
+                            <input type="text" class="form-control" id="edu_degree" name="education[degree]" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edu_institution" class="form-label">Institution</label>
+                            <input type="text" class="form-control" id="edu_institution" name="education[institution]" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edu_start_date" class="form-label">Start Date</label>
+                            <input type="text" class="form-control" id="edu_start_date" name="education[start_date]" placeholder="MM/YYYY" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edu_end_date" class="form-label">End Date</label>
+                            <input type="text" class="form-control" id="edu_end_date" name="education[end_date]" placeholder="MM/YYYY or Present" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edu_location" class="form-label">Location</label>
+                            <input type="text" class="form-control" id="edu_location" name="education[location]" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Details</label>
+                            <div id="education_details_container">
+                                <!-- Container for education details -->
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-primary" id="add_education_detail">
+                                <i class="fas fa-plus"></i> Add Detail
+                            </button>
+                        </div>
+                        <div class="text-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" name="add_education" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit Education Modal -->
+    <div class="modal fade" id="editEducationModal" tabindex="-1" aria-labelledby="editEducationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editEducationModalLabel">Edit Education</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="admin.php">
+                        <input type="hidden" id="edit_edu_id" name="education[id]">
+                        <div class="mb-3">
+                            <label for="edit_edu_degree" class="form-label">Degree</label>
+                            <input type="text" class="form-control" id="edit_edu_degree" name="education[degree]" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_edu_institution" class="form-label">Institution</label>
+                            <input type="text" class="form-control" id="edit_edu_institution" name="education[institution]" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_edu_start_date" class="form-label">Start Date</label>
+                            <input type="text" class="form-control" id="edit_edu_start_date" name="education[start_date]" placeholder="MM/YYYY" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_edu_end_date" class="form-label">End Date</label>
+                            <input type="text" class="form-control" id="edit_edu_end_date" name="education[end_date]" placeholder="MM/YYYY or Present" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_edu_location" class="form-label">Location</label>
+                            <input type="text" class="form-control" id="edit_edu_location" name="education[location]" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Details</label>
+                            <div id="edit_education_details_container">
+                                <!-- Container for education details -->
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-primary" id="edit_add_education_detail">
+                                <i class="fas fa-plus"></i> Add Detail
+                            </button>
+                        </div>
+                        <div class="text-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" name="update_education" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Skill Modal -->
+    <div class="modal fade" id="addSkillModal" tabindex="-1" aria-labelledby="addSkillModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addSkillModalLabel">Add New Skill</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="admin.php">
+                        <div class="mb-3">
+                            <label for="skill_category" class="form-label">Category</label>
+                            <input type="text" class="form-control" id="skill_category" name="skill[category]" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="skill_name" class="form-label">Skill Name</label>
+                            <input type="text" class="form-control" id="skill_name" name="skill[name]" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="skill_level" class="form-label">Level (1-5)</label>
+                            <input type="number" class="form-control" id="skill_level" name="skill[level]" min="1" max="5" required>
+                        </div>
+                        <div class="text-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" name="add_skill" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit Skill Modal -->
+    <div class="modal fade" id="editSkillModal" tabindex="-1" aria-labelledby="editSkillModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editSkillModalLabel">Edit Skill</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="admin.php">
+                        <input type="hidden" id="edit_skill_id" name="skill[id]">
+                        <div class="mb-3">
+                            <label for="edit_skill_category" class="form-label">Category</label>
+                            <input type="text" class="form-control" id="edit_skill_category" name="skill[category]" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_skill_name" class="form-label">Skill Name</label>
+                            <input type="text" class="form-control" id="edit_skill_name" name="skill[name]" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_skill_level" class="form-label">Level (1-5)</label>
+                            <input type="number" class="form-control" id="edit_skill_level" name="skill[level]" min="1" max="5" required>
+                        </div>
+                        <div class="text-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" name="update_skill" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Achievement Modal -->
+    <div class="modal fade" id="addAchievementModal" tabindex="-1" aria-labelledby="addAchievementModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addAchievementModalLabel">Add New Achievement</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="admin.php">
+                        <div class="mb-3">
+                            <label for="achievement_title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="achievement_title" name="achievement[title]" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="achievement_description" class="form-label">Description</label>
+                            <textarea class="form-control" id="achievement_description" name="achievement[description]" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="achievement_date" class="form-label">Date</label>
+                            <input type="text" class="form-control" id="achievement_date" name="achievement[date]" placeholder="YYYY or YYYY-YYYY" required>
+                        </div>
+                        <div class="text-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" name="add_achievement" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit Achievement Modal -->
+    <div class="modal fade" id="editAchievementModal" tabindex="-1" aria-labelledby="editAchievementModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editAchievementModalLabel">Edit Achievement</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="admin.php">
+                        <input type="hidden" id="edit_achievement_id" name="achievement[id]">
+                        <div class="mb-3">
+                            <label for="edit_achievement_title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="edit_achievement_title" name="achievement[title]" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_achievement_description" class="form-label">Description</label>
+                            <textarea class="form-control" id="edit_achievement_description" name="achievement[description]" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_achievement_date" class="form-label">Date</label>
+                            <input type="text" class="form-control" id="edit_achievement_date" name="achievement[date]" placeholder="YYYY or YYYY-YYYY" required>
+                        </div>
+                        <div class="text-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" name="update_achievement" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Project Modal -->
+    <div class="modal fade" id="addProjectModal" tabindex="-1" aria-labelledby="addProjectModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addProjectModalLabel">Add New Project</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="admin.php">
+                        <div class="mb-3">
+                            <label for="project_title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="project_title" name="project[title]" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="project_description" class="form-label">Description</label>
+                            <textarea class="form-control" id="project_description" name="project[description]" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="project_link" class="form-label">Link</label>
+                            <input type="text" class="form-control" id="project_link" name="project[link]" placeholder="https://">
+                        </div>
+                        <div class="mb-3">
+                            <label for="project_image" class="form-label">Image Path</label>
+                            <input type="text" class="form-control" id="project_image" name="project[image]" placeholder="assets/images/projects/example.jpg">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Technologies</label>
+                            <div id="technologies_container">
+                                <!-- Container for technologies -->
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-primary" id="add_technology_item">
+                                <i class="fas fa-plus"></i> Add Technology
+                            </button>
+                        </div>
+                        <div class="text-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" name="add_project" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit Project Modal -->
+    <div class="modal fade" id="editProjectModal" tabindex="-1" aria-labelledby="editProjectModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProjectModalLabel">Edit Project</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="admin.php">
+                        <input type="hidden" id="edit_project_id" name="project[id]">
+                        <div class="mb-3">
+                            <label for="edit_project_title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="edit_project_title" name="project[title]" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_project_description" class="form-label">Description</label>
+                            <textarea class="form-control" id="edit_project_description" name="project[description]" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_project_link" class="form-label">Link</label>
+                            <input type="text" class="form-control" id="edit_project_link" name="project[link]" placeholder="https://">
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_project_image" class="form-label">Image Path</label>
+                            <input type="text" class="form-control" id="edit_project_image" name="project[image]" placeholder="assets/images/projects/example.jpg">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Technologies</label>
+                            <div id="edit_technologies_container">
+                                <!-- Container for technologies -->
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-primary" id="edit_add_technology_item">
+                                <i class="fas fa-plus"></i> Add Technology
+                            </button>
+                        </div>
+                        <div class="text-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" name="update_project" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {

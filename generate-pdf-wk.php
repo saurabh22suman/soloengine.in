@@ -18,6 +18,15 @@ error_reporting(E_ALL);
 ini_set('display_errors', 0);
 
 try {
+    // Include the database connection
+    require_once 'includes/db_connect.php';
+    $pdo = getDbConnection();
+    
+    // Fetch profile data
+    $stmt = $pdo->prepare('SELECT * FROM profile WHERE id = 1');
+    $stmt->execute();
+    $profile = $stmt->fetch(PDO::FETCH_ASSOC);
+    
     // Create temporary files
     $tempHtml = __DIR__ . '/temp_resume.html';
     $tempPdf = __DIR__ . '/temp_resume.pdf';
@@ -29,7 +38,7 @@ try {
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>Prakersh Maheshwari - Resume</title>
+        <title><?php echo htmlspecialchars($profile['name']); ?> - Resume</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/print.css">
@@ -100,7 +109,7 @@ try {
     if ($returnCode === 0 && file_exists($tempPdf)) {
         // Set headers for the PDF download
         header('Content-Type: application/pdf');
-        header('Content-Disposition: attachment; filename="Prakersh_Resume.pdf"');
+        header('Content-Disposition: attachment; filename="' . htmlspecialchars($profile['name']) . '_Resume.pdf"');
         header('Cache-Control: no-cache, no-store, must-revalidate');
         
         // Output the PDF file

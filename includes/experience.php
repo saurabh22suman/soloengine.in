@@ -1,9 +1,9 @@
 <?php
 // Include the database connection if not already included
-if (!function_exists('getDbConnection')) {
+if (!isset($pdo)) {
     require_once __DIR__ . '/db_connect.php';
+    $pdo = getDbConnection();
 }
-$pdo = getDbConnection();
 
 // Fetch experience data
 $stmt = $pdo->query('SELECT * FROM experience ORDER BY start_date DESC');

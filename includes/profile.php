@@ -1,21 +1,21 @@
 <?php
-// Include the database connection
-require_once __DIR__ . '/db_connect.php';
-$pdo = getDbConnection();
-
-// Fetch profile data
-$stmt = $pdo->prepare('SELECT * FROM profile WHERE id = 1');
-$stmt->execute();
-$profile = $stmt->fetch(PDO::FETCH_ASSOC);
-
-// Fetch skills
-$stmt = $pdo->query('SELECT * FROM skills ORDER BY category, level DESC');
-$skills = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Group skills by category
-$skillsByCategory = [];
-foreach ($skills as $skill) {
-    $skillsByCategory[$skill['category']][] = $skill;
+// Fetch skills if not already fetched
+if (!isset($skillsByCategory)) {
+    // Include the database connection if needed
+    if (!isset($pdo)) {
+        require_once __DIR__ . '/db_connect.php';
+        $pdo = getDbConnection();
+    }
+    
+    // Fetch skills
+    $stmt = $pdo->query('SELECT * FROM skills ORDER BY category, level DESC');
+    $skills = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    // Group skills by category
+    $skillsByCategory = [];
+    foreach ($skills as $skill) {
+        $skillsByCategory[$skill['category']][] = $skill;
+    }
 }
 ?>
 

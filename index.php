@@ -1,4 +1,16 @@
-<?php include 'includes/header.php'; ?>
+<?php
+// Include the database connection
+require_once 'includes/db_connect.php';
+$pdo = getDbConnection();
+
+// Fetch profile data
+$stmt = $pdo->prepare('SELECT * FROM profile WHERE id = 1');
+$stmt->execute();
+$profile = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Include the header file
+include 'includes/header.php'; 
+?>
 
 <div class="container mt-5">
     <div class="row">

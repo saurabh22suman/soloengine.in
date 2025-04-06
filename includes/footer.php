@@ -6,20 +6,22 @@
                     <div class="footer-contact">
                         <div class="footer-contact-item">
                             <i class="fas fa-envelope"></i>
-                            <a href="mailto:prakersh@live.com">prakersh@live.com</a>
+                            <a href="mailto:<?php echo htmlspecialchars($profile['email']); ?>"><?php echo htmlspecialchars($profile['email']); ?></a>
                         </div>
                         <div class="footer-contact-item">
                             <i class="fas fa-phone"></i>
-                            <a href="tel:+919993556000">+91 9993556000</a>
+                            <a href="tel:<?php echo htmlspecialchars(str_replace(' ', '', $profile['phone'])); ?>"><?php echo htmlspecialchars($profile['phone']); ?></a>
                         </div>
                         <div class="footer-contact-item">
                             <i class="fas fa-map-marker-alt"></i>
-                            <span>Pune, India</span>
+                            <span><?php echo htmlspecialchars($profile['location']); ?></span>
                         </div>
+                        <?php if (!empty($profile['website'])): ?>
                         <div class="footer-contact-item">
                             <i class="fas fa-globe"></i>
-                            <a href="https://prakersh.in" target="_blank">prakersh.in</a>
+                            <a href="<?php echo htmlspecialchars($profile['website']); ?>" target="_blank"><?php echo htmlspecialchars(preg_replace('#^https?://#', '', $profile['website'])); ?></a>
                         </div>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <div class="col-md-4 mb-4 mb-md-0">
@@ -62,16 +64,17 @@
                 <div class="col-md-4">
                     <h4 class="footer-heading">Connect With Me</h4>
                     <div class="social-links d-flex gap-3 mb-4">
-                        <a href="https://linkedin.com/in/prakersh" target="_blank" class="social-link">
+                        <?php if (!empty($profile['linkedin'])): ?>
+                        <a href="<?php echo htmlspecialchars($profile['linkedin']); ?>" target="_blank" class="social-link">
                             <i class="fab fa-linkedin-in fa-lg"></i>
                         </a>
-                        <a href="https://github.com/prakersh" target="_blank" class="social-link">
+                        <?php endif; ?>
+                        <?php if (!empty($profile['github'])): ?>
+                        <a href="<?php echo htmlspecialchars($profile['github']); ?>" target="_blank" class="social-link">
                             <i class="fab fa-github fa-lg"></i>
                         </a>
-                        <a href="https://twitter.com/prakersh" target="_blank" class="social-link">
-                            <i class="fab fa-twitter fa-lg"></i>
-                        </a>
-                        <a href="mailto:prakersh@live.com" class="social-link">
+                        <?php endif; ?>
+                        <a href="mailto:<?php echo htmlspecialchars($profile['email']); ?>" class="social-link">
                             <i class="fas fa-envelope fa-lg"></i>
                         </a>
                     </div>
@@ -79,7 +82,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; <?php echo date('Y'); ?> Prakersh Maheshwari. All rights reserved.</p>
+                <p>&copy; <?php echo date('Y'); ?> <?php echo htmlspecialchars($profile['name']); ?>. All rights reserved.</p>
             </div>
         </div>
     </footer>
