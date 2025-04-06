@@ -27,11 +27,9 @@ if (!isset($skillsByCategory)) {
         <div class="card-body">
             <div class="row">
                 <div class="col-12 position-relative">
-                    <div class="float-md-end ms-md-4 mb-4">
-                        <div class="profile-image-container">
-                            <img src="<?php echo htmlspecialchars($profile['profile_image']); ?>" alt="<?php echo htmlspecialchars($profile['name']); ?> Profile Picture" class="img-fluid profile-img border">
-                        </div>
-                        <div class="social-links-container mt-3 d-print-none text-center">
+                    <div class="float-md-end ms-md-4 mb-4 text-center text-md-start">
+                        <img src="<?php echo htmlspecialchars($profile['profile_image']); ?>" alt="<?php echo htmlspecialchars($profile['name']); ?> Profile Picture" class="img-fluid profile-img border mb-3">
+                        <div class="social-links-container d-print-none">
                             <a href="https://linkedin.com/in/<?php echo htmlspecialchars(str_replace('linkedin.com/in/', '', $profile['linkedin'])); ?>" target="_blank" class="social-link mx-1"><i class="fab fa-linkedin-in"></i></a>
                             <a href="https://<?php echo htmlspecialchars($profile['github']); ?>" target="_blank" class="social-link mx-1"><i class="fab fa-github"></i></a>
                             <a href="mailto:<?php echo htmlspecialchars($profile['email']); ?>" class="social-link mx-1"><i class="fas fa-envelope"></i></a>
