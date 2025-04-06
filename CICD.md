@@ -14,7 +14,7 @@ The pipeline is implemented using GitHub Actions and defined in `.github/workflo
 
 This job checks the PHP code quality and correctness:
 
-- Sets up PHP 8.1 with necessary extensions
+- Sets up PHP 8.1 with necessary extensions (including SQLite support)
 - Validates composer configuration (if present)
 - Checks for PHP syntax errors
 - Runs PHP Code Sniffer to enforce PSR-12 coding standards
@@ -33,11 +33,14 @@ This job ensures the front-end code meets quality standards:
 
 This job verifies that the website functions correctly when served:
 
-- Sets up PHP 8.1 environment
+- Sets up PHP 8.1 environment with SQLite support
+- Creates necessary data directory with proper permissions
 - Starts a PHP development server
 - Waits for the server to be ready
 - Verifies the website is accessible
 - Checks that the server responds with a 200 status code
+- Tests database initialization script (init_db.php)
+- Validates admin page accessibility
 
 ### 4. Build Job
 
@@ -45,7 +48,12 @@ This job creates a deployable artifact of the website:
 
 - Only runs when changes are pushed to the main/master branch
 - Only runs if the test, lint, and integration jobs pass
-- Copies the relevant files to a build directory
+- Creates build directory with data subdirectory for the database
+- Copies all relevant files to the build directory, including:
+  - PHP files (index.php, admin.php, init_db.php, reset_db.php, etc.)
+  - Asset directories (css, js, includes, assets)
+  - Documentation files (.md)
+- Sets proper permissions for the data directory
 - Creates and uploads a build artifact that can be accessed from GitHub Actions
 
 ## Fault Tolerance
@@ -54,8 +62,18 @@ The CI/CD pipeline includes several fault-tolerance mechanisms:
 
 - Optional composer validation (`|| true`) to handle projects without composer
 - CSS directory verification with automatic creation if missing
+- Data directory creation with proper permissions
 - Lenient content verification that focuses on server response rather than specific text
 - Safe artifact creation with fallback for missing directories
+
+## Database Support
+
+The CI/CD pipeline has been updated to support the SQLite database functionality:
+
+- PHP environment includes SQLite3 and PDO_SQLite extensions
+- Integration tests verify database initialization works correctly
+- Build artifacts include the data directory with proper permissions
+- Admin panel functionality is verified during testing
 
 ## Downloading Build Artifacts
 
@@ -75,6 +93,20 @@ After downloading the artifact, you can manually deploy the website by uploading
 - SSH and command line tools
 - Web hosting control panel upload function
 
+When deploying, ensure your server:
+- Has PHP 7.0+ with SQLite support enabled
+- Provides write permissions for the data directory
+- Has wkhtmltopdf installed (if using PDF export functionality)
+
+## Post-Deployment Steps
+
+After deploying the artifact, you should:
+
+1. Access init_db.php through your browser to initialize the database
+2. Log in to admin.php with default credentials (admin/admin123)
+3. Change the default admin password immediately
+4. Consider restricting access to sensitive files via .htaccess
+
 ## Extending the Pipeline
 
 If you want to add automated deployment in the future, you can extend the workflow by:
@@ -90,5 +122,6 @@ If the CI/CD pipeline fails:
 1. Check the GitHub Actions logs for specific error messages
 2. Fix any code quality issues identified in the test or lint jobs
 3. If the integration tests fail, check that your web server is properly configured
-4. Ensure required directories (css, js, includes, assets) exist in your repository
-5. Review the file structure to ensure it matches the expected layout 
+4. Ensure required directories (css, js, includes, assets, data) exist in your repository
+5. Review the file structure to ensure it matches the expected layout
+6. Verify that PHP files related to database interaction are working correctly 

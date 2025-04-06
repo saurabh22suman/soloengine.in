@@ -1,4 +1,35 @@
-<section id="projects">
+<?php
+// Include the database connection if not already included
+if (!function_exists('getDbConnection')) {
+    require_once __DIR__ . '/db_connect.php';
+}
+$pdo = getDbConnection();
+
+// Fetch projects data
+$stmt = $pdo->query('SELECT * FROM projects');
+$projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Helper function to get icon class based on project title
+function getProjectIcon($title) {
+    if (strpos(strtolower($title), 'lock') !== false) {
+        return 'fa-code-branch text-primary';
+    } elseif (strpos(strtolower($title), 'encr') !== false) {
+        return 'fa-shield-alt text-success';
+    } elseif (strpos(strtolower($title), 'progress') !== false) {
+        return 'fa-tasks text-info';
+    } elseif (strpos(strtolower($title), 'short') !== false) {
+        return 'fa-bolt text-warning';
+    } elseif (strpos(strtolower($title), 'point of sale') !== false) {
+        return 'fa-shopping-cart text-danger';
+    } elseif (strpos(strtolower($title), 'portfolio') !== false) {
+        return 'fa-file-code text-info';
+    } else {
+        return 'fa-code text-primary';
+    }
+}
+?>
+
+<section id="projects" class="mb-5">
     <div class="container">
         <div class="card">
             <div class="card-header">
@@ -6,131 +37,51 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <!-- Project 1 -->
+                    <?php foreach ($projects as $index => $project): 
+                        // Decode the technologies JSON
+                        $technologies = json_decode($project['technologies'], true);
+                        $iconClass = getProjectIcon($project['title']);
+                    ?>
+                    <!-- Project <?php echo $index + 1; ?> -->
                     <div class="col-md-6 col-lg-4 mb-4">
                         <div class="card project-card h-100">
                             <div class="card-body text-center">
                                 <div class="project-icon mb-4">
-                                    <i class="fas fa-code-branch fa-3x text-primary"></i>
+                                    <i class="fas <?php echo $iconClass; ?> fa-3x"></i>
                                 </div>
-                                <h5 class="project-title">Reader Writer Lock</h5>
-                                <p class="project-description">A C-based implementation of a reader-writer lock for file sharing over NFS. Supports multiple concurrent readers with exclusive writer access.</p>
+                                <h5 class="project-title"><?php echo htmlspecialchars($project['title']); ?></h5>
+                                <p class="project-description"><?php echo htmlspecialchars($project['description']); ?></p>
                                 <div class="d-flex justify-content-between mt-auto">
-                                    <a href="https://github.com/prakersh/reader-writer-lock" class="btn btn-sm btn-outline-primary" target="_blank"><i class="fab fa-github me-1"></i> GitHub</a>
+                                    <?php if (!empty($project['link'])): ?>
+                                    <a href="<?php echo htmlspecialchars($project['link']); ?>" class="btn btn-sm btn-outline-primary" target="_blank"><i class="fab fa-github me-1"></i> GitHub</a>
+                                    <?php endif; ?>
                                 </div>
+                                <?php if (!empty($technologies)): ?>
                                 <div class="project-tags mt-3">
-                                    <span class="badge bg-primary me-1">C</span>
-                                    <span class="badge bg-secondary me-1">NFS</span>
-                                    <span class="badge bg-info me-1">POSIX</span>
+                                    <?php foreach ($technologies as $tech): 
+                                        $badgeClass = 'bg-primary';
+                                        if ($tech == 'Shell' || $tech == 'OpenSSL') {
+                                            $badgeClass = 'bg-warning';
+                                        } elseif ($tech == 'POSIX' || $tech == 'CLI' || $tech == 'MySQL') {
+                                            $badgeClass = 'bg-info';
+                                        } elseif ($tech == 'NFS' || $tech == 'Bash' || $tech == 'Utility') {
+                                            $badgeClass = 'bg-secondary';
+                                        } elseif ($tech == 'Automation' || $tech == 'Linux') {
+                                            $badgeClass = 'bg-success';
+                                        } elseif ($tech == 'PHP') {
+                                            $badgeClass = 'bg-secondary';
+                                        } elseif ($tech == 'Bootstrap') {
+                                            $badgeClass = 'bg-info';
+                                        }
+                                    ?>
+                                    <span class="badge <?php echo $badgeClass; ?> me-1"><?php echo htmlspecialchars($tech); ?></span>
+                                    <?php endforeach; ?>
                                 </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Project 2 -->
-                    <div class="col-md-6 col-lg-4 mb-4">
-                        <div class="card project-card h-100">
-                            <div class="card-body text-center">
-                                <div class="project-icon mb-4">
-                                    <i class="fas fa-shield-alt fa-3x text-success"></i>
-                                </div>
-                                <h5 class="project-title">encr - Encryption Tool</h5>
-                                <p class="project-description">A Shell-based wrapper over OpenSSL that provides an easy-to-use interface for file encryption and decryption with simple command line parameters.</p>
-                                <div class="d-flex justify-content-between mt-auto">
-                                    <a href="https://github.com/prakersh/encr" class="btn btn-sm btn-outline-primary" target="_blank"><i class="fab fa-github me-1"></i> GitHub</a>
-                                </div>
-                                <div class="project-tags mt-3">
-                                    <span class="badge bg-warning me-1">Shell</span>
-                                    <span class="badge bg-danger me-1">OpenSSL</span>
-                                    <span class="badge bg-secondary me-1">Bash</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Project 3 -->
-                    <div class="col-md-6 col-lg-4 mb-4">
-                        <div class="card project-card h-100">
-                            <div class="card-body text-center">
-                                <div class="project-icon mb-4">
-                                    <i class="fas fa-tasks fa-3x text-info"></i>
-                                </div>
-                                <h5 class="project-title">Python Progress Bar</h5>
-                                <p class="project-description">An implementation example of progress bars in Python for providing visual feedback to users during long-running operations.</p>
-                                <div class="d-flex justify-content-between mt-auto">
-                                    <a href="https://github.com/prakersh/progressbar-python" class="btn btn-sm btn-outline-primary" target="_blank"><i class="fab fa-github me-1"></i> GitHub</a>
-                                </div>
-                                <div class="project-tags mt-3">
-                                    <span class="badge bg-primary me-1">Python</span>
-                                    <span class="badge bg-info me-1">CLI</span>
-                                    <span class="badge bg-secondary me-1">Utility</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Project 4 -->
-                    <div class="col-md-6 col-lg-4 mb-4">
-                        <div class="card project-card h-100">
-                            <div class="card-body text-center">
-                                <div class="project-icon mb-4">
-                                    <i class="fas fa-bolt fa-3x text-warning"></i>
-                                </div>
-                                <h5 class="project-title">ShortTouch</h5>
-                                <p class="project-description">A Python utility that enables quick interactions with your system through customizable shortcuts and automation features.</p>
-                                <div class="d-flex justify-content-between mt-auto">
-                                    <a href="https://github.com/prakersh/shorttouch" class="btn btn-sm btn-outline-primary" target="_blank"><i class="fab fa-github me-1"></i> GitHub</a>
-                                </div>
-                                <div class="project-tags mt-3">
-                                    <span class="badge bg-primary me-1">Python</span>
-                                    <span class="badge bg-success me-1">Automation</span>
-                                    <span class="badge bg-secondary me-1">Utility</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Project 5 -->
-                    <div class="col-md-6 col-lg-4 mb-4">
-                        <div class="card project-card h-100">
-                            <div class="card-body text-center">
-                                <div class="project-icon mb-4">
-                                    <i class="fas fa-shopping-cart fa-3x text-danger"></i>
-                                </div>
-                                <h5 class="project-title">Open Source Point of Sale</h5>
-                                <p class="project-description">A PHP web application using CodeIgniter for managing inventory, sales, and customers with a responsive interface.</p>
-                                <div class="d-flex justify-content-between mt-auto">
-                                    <a href="https://github.com/prakersh/opensourcepos" class="btn btn-sm btn-outline-primary" target="_blank"><i class="fab fa-github me-1"></i> GitHub</a>
-                                </div>
-                                <div class="project-tags mt-3">
-                                    <span class="badge bg-secondary me-1">PHP</span>
-                                    <span class="badge bg-primary me-1">CodeIgniter</span>
-                                    <span class="badge bg-info me-1">MySQL</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Project 6 -->
-                    <div class="col-md-6 col-lg-4 mb-4">
-                        <div class="card project-card h-100">
-                            <div class="card-body text-center">
-                                <div class="project-icon mb-4">
-                                    <i class="fas fa-file-code fa-3x text-info"></i>
-                                </div>
-                                <h5 class="project-title">Portfolio Website</h5>
-                                <p class="project-description">A responsive PHP portfolio/resume website with print functionality. Features modern design with Bootstrap and comprehensive resume sections.</p>
-                                <div class="d-flex justify-content-between mt-auto">
-                                    <a href="https://github.com/prakersh/prakersh.in" class="btn btn-sm btn-outline-primary" target="_blank"><i class="fab fa-github me-1"></i> GitHub</a>
-                                </div>
-                                <div class="project-tags mt-3">
-                                    <span class="badge bg-secondary me-1">CSS</span>
-                                    <span class="badge bg-primary me-1">PHP</span>
-                                    <span class="badge bg-info me-1">Bootstrap</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>

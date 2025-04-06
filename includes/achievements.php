@@ -1,3 +1,28 @@
+<?php
+// Include the database connection if not already included
+if (!function_exists('getDbConnection')) {
+    require_once __DIR__ . '/db_connect.php';
+}
+$pdo = getDbConnection();
+
+// Fetch achievements data
+$stmt = $pdo->query('SELECT * FROM achievements ORDER BY date DESC');
+$allAchievements = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Separate achievements and conferences
+$achievements = [];
+$conferences = [];
+
+foreach ($allAchievements as $item) {
+    if (strpos(strtolower($item['title']), 'conference') !== false || 
+        strpos(strtolower($item['title']), 'pycon') !== false) {
+        $conferences[] = $item;
+    } else {
+        $achievements[] = $item;
+    }
+}
+?>
+
 <section id="achievements" class="mb-5">
     <div class="card">
         <div class="card-header bg-light">
@@ -8,27 +33,28 @@
                 <div class="col-md-6">
                     <h4 class="mb-3">Achievements</h4>
                     <ul class="list-unstyled">
+                        <?php foreach ($achievements as $achievement): ?>
                         <li class="mb-3">
-                            <h5>Indian Association of Physics Teachers (2013 - 2014)</h5>
-                            <p>Certificate of Merit for being in national top 1% in national standard examination in physics</p>
+                            <h5><?php echo htmlspecialchars($achievement['title']); ?></h5>
+                            <p><?php echo htmlspecialchars($achievement['description']); ?></p>
                         </li>
-                        <li class="mb-3">
-                            <h5>International Mathematics Olympiad (2013)</h5>
-                            <p>International Rank: 8, State Rank: 2</p>
-                        </li>
-                        <li class="mb-3">
-                            <h5>National Science Olympiad (2013)</h5>
-                            <p>International Rank: 9, State Rank: 3</p>
-                        </li>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
                 <div class="col-md-6">
                     <h4 class="mb-3">Conferences & Courses</h4>
                     <ul class="list-unstyled">
+                        <?php foreach ($conferences as $conference): ?>
                         <li class="mb-3">
-                            <h5>PyCon India (10/2015)</h5>
-                            <p>Python developer community - The premier conference in India on using and developing the Python programming language</p>
+                            <h5><?php echo htmlspecialchars($conference['title']); ?></h5>
+                            <p><?php echo htmlspecialchars($conference['description']); ?></p>
                         </li>
+                        <?php endforeach; ?>
+                        <?php if (empty($conferences)): ?>
+                        <li class="mb-3">
+                            <p class="text-muted">No conferences or courses listed.</p>
+                        </li>
+                        <?php endif; ?>
                     </ul>
                 </div>
             </div>

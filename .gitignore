@@ -45,4 +45,10 @@ yarn-error.log*
 
 # Build files
 /build/
-/dist/ 
+/dist/
+
+# SQLite database files
+data/
+*.db
+*.sqlite
+*.sqlite3 

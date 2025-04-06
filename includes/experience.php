@@ -1,3 +1,15 @@
+<?php
+// Include the database connection if not already included
+if (!function_exists('getDbConnection')) {
+    require_once __DIR__ . '/db_connect.php';
+}
+$pdo = getDbConnection();
+
+// Fetch experience data
+$stmt = $pdo->query('SELECT * FROM experience ORDER BY start_date DESC');
+$experiences = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+
 <section id="experience" class="mb-5">
     <div class="card">
         <div class="card-header bg-light">
@@ -5,51 +17,27 @@
         </div>
         <div class="card-body">
             <div class="timeline">
-                <!-- Experience 1 -->
-                <div class="timeline-item mb-4">
-                    <h4>Specialist - Software Engineering</h4>
+                <?php foreach ($experiences as $index => $experience): 
+                    // Decode the JSON description
+                    $descriptionItems = json_decode($experience['description'], true);
+                ?>
+                <!-- Experience <?php echo $index + 1; ?> -->
+                <div class="timeline-item <?php echo ($index < count($experiences) - 1) ? 'mb-4' : ''; ?>">
+                    <h4><?php echo htmlspecialchars($experience['job_title']); ?></h4>
                     <p class="text-muted">
-                        <span><i class="fas fa-building me-2"></i>LTIMindtree - Microsoft</span>
+                        <span><i class="fas fa-building me-2"></i><?php echo htmlspecialchars($experience['company']); ?></span>
                         <span class="mx-2">|</span>
-                        <span><i class="fas fa-calendar me-2"></i>07/2024 - Present</span>
+                        <span><i class="fas fa-calendar me-2"></i><?php echo htmlspecialchars($experience['start_date']); ?> - <?php echo htmlspecialchars($experience['end_date']); ?></span>
                         <span class="mx-2">|</span>
-                        <span><i class="fas fa-map-marker-alt me-2"></i>Pune, India</span>
+                        <span><i class="fas fa-map-marker-alt me-2"></i><?php echo htmlspecialchars($experience['location']); ?></span>
                     </p>
                     <ul>
-                        <li>Worked on Automating and streamlining deployment workflows for HwDiagLnx. Wrote Deployment docs for team to follow.</li>
-                        <li>Deployed released version across clusters and Validate GDCO tickets it created.</li>
-                        <li>Integrated Intel QAT build and sign process in HwDiagLnx. Validated, Tested and End to end integrated Fieldiag for H100, A100 and Jasper.</li>
-                        <li>Created Pipeline for signing kernel modules and rpms for GB200 on Azure Linux 3.</li>
-                        <li>Worked on improving and streamlining build process and restructuring.</li>
-                        <li>Did multiple Linux and Windows deployments.</li>
-                        <li>Worked on implementing PDB diag module in HwDiagLnx.</li>
-                        <li>Worked on analyzing and Implementing fault codes in HwDiagLnx.</li>
+                        <?php foreach ($descriptionItems as $item): ?>
+                        <li><?php echo htmlspecialchars($item); ?></li>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
-                
-                <!-- Experience 2 -->
-                <div class="timeline-item">
-                    <h4>Member Technical Staff</h4>
-                    <p class="text-muted">
-                        <span><i class="fas fa-building me-2"></i>Coriolis Technologies Pvt. Ltd.</span>
-                        <span class="mx-2">|</span>
-                        <span><i class="fas fa-calendar me-2"></i>06/2018 - 02/2024</span>
-                        <span class="mx-2">|</span>
-                        <span><i class="fas fa-map-marker-alt me-2"></i>Pune, India</span>
-                    </p>
-                    <ul>
-                        <li>Created .rpm/.deb package for the product. Created required install, upgrade and uninstall scripts.</li>
-                        <li>Created systemd/sysvinit service for the product. Managed dependency and service ordering of product.service with dependent services.</li>
-                        <li>Integrated product with redhat pacemaker and wrote pacemaker resource agent to provide high availability for product.</li>
-                        <li>Automated workflows in Linux using python and bash scripts.</li>
-                        <li>Integrated product with Terraform provider. Worked on implementing CTE functionality in Ciphertrust terraform provider.</li>
-                        <li>Developed Multinode execution framework using Redis pub sub and key value store.</li>
-                        <li>Worked on adding additional functionality to existing c binaries based on client requirements.</li>
-                        <li>Implemented upgrade on reboot feature ensuring zero downtime and clean upgraded build post reboot.</li>
-                        <li>Wrote build.sh for products to simplify long build process.</li>
-                        <li>Led Scrum team for Program Increment, facilitating sprint retrospectives and PI evaluations.</li>
-                    </ul>
-                </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>
