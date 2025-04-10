@@ -39,6 +39,20 @@ $message = '';
 if ($is_logged_in) {
     $pdo = getDbConnection();
     
+    // Change Theme
+    if (isset($_POST['change_theme'])) {
+        $stmt = $pdo->prepare('UPDATE admin_settings SET theme = ? WHERE id = 1');
+        $stmt->execute([$_POST['theme']]);
+        $message = "Theme updated successfully!";
+    }
+    
+    // Also handle the new save_theme button name
+    if (isset($_POST['save_theme'])) {
+        $stmt = $pdo->prepare('UPDATE admin_settings SET theme = ? WHERE id = 1');
+        $stmt->execute([$_POST['theme']]);
+        $message = "Theme updated successfully!";
+    }
+    
     // Change Password
     if (isset($_POST['change_password'])) {
         $stmt = $pdo->prepare('SELECT * FROM admin_settings WHERE id = 1');
@@ -353,6 +367,19 @@ if ($is_logged_in) {
     $stmt = $pdo->query('SELECT * FROM projects');
     $projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
+    // Get current theme
+    try {
+        $stmt = $pdo->prepare('SELECT theme FROM admin_settings WHERE id = 1');
+        $stmt->execute();
+        $current_theme = $stmt->fetchColumn();
+        if (!$current_theme) {
+            $current_theme = 'light';
+        }
+    } catch (PDOException $e) {
+        // Theme column might not exist yet
+        $current_theme = 'light';
+    }
+
     // Group skills by category
     $skillsByCategory = [];
     foreach ($skills as $skill) {
@@ -369,6 +396,10 @@ if ($is_logged_in) {
     <title>Resume Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <?php if ($is_logged_in && $current_theme !== 'light'): ?>
+    <link rel="stylesheet" href="css/theme-<?php echo htmlspecialchars($current_theme); ?>.css">
+    <?php endif; ?>
 </head>
 <body>
     <div class="container mt-5">
@@ -742,7 +773,51 @@ if ($is_logged_in) {
                                         <div class="alert alert-info"><?php echo $password_message; ?></div>
                                     <?php endif; ?>
                                     
-                                    <div class="card">
+                                    <div class="card mb-4">
+                                        <div class="card-header">
+                                            <h5 class="mb-0">Theme Options</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <form method="post" action="">
+                                                <div class="mb-3">
+                                                    <label for="theme" class="form-label">Select Theme</label>
+                                                    <select class="form-select" id="theme" name="theme">
+                                                        <option value="light" <?php echo ($current_theme == 'light') ? 'selected' : ''; ?>>Light</option>
+                                                        <option value="dark" <?php echo ($current_theme == 'dark') ? 'selected' : ''; ?>>Dark</option>
+                                                        <option value="blue" <?php echo ($current_theme == 'blue') ? 'selected' : ''; ?>>Blue</option>
+                                                        <option value="green" <?php echo ($current_theme == 'green') ? 'selected' : ''; ?>>Green</option>
+                                                        <option value="peach" <?php echo ($current_theme == 'peach') ? 'selected' : ''; ?>>Peach</option>
+                                                        <option value="neon" <?php echo ($current_theme == 'neon') ? 'selected' : ''; ?>>Neon</option>
+                                                        <option value="minimal" <?php echo ($current_theme == 'minimal') ? 'selected' : ''; ?>>Minimalist</option>
+                                                        <option value="watercolor" <?php echo ($current_theme == 'watercolor') ? 'selected' : ''; ?>>Watercolor</option>
+                                                        <option value="vscode" <?php echo ($current_theme == 'vscode') ? 'selected' : ''; ?>>VSCode</option>
+                                                        <option value="matrix" <?php echo ($current_theme == 'matrix') ? 'selected' : ''; ?>>Matrix</option>
+                                                        <option value="retro" <?php echo ($current_theme == 'retro') ? 'selected' : ''; ?>>Retro Computer</option>
+                                                        <option value="ubuntu" <?php echo ($current_theme == 'ubuntu') ? 'selected' : ''; ?>>Ubuntu</option>
+                                                        <option value="github" <?php echo ($current_theme == 'github') ? 'selected' : ''; ?>>GitHub</option>
+                                                    </select>
+                                                </div>
+                                                
+                                                <div class="mb-4">
+                                                    <h6>Theme Preview</h6>
+                                                    <div class="p-3 border rounded mb-3" id="themePreview">
+                                                        <div class="mb-3">
+                                                            <button type="button" class="btn btn-primary me-2">Primary Button</button>
+                                                            <button type="button" class="btn btn-secondary">Secondary Button</button>
+                                                        </div>
+                                                        <p>Current Theme: <span id="currentTheme"><?php echo ucfirst($current_theme); ?></span></p>
+                                                        <div class="progress mb-3">
+                                                            <div class="progress-bar" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75%</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <button type="submit" name="save_theme" class="btn btn-primary">Save Theme</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="card mb-4">
                                         <div class="card-header">
                                             <h5 class="mb-0">Change Password</h5>
                                         </div>
@@ -1305,220 +1380,196 @@ if ($is_logged_in) {
     </div>
     <?php endif; ?>
     
+    <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Common function for adding dynamic input groups
-        function setupDynamicInputs(addButtonId, containerId, inputName, placeholder) {
-            document.getElementById(addButtonId).addEventListener('click', function() {
-                const container = document.getElementById(containerId);
-                const newItem = document.createElement('div');
-                newItem.className = 'input-group mb-2';
-                newItem.innerHTML = `
-                    <input type="text" class="form-control" name="${inputName}" placeholder="${placeholder}">
-                    <button class="btn btn-outline-danger remove-item" type="button"><i class="fas fa-times"></i></button>
-                `;
-                container.appendChild(newItem);
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme selector preview
+            const themeSelect = document.getElementById('theme');
+            if (themeSelect) {
+                const previewLink = document.createElement('link');
+                previewLink.id = 'theme-preview-css';
+                previewLink.rel = 'stylesheet';
+                document.head.appendChild(previewLink);
                 
-                // Add event listener to the new remove button
-                newItem.querySelector('.remove-item').addEventListener('click', function() {
-                    container.removeChild(newItem);
-                });
-            });
-        }
-        
-        // Add event listeners to all existing remove buttons
-        document.querySelectorAll('.remove-item').forEach(button => {
-            button.addEventListener('click', function() {
-                this.closest('.input-group').remove();
-            });
-        });
-        
-        // Setup dynamic inputs for various forms
-        setupDynamicInputs('add_responsibility_item', 'responsibilities_container', 'experience[description_items][]', 'Responsibility item');
-        setupDynamicInputs('edit_add_responsibility_item', 'edit_responsibilities_container', 'experience[description_items][]', 'Responsibility item');
-        setupDynamicInputs('add_education_detail', 'education_details_container', 'education[description_items][]', 'Education detail');
-        setupDynamicInputs('edit_add_education_detail', 'edit_education_details_container', 'education[description_items][]', 'Education detail');
-        setupDynamicInputs('add_technology_item', 'technologies_container', 'project[technologies][]', 'Technology');
-        setupDynamicInputs('edit_add_technology_item', 'edit_technologies_container', 'project[technologies][]', 'Technology');
-
-        // Experience edit modal
-        document.querySelectorAll('.edit-experience-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const id = this.getAttribute('data-id');
-                const jobTitle = this.getAttribute('data-job-title');
-                const company = this.getAttribute('data-company');
-                const startDate = this.getAttribute('data-start-date');
-                const endDate = this.getAttribute('data-end-date');
-                const location = this.getAttribute('data-location');
-                const description = JSON.parse(this.getAttribute('data-description') || '[]');
+                const currentThemeSpan = document.getElementById('currentTheme');
                 
-                document.getElementById('edit_exp_id').value = id;
-                document.getElementById('edit_exp_job_title').value = jobTitle;
-                document.getElementById('edit_exp_company').value = company;
-                document.getElementById('edit_exp_start_date').value = startDate;
-                document.getElementById('edit_exp_end_date').value = endDate;
-                document.getElementById('edit_exp_location').value = location;
-                
-                // Clear existing items
-                const container = document.getElementById('edit_responsibilities_container');
-                container.innerHTML = '';
-                
-                // Add items from description
-                if (Array.isArray(description)) {
-                    description.forEach(item => {
-                        const newItem = document.createElement('div');
-                        newItem.className = 'input-group mb-2';
-                        newItem.innerHTML = `
-                            <input type="text" class="form-control" name="experience[description_items][]" value="${item.replace(/"/g, '&quot;')}" placeholder="Responsibility item">
-                            <button class="btn btn-outline-danger remove-item" type="button"><i class="fas fa-times"></i></button>
-                        `;
-                        container.appendChild(newItem);
-                        
-                        // Add event listener to the remove button
-                        newItem.querySelector('.remove-item').addEventListener('click', function() {
-                            container.removeChild(newItem);
-                        });
-                    });
-                }
-            });
-        });
-        
-        // Education edit modal
-        document.querySelectorAll('.edit-education-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const id = this.getAttribute('data-id');
-                const degree = this.getAttribute('data-degree');
-                const institution = this.getAttribute('data-institution');
-                const startDate = this.getAttribute('data-start-date');
-                const endDate = this.getAttribute('data-end-date');
-                const location = this.getAttribute('data-location');
-                const description = JSON.parse(this.getAttribute('data-description') || '[]');
-                
-                document.getElementById('edit_edu_id').value = id;
-                document.getElementById('edit_edu_degree').value = degree;
-                document.getElementById('edit_edu_institution').value = institution;
-                document.getElementById('edit_edu_start_date').value = startDate;
-                document.getElementById('edit_edu_end_date').value = endDate;
-                document.getElementById('edit_edu_location').value = location;
-                
-                // Clear existing items
-                const container = document.getElementById('edit_education_details_container');
-                container.innerHTML = '';
-                
-                // Add items from description
-                if (Array.isArray(description)) {
-                    description.forEach(item => {
-                        const newItem = document.createElement('div');
-                        newItem.className = 'input-group mb-2';
-                        newItem.innerHTML = `
-                            <input type="text" class="form-control" name="education[description_items][]" value="${item.replace(/"/g, '&quot;')}" placeholder="Education detail">
-                            <button class="btn btn-outline-danger remove-item" type="button"><i class="fas fa-times"></i></button>
-                        `;
-                        container.appendChild(newItem);
-                        
-                        // Add event listener to the remove button
-                        newItem.querySelector('.remove-item').addEventListener('click', function() {
-                            container.removeChild(newItem);
-                        });
-                    });
-                }
-            });
-        });
-        
-        // Skills edit modal
-        document.querySelectorAll('.edit-skill-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const id = this.getAttribute('data-id');
-                const category = this.getAttribute('data-category');
-                const name = this.getAttribute('data-name');
-                const level = this.getAttribute('data-level');
-                
-                document.getElementById('edit_skill_id').value = id;
-                document.getElementById('edit_skill_category').value = category;
-                document.getElementById('edit_skill_name').value = name;
-                document.getElementById('edit_skill_level').value = level;
-            });
-        });
-        
-        // Achievement edit modal
-        document.querySelectorAll('.edit-achievement-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const id = this.getAttribute('data-id');
-                const title = this.getAttribute('data-title');
-                const description = this.getAttribute('data-description');
-                const date = this.getAttribute('data-date');
-                
-                document.getElementById('edit_achievement_id').value = id;
-                document.getElementById('edit_achievement_title').value = title;
-                document.getElementById('edit_achievement_description').value = description;
-                document.getElementById('edit_achievement_date').value = date;
-            });
-        });
-        
-        // Project edit modal
-        document.querySelectorAll('.edit-project-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const id = this.getAttribute('data-id');
-                const title = this.getAttribute('data-title');
-                const description = this.getAttribute('data-description');
-                const link = this.getAttribute('data-link');
-                const image = this.getAttribute('data-image');
-                const technologies = JSON.parse(this.getAttribute('data-technologies') || '[]');
-                
-                document.getElementById('edit_project_id').value = id;
-                document.getElementById('edit_project_title').value = title;
-                document.getElementById('edit_project_description').value = description;
-                document.getElementById('edit_project_link').value = link;
-                document.getElementById('edit_project_image').value = image;
-                
-                // Clear existing items
-                const container = document.getElementById('edit_technologies_container');
-                container.innerHTML = '';
-                
-                // Add items from technologies
-                if (Array.isArray(technologies)) {
-                    technologies.forEach(tech => {
-                        const newItem = document.createElement('div');
-                        newItem.className = 'input-group mb-2';
-                        newItem.innerHTML = `
-                            <input type="text" class="form-control" name="project[technologies][]" value="${tech.replace(/"/g, '&quot;')}" placeholder="Technology">
-                            <button class="btn btn-outline-danger remove-item" type="button"><i class="fas fa-times"></i></button>
-                        `;
-                        container.appendChild(newItem);
-                        
-                        // Add event listener to the remove button
-                        newItem.querySelector('.remove-item').addEventListener('click', function() {
-                            container.removeChild(newItem);
-                        });
-                    });
-                }
-            });
-        });
-        
-        // Setup delete modals
-        function setupDeleteModal(modalId, idField, titleField) {
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.addEventListener('show.bs.modal', function(event) {
-                    const button = event.relatedTarget;
-                    const id = button.getAttribute('data-id');
-                    const title = button.getAttribute('data-title');
-                    
-                    document.getElementById(idField).value = id;
-                    if (titleField) {
-                        document.getElementById(titleField).textContent = title;
+                function updateThemePreview() {
+                    const selectedTheme = themeSelect.value;
+                    if (currentThemeSpan) {
+                        currentThemeSpan.textContent = selectedTheme.charAt(0).toUpperCase() + selectedTheme.slice(1);
                     }
+                    
+                    if (selectedTheme === 'light') {
+                        previewLink.href = '';
+                    } else {
+                        previewLink.href = 'css/theme-' + selectedTheme + '.css';
+                    }
+                }
+                
+                // Initial update
+                updateThemePreview();
+                
+                themeSelect.addEventListener('change', updateThemePreview);
+            }
+            
+            // Experience form handling
+            const addResponsibilityButton = document.getElementById('add_responsibility_item');
+            if (addResponsibilityButton) {
+                addResponsibilityButton.addEventListener('click', function() {
+                    const container = document.getElementById('responsibilities_container');
+                    const index = container.children.length;
+                    
+                    const div = document.createElement('div');
+                    div.className = 'input-group mb-2';
+                    div.innerHTML = `
+                        <input type="text" class="form-control" name="experience[description_items][]" placeholder="Responsibility item">
+                        <button type="button" class="btn btn-outline-danger remove-item">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    
+                    container.appendChild(div);
+                    
+                    div.querySelector('.remove-item').addEventListener('click', function() {
+                        div.remove();
+                    });
                 });
             }
-        }
-        
-        setupDeleteModal('deleteExperienceModal', 'delete_exp_id', 'delete_exp_title');
-        setupDeleteModal('deleteEducationModal', 'delete_edu_id', 'delete_edu_title');
-        setupDeleteModal('deleteSkillModal', 'delete_skill_id', 'delete_skill_title');
-        setupDeleteModal('deleteAchievementModal', 'delete_achievement_id', 'delete_achievement_title');
-        setupDeleteModal('deleteProjectModal', 'delete_project_id', 'delete_project_title');
-    });
+            
+            // Edit experience form handling
+            const editAddResponsibilityButton = document.getElementById('edit_add_responsibility_item');
+            if (editAddResponsibilityButton) {
+                editAddResponsibilityButton.addEventListener('click', function() {
+                    const container = document.getElementById('edit_responsibilities_container');
+                    const index = container.children.length;
+                    
+                    const div = document.createElement('div');
+                    div.className = 'input-group mb-2';
+                    div.innerHTML = `
+                        <input type="text" class="form-control" name="experience[description_items][]" placeholder="Responsibility item">
+                        <button type="button" class="btn btn-outline-danger remove-item">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    
+                    container.appendChild(div);
+                    
+                    div.querySelector('.remove-item').addEventListener('click', function() {
+                        div.remove();
+                    });
+                });
+            }
+            
+            // Education form handling
+            const addEducationItems = document.querySelectorAll('.add-education-item');
+            addEducationItems.forEach(button => {
+                button.addEventListener('click', function() {
+                    const container = this.closest('form').querySelector('.education-items-container');
+                    const index = container.children.length;
+                    
+                    const div = document.createElement('div');
+                    div.className = 'input-group mb-2';
+                    div.innerHTML = `
+                        <input type="text" class="form-control" name="education[description_items][]" placeholder="Education detail">
+                        <button type="button" class="btn btn-outline-danger remove-item">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    
+                    container.appendChild(div);
+                    
+                    div.querySelector('.remove-item').addEventListener('click', function() {
+                        div.remove();
+                    });
+                });
+            });
+            
+            // Populate modal data for experience edit
+            const experienceModals = document.querySelectorAll('.edit-experience-btn');
+            experienceModals.forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.dataset.id;
+                    const jobTitle = this.dataset.jobTitle;
+                    const company = this.dataset.company;
+                    const startDate = this.dataset.startDate;
+                    const endDate = this.dataset.endDate;
+                    const location = this.dataset.location;
+                    let description = [];
+                    
+                    try {
+                        description = JSON.parse(this.dataset.description);
+                    } catch (e) {
+                        console.error('Error parsing description:', e);
+                    }
+                    
+                    document.getElementById('edit_exp_id').value = id;
+                    document.getElementById('edit_exp_job_title').value = jobTitle;
+                    document.getElementById('edit_exp_company').value = company;
+                    document.getElementById('edit_exp_start_date').value = startDate;
+                    document.getElementById('edit_exp_end_date').value = endDate;
+                    document.getElementById('edit_exp_location').value = location;
+                    
+                    const container = document.getElementById('edit_responsibilities_container');
+                    container.innerHTML = '';
+                    
+                    if (Array.isArray(description)) {
+                        description.forEach(item => {
+                            const div = document.createElement('div');
+                            div.className = 'input-group mb-2';
+                            div.innerHTML = `
+                                <input type="text" class="form-control" name="experience[description_items][]" value="${item.replace(/"/g, '&quot;')}" placeholder="Responsibility item">
+                                <button type="button" class="btn btn-outline-danger remove-item">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            `;
+                            
+                            container.appendChild(div);
+                            
+                            div.querySelector('.remove-item').addEventListener('click', function() {
+                                div.remove();
+                            });
+                        });
+                    }
+                });
+            });
+            
+            // Delete confirmations
+            document.querySelectorAll('[data-bs-target="#deleteExperienceModal"]').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.getElementById('delete_exp_id').value = this.dataset.id;
+                    document.getElementById('delete_exp_title').textContent = this.dataset.title;
+                });
+            });
+            
+            document.querySelectorAll('[data-bs-target="#deleteEducationModal"]').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.getElementById('delete_edu_id').value = this.dataset.id;
+                    document.getElementById('delete_edu_title').textContent = this.dataset.title;
+                });
+            });
+            
+            document.querySelectorAll('[data-bs-target="#deleteSkillModal"]').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.getElementById('delete_skill_id').value = this.dataset.id;
+                    document.getElementById('delete_skill_title').textContent = this.dataset.title;
+                });
+            });
+            
+            document.querySelectorAll('[data-bs-target="#deleteAchievementModal"]').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.getElementById('delete_achievement_id').value = this.dataset.id;
+                    document.getElementById('delete_achievement_title').textContent = this.dataset.title;
+                });
+            });
+            
+            document.querySelectorAll('[data-bs-target="#deleteProjectModal"]').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.getElementById('delete_project_id').value = this.dataset.id;
+                    document.getElementById('delete_project_title').textContent = this.dataset.title;
+                });
+            });
+        });
     </script>
 </body>
 </html> 

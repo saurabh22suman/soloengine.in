@@ -1,0 +1,92 @@
+/* Green Theme Variables */
+:root {
+    --primary-color: #2d6a4f;
+    --secondary-color: #40916c;
+    --accent-color: #d9534f;
+    --text-color: #1b4332;
+    --light-bg: #f0f7f4;
+    --dark-bg: #2d6a4f;
+    --border-radius: 15px;
+    --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    --transition-speed: 0.3s;
+    --card-padding: 1.8rem;
+    --text-secondary: #6c757d;
+    --success-color: #2ecc71;
+    --warning-color: #f39c12;
+    --danger-color: #e74c3c;
+    --info-color: #3498db;
+}
+
+/* Green theme overrides */
+body {
+    background-color: #f0f7f4;
+}
+
+header {
+    background: linear-gradient(135deg, #2d6a4f, #40916c);
+}
+
+.card-header {
+    background: linear-gradient(135deg, #2d6a4f, #40916c) !important;
+}
+
+.social-link {
+    background: #40916c;
+}
+
+.social-link:hover {
+    background: #d9534f;
+}
+
+.card-title {
+    color: #2d6a4f;
+}
+
+.card-title::after {
+    background: #d9534f;
+}
+
+.btn-primary {
+    background-color: #2d6a4f;
+    border-color: #2d6a4f;
+}
+
+.btn-primary:hover {
+    background-color: #40916c;
+    border-color: #40916c;
+}
+
+.btn-outline-primary {
+    color: #2d6a4f;
+    border-color: #2d6a4f;
+}
+
+.btn-outline-primary:hover {
+    background-color: #2d6a4f;
+    border-color: #2d6a4f;
+}
+
+.timeline-item::before {
+    background: linear-gradient(to bottom, #2d6a4f, #40916c);
+}
+
+.text-primary {
+    color: #2d6a4f !important;
+}
+
+.bg-primary {
+    background-color: #2d6a4f !important;
+}
+
+.nav-tabs .nav-link.active {
+    color: #2d6a4f;
+    font-weight: bold;
+}
+
+.border-primary {
+    border-color: #2d6a4f !important;
+}
+
+.progress-bar {
+    background-color: #40916c;
+} 

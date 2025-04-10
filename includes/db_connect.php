@@ -94,11 +94,12 @@ function initializeDatabase($pdo) {
     $pdo->exec('CREATE TABLE admin_settings (
         id INTEGER PRIMARY KEY,
         username TEXT,
-        password TEXT
+        password TEXT,
+        theme TEXT DEFAULT "light"
     )');
     
     // Insert default admin account
-    $pdo->exec("INSERT INTO admin_settings (id, username, password) VALUES (1, 'admin', 'admin123')");
+    $pdo->exec("INSERT INTO admin_settings (id, username, password, theme) VALUES (1, 'admin', 'admin123', 'light')");
 }
 
 // This function will be implemented in populate_db.php

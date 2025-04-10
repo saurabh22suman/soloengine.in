@@ -1,0 +1,357 @@
+/* Terminal Theme Variables */
+:root {
+    --primary-color: #000000;
+    --secondary-color: #0C0C0C;
+    --accent-color: #4AF626;
+    --text-color: #4AF626;
+    --light-bg: #000000;
+    --dark-bg: #000000;
+    --border-radius: 0;
+    --box-shadow: none;
+    --transition-speed: 0.1s;
+    --card-padding: 1rem;
+    --text-secondary: #35B416;
+    --success-color: #4AF626;
+    --warning-color: #FFFF00;
+    --danger-color: #FF0000;
+    --info-color: #00FFFF;
+    --cursor-color: #4AF626;
+}
+
+/* Terminal theme style */
+body {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    font-family: 'Courier New', monospace;
+    line-height: 1.3;
+    font-size: 14px;
+}
+
+::selection {
+    background: var(--text-color);
+    color: var(--primary-color);
+}
+
+header {
+    background: var(--secondary-color);
+    border-bottom: 1px solid var(--accent-color);
+    position: relative;
+}
+
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--accent-color);
+}
+
+.navbar-brand {
+    color: var(--accent-color) !important;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.navbar-brand::before {
+    content: '> ';
+}
+
+.navbar-brand::after {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 15px;
+    background-color: var(--cursor-color);
+    margin-left: 5px;
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.navbar-nav .nav-link {
+    color: var(--text-color) !important;
+    padding: 0.25rem 1rem;
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--accent-color) !important;
+    background-color: rgba(74, 246, 38, 0.1);
+}
+
+.navbar-nav .nav-link.active {
+    color: #000 !important;
+    background-color: var(--accent-color);
+}
+
+.card {
+    background-color: var(--secondary-color);
+    border: 1px solid var(--accent-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: visible;
+}
+
+.card::before {
+    content: '┌' attr(data-title) '─';
+    display: block;
+    color: var(--accent-color);
+    font-family: 'Courier New', monospace;
+    position: absolute;
+    top: -1.3em;
+    left: 0;
+}
+
+.card::after {
+    content: '└───';
+    display: block;
+    color: var(--accent-color);
+    font-family: 'Courier New', monospace;
+    position: absolute;
+    bottom: -1.3em;
+    left: 0;
+}
+
+.card-header {
+    background: var(--secondary-color) !important;
+    border-bottom: 1px solid var(--accent-color);
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+}
+
+.card-header::before {
+    content: '$ ';
+    color: var(--accent-color);
+}
+
+.card-title {
+    color: var(--accent-color);
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.card-title::after {
+    display: none;
+}
+
+.btn {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    border: 1px solid var(--accent-color);
+    border-radius: 0;
+    font-family: 'Courier New', monospace;
+    text-transform: lowercase;
+    font-weight: normal;
+    padding: 0.3rem 1rem;
+}
+
+.btn::before {
+    content: '[';
+    margin-right: 0.3rem;
+}
+
+.btn::after {
+    content: ']';
+    margin-left: 0.3rem;
+}
+
+.btn:hover {
+    background-color: var(--accent-color);
+    color: #000;
+}
+
+.btn-primary {
+    background-color: var(--accent-color);
+    color: #000;
+    border-color: var(--accent-color);
+}
+
+.btn-primary:hover {
+    background-color: #000;
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    border-color: var(--text-secondary);
+}
+
+.btn-secondary:hover {
+    background-color: var(--text-secondary);
+    color: #000;
+    border-color: var(--text-secondary);
+}
+
+.social-link {
+    background: var(--secondary-color);
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+    border-radius: 0;
+}
+
+.social-link:hover {
+    background-color: var(--accent-color);
+    color: #000;
+}
+
+.progress {
+    background-color: var(--secondary-color);
+    border: 1px solid var(--accent-color);
+    border-radius: 0;
+    height: 20px;
+}
+
+.progress-bar {
+    background-color: var(--accent-color);
+    color: #000;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    text-align: left;
+    padding-left: 5px;
+}
+
+.form-control, .form-select {
+    background-color: #000;
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+    border-radius: 0;
+    font-family: 'Courier New', monospace;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: #000;
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 0.25rem rgba(74, 246, 38, 0.25);
+}
+
+.form-control::placeholder {
+    color: rgba(74, 246, 38, 0.5);
+}
+
+.list-group-item {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    border-color: var(--accent-color);
+    padding: 0.5rem 1rem;
+    border-left: none;
+    border-right: none;
+}
+
+.list-group-item::before {
+    content: '> ';
+    color: var(--accent-color);
+}
+
+.nav-tabs {
+    border-bottom: 1px solid var(--accent-color);
+}
+
+.nav-tabs .nav-link {
+    background-color: transparent;
+    color: var(--text-color);
+    border: none;
+    border-radius: 0;
+    padding: 0.5rem 1rem;
+    margin-right: 1px;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: var(--accent-color);
+    color: #000;
+    border: none;
+}
+
+.contact-item {
+    background-color: var(--secondary-color);
+    border-left: none;
+    border-bottom: 1px dashed var(--accent-color);
+    padding: 0.5rem 1rem;
+    font-family: 'Courier New', monospace;
+}
+
+.contact-item:hover {
+    background-color: rgba(74, 246, 38, 0.1);
+}
+
+.contact-item::before {
+    content: '$ ';
+    color: var(--accent-color);
+}
+
+.contact-item i {
+    color: var(--accent-color);
+}
+
+/* Terminal output styling */
+.card-body p {
+    position: relative;
+    padding-left: 1rem;
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+}
+
+.terminal-output {
+    font-family: 'Courier New', monospace;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+
+.terminal-output p {
+    margin-bottom: 0.3rem;
+}
+
+.terminal-command {
+    color: var(--accent-color);
+}
+
+.terminal-command::before {
+    content: '$ ';
+}
+
+.terminal-response {
+    color: var(--text-secondary);
+    padding-left: 1rem;
+}
+
+.terminal-error {
+    color: var(--danger-color);
+    padding-left: 1rem;
+}
+
+.terminal-warning {
+    color: var(--warning-color);
+    padding-left: 1rem;
+}
+
+.terminal-success {
+    color: var(--success-color);
+    padding-left: 1rem;
+}
+
+/* Text cursor effect */
+.typing-cursor::after {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 15px;
+    background-color: var(--cursor-color);
+    margin-left: 5px;
+    animation: blink 1s step-end infinite;
+}
+
+/* ASCII art styling */
+.ascii-art {
+    font-family: monospace;
+    white-space: pre;
+    color: var(--accent-color);
+    font-size: 0.7rem;
+    line-height: 1;
+    margin: 1rem 0;
+} 

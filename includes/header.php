@@ -19,8 +19,25 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <!-- Custom CSS -->
+    <!-- Base CSS -->
     <link rel="stylesheet" href="css/style.css">
+    
+    <?php
+    // Get current theme from database
+    try {
+        $stmt = $pdo->prepare('SELECT theme FROM admin_settings WHERE id = 1');
+        $stmt->execute();
+        $theme = $stmt->fetchColumn();
+        
+        // Load theme-specific CSS if not the default light theme
+        if ($theme && $theme !== 'light') {
+            echo '<link rel="stylesheet" href="css/theme-' . htmlspecialchars($theme) . '.css">';
+        }
+    } catch (PDOException $e) {
+        // Theme column might not exist yet, just use default theme
+        $theme = 'light';
+    }
+    ?>
     
     <!-- Print-specific CSS -->
     <link rel="stylesheet" href="css/print.css" media="print">

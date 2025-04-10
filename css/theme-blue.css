@@ -1,0 +1,92 @@
+/* Blue Theme Variables */
+:root {
+    --primary-color: #1d3557;
+    --secondary-color: #457b9d;
+    --accent-color: #e63946;
+    --text-color: #1d3557;
+    --light-bg: #f1faee;
+    --dark-bg: #1d3557;
+    --border-radius: 15px;
+    --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    --transition-speed: 0.3s;
+    --card-padding: 1.8rem;
+    --text-secondary: #6c757d;
+    --success-color: #2ecc71;
+    --warning-color: #f39c12;
+    --danger-color: #e74c3c;
+    --info-color: #3498db;
+}
+
+/* Blue theme overrides */
+body {
+    background-color: #f1faee;
+}
+
+header {
+    background: linear-gradient(135deg, #1d3557, #457b9d);
+}
+
+.card-header {
+    background: linear-gradient(135deg, #1d3557, #457b9d) !important;
+}
+
+.social-link {
+    background: #457b9d;
+}
+
+.social-link:hover {
+    background: #e63946;
+}
+
+.card-title {
+    color: #1d3557;
+}
+
+.card-title::after {
+    background: #e63946;
+}
+
+.btn-primary {
+    background-color: #1d3557;
+    border-color: #1d3557;
+}
+
+.btn-primary:hover {
+    background-color: #457b9d;
+    border-color: #457b9d;
+}
+
+.btn-outline-primary {
+    color: #1d3557;
+    border-color: #1d3557;
+}
+
+.btn-outline-primary:hover {
+    background-color: #1d3557;
+    border-color: #1d3557;
+}
+
+.timeline-item::before {
+    background: linear-gradient(to bottom, #1d3557, #457b9d);
+}
+
+.text-primary {
+    color: #1d3557 !important;
+}
+
+.bg-primary {
+    background-color: #1d3557 !important;
+}
+
+.nav-tabs .nav-link.active {
+    color: #1d3557;
+    font-weight: bold;
+}
+
+.border-primary {
+    border-color: #1d3557 !important;
+}
+
+.progress-bar {
+    background-color: #457b9d;
+} 

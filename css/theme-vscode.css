@@ -1,0 +1,845 @@
+/* VSCode Theme Variables */
+:root {
+    /* Main colors */
+    --primary-color: #0078D4; /* VSCode blue */
+    --secondary-color: #323233;
+    --accent-color: #3794FF; /* Lighter blue for accents */
+    --text-color: #CCCCCC;
+    --light-bg: #1E1E1E; /* VSCode dark background */
+    --dark-bg: #252526; /* Slightly lighter for contrasting elements */
+    --sidebar-bg: #252526;
+    --border-radius: 2px;
+    --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    --transition-speed: 0.2s;
+    --card-padding: 1rem;
+    --text-secondary: #909090;
+    --border-color: #424242;
+    --line-highlight: #2A2D2E;
+    --selection-bg: #264F78;
+    --tab-bg: #2D2D2D;
+    --active-tab-bg: #1E1E1E;
+    
+    /* Status colors */
+    --success-color: #89D185; /* green */
+    --warning-color: #CCA700; /* yellow */
+    --danger-color: #F14C4C;  /* red */
+    --info-color: #75BEFF;    /* blue */
+    
+    /* Syntax highlighting colors */
+    --syntax-keyword: #569CD6;   /* blue */
+    --syntax-string: #CE9178;    /* orange-brown */
+    --syntax-comment: #6A9955;   /* green */
+    --syntax-function: #DCDCAA;  /* yellow */
+    --syntax-variable: #9CDCFE;  /* light blue */
+    --syntax-number: #B5CEA8;    /* light green */
+    --syntax-class: #4EC9B0;     /* teal */
+    --syntax-operator: #D4D4D4;  /* light gray */
+    --syntax-constant: #4FC1FF;  /* bright blue */
+    --syntax-parameter: #9CDCFE; /* light blue */
+    --syntax-type: #4EC9B0;      /* teal */
+    --syntax-decorator: #DCDCAA; /* yellow */
+    
+    /* Font settings */
+    --font-mono: 'Cascadia Code', Consolas, 'Courier New', monospace;
+    --font-ui: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', Ubuntu, 'Droid Sans', sans-serif;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;700&display=swap');
+
+body {
+    background-color: var(--light-bg);
+    color: var(--text-color);
+    font-family: var(--font-ui);
+    line-height: 1.5;
+    font-size: 13px;
+    margin: 0;
+    padding: 0;
+}
+
+::selection {
+    background: var(--selection-bg);
+    color: var(--text-color);
+}
+
+header {
+    background-color: var(--light-bg);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.5rem 1rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    position: relative;
+}
+
+.navbar-brand {
+    color: var(--text-color) !important;
+    font-weight: 400;
+    font-size: 13px;
+    letter-spacing: 0;
+}
+
+.navbar-nav .nav-link {
+    color: var(--text-color) !important;
+    font-size: 13px;
+    padding: 0.5rem 0.75rem;
+    transition: color var(--transition-speed) ease;
+    border-radius: var(--border-radius);
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--primary-color) !important;
+    background-color: rgba(90, 93, 94, 0.31);
+}
+
+.navbar-nav .nav-link.active {
+    color: var(--text-color) !important;
+    background-color: rgba(90, 93, 94, 0.31);
+    border-bottom: 1px solid var(--primary-color);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-color);
+    font-weight: 400;
+    line-height: 1.3;
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-size: 1.6rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.3rem;
+}
+
+h2 {
+    font-size: 1.4rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.3rem;
+}
+
+h3 {
+    font-size: 1.2rem;
+}
+
+p {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+code {
+    font-family: var(--font-mono);
+    background-color: var(--dark-bg);
+    color: var(--syntax-variable);
+    padding: 0.1rem 0.3rem;
+    border-radius: var(--border-radius);
+}
+
+pre {
+    background-color: var(--dark-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    overflow: auto;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+pre code {
+    font-family: var(--font-mono);
+    color: var(--text-color);
+    padding: 0;
+    background-color: transparent;
+}
+
+pre::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background-image: linear-gradient(transparent 50%, var(--line-highlight) 50%);
+    background-size: 100% 3rem;
+    opacity: 0.05;
+}
+
+/* Syntax highlighting */
+.keyword { color: var(--syntax-keyword); }
+.string { color: var(--syntax-string); }
+.comment { color: var(--syntax-comment); font-style: italic; }
+.function { color: var(--syntax-function); }
+.variable { color: var(--syntax-variable); }
+.number { color: var(--syntax-number); }
+.class { color: var(--syntax-class); }
+.operator { color: var(--syntax-operator); }
+.constant { color: var(--syntax-constant); }
+.parameter { color: var(--syntax-parameter); }
+.type { color: var(--syntax-type); }
+.decorator { color: var(--syntax-decorator); }
+
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: color var(--transition-speed) ease;
+}
+
+a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+.card {
+    background-color: var(--dark-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    margin-bottom: 1.5rem;
+    transition: border-color var(--transition-speed) ease;
+    overflow: hidden;
+}
+
+.card:hover {
+    border-color: var(--accent-color);
+}
+
+.card-header {
+    background-color: var(--dark-bg) !important;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-color);
+    font-weight: 500;
+    padding: 0.75rem 1rem;
+    font-size: 13px;
+}
+
+.card-body {
+    padding: var(--card-padding);
+}
+
+.card-title {
+    color: var(--text-color);
+    font-weight: 500;
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+}
+
+.card-text {
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+
+.btn {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-family: var(--font-ui);
+    font-size: 13px;
+    padding: 0.3rem 0.8rem;
+    transition: all var(--transition-speed) ease;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.btn:hover {
+    background-color: rgba(90, 93, 94, 0.31);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #106EBE;
+    border-color: #106EBE;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+.btn-secondary:hover {
+    background-color: #3E3E3E;
+    border-color: var(--border-color);
+}
+
+.social-link {
+    background-color: var(--dark-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-speed) ease;
+    margin: 0 0.25rem;
+    font-size: 14px;
+}
+
+.social-link:hover {
+    background-color: rgba(90, 93, 94, 0.31);
+    color: var(--primary-color);
+}
+
+.progress {
+    background-color: var(--dark-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    height: 5px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.progress-bar {
+    background-color: var(--primary-color);
+    transition: width 0.3s ease;
+}
+
+.form-control, .form-select {
+    background-color: var(--dark-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-family: var(--font-ui);
+    font-size: 13px;
+    padding: 0.3rem 0.5rem;
+    height: 28px;
+    transition: all var(--transition-speed) ease;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: var(--dark-bg);
+    color: var(--text-color);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 1px var(--primary-color);
+}
+
+.form-control::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.6;
+}
+
+.list-group-item {
+    background-color: var(--dark-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 1rem;
+    font-size: 13px;
+}
+
+.list-group-item:hover {
+    background-color: var(--light-bg);
+}
+
+.list-group-item.active {
+    background-color: var(--selection-bg);
+    color: var(--text-color);
+    border-color: var(--selection-bg);
+}
+
+.badge {
+    font-family: var(--font-ui);
+    font-weight: 400;
+    font-size: 11px;
+    padding: 0.2rem 0.4rem;
+    border-radius: 2px;
+}
+
+.badge-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.badge-secondary {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+}
+
+.badge-success {
+    background-color: var(--success-color);
+    color: #121212;
+}
+
+.badge-warning {
+    background-color: var(--warning-color);
+    color: #121212;
+}
+
+.badge-danger {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.badge-info {
+    background-color: var(--info-color);
+    color: #121212;
+}
+
+/* VSCode style tabs */
+.vscode-tabs {
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    padding: 0;
+    margin-bottom: 1rem;
+    font-size: 13px;
+}
+
+.vscode-tab {
+    background-color: var(--tab-bg);
+    color: var(--text-secondary);
+    border: none;
+    border-right: 1px solid var(--border-color);
+    padding: 0.6rem 1rem;
+    transition: all var(--transition-speed) ease;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.vscode-tab:hover {
+    background-color: var(--light-bg);
+    color: var(--text-color);
+}
+
+.vscode-tab.active {
+    background-color: var(--active-tab-bg);
+    color: var(--text-color);
+    border-bottom: none;
+}
+
+.vscode-tab.active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background-color: var(--primary-color);
+}
+
+.vscode-tab .close-icon {
+    margin-left: 8px;
+    opacity: 0.7;
+    transition: opacity var(--transition-speed) ease;
+}
+
+.vscode-tab:hover .close-icon {
+    opacity: 1;
+}
+
+/* VSCode-like sidebar */
+.vscode-sidebar {
+    background-color: var(--sidebar-bg);
+    color: var(--text-color);
+    width: 240px;
+    height: 100%;
+    border-right: 1px solid var(--border-color);
+    padding: 0;
+}
+
+.vscode-sidebar-item {
+    padding: 0.5rem 1rem;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color var(--transition-speed) ease;
+}
+
+.vscode-sidebar-item:hover {
+    background-color: rgba(90, 93, 94, 0.31);
+}
+
+.vscode-sidebar-item.active {
+    background-color: var(--selection-bg);
+}
+
+.vscode-sidebar-item i {
+    margin-right: 8px;
+}
+
+/* VSCode-like explorer tree */
+.vscode-tree {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.vscode-tree-item {
+    padding: 0.3rem 0.5rem;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color var(--transition-speed) ease;
+}
+
+.vscode-tree-item:hover {
+    background-color: rgba(90, 93, 94, 0.31);
+}
+
+.vscode-tree-item.active {
+    background-color: var(--selection-bg);
+}
+
+.vscode-tree-item i {
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+.vscode-tree-item.folder i {
+    color: #dcb67a;
+}
+
+.vscode-tree-item.file i {
+    color: #8fbcbb;
+}
+
+.vscode-tree-item.file.javascript i {
+    color: #f7df1e;
+}
+
+.vscode-tree-item.file.html i {
+    color: #e34c26;
+}
+
+.vscode-tree-item.file.css i {
+    color: #264de4;
+}
+
+/* VSCode-like status bar */
+.vscode-statusbar {
+    background-color: var(--primary-color);
+    color: white;
+    height: 22px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    font-family: var(--font-mono);
+}
+
+.vscode-statusbar-item {
+    margin-right: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.vscode-statusbar-item i {
+    margin-right: 4px;
+    font-size: 14px;
+}
+
+/* VSCode-like terminal */
+.vscode-terminal {
+    background-color: var(--dark-bg);
+    color: var(--text-color);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 8px;
+    margin-bottom: 1rem;
+}
+
+.vscode-terminal-line {
+    margin-bottom: 4px;
+    display: flex;
+}
+
+.vscode-terminal-prompt {
+    color: var(--syntax-function);
+    margin-right: 8px;
+}
+
+.vscode-terminal-output {
+    flex: 1;
+}
+
+.vscode-terminal-error {
+    color: var(--danger-color);
+}
+
+.vscode-terminal-success {
+    color: var(--success-color);
+}
+
+/* VSCode-like breadcrumbs */
+.vscode-breadcrumbs {
+    font-size: 12px;
+    padding: 4px 16px;
+    background-color: var(--light-bg);
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+}
+
+.vscode-breadcrumb-item {
+    display: flex;
+    align-items: center;
+}
+
+.vscode-breadcrumb-item:not(:last-child)::after {
+    content: '/';
+    margin: 0 8px;
+    color: var(--text-secondary);
+}
+
+.vscode-breadcrumb-item:last-child {
+    color: var(--text-color);
+}
+
+/* VS Code-like minimap */
+.vscode-minimap {
+    width: 60px;
+    background-color: var(--light-bg);
+    border-left: 1px solid var(--border-color);
+    opacity: 0.6;
+    height: 100%;
+}
+
+/* VS Code-like scrollbar */
+::-webkit-scrollbar {
+    width: 14px;
+    height: 14px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--light-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #464646;
+    border: 4px solid var(--light-bg);
+    border-radius: 7px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555555;
+}
+
+/* VS Code-like line number */
+.line-numbers {
+    counter-reset: line;
+    position: relative;
+    padding-left: 3.5em;
+}
+
+.line-numbers > pre {
+    position: relative;
+}
+
+.line-numbers > pre > code {
+    position: relative;
+    counter-increment: line;
+}
+
+.line-numbers > pre > code:before {
+    content: counter(line);
+    position: absolute;
+    left: -3.5em;
+    width: 3em;
+    text-align: right;
+    color: #858585;
+    padding-right: 0.5em;
+}
+
+/* VS Code-like activity bar */
+.vscode-activity-bar {
+    width: 48px;
+    background-color: var(--dark-bg);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 8px;
+}
+
+.vscode-activity-bar-item {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    font-size: 24px;
+    cursor: pointer;
+    position: relative;
+    transition: color var(--transition-speed) ease;
+}
+
+.vscode-activity-bar-item:hover {
+    color: var(--text-color);
+}
+
+.vscode-activity-bar-item.active {
+    color: var(--text-color);
+}
+
+.vscode-activity-bar-item.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background-color: var(--primary-color);
+}
+
+/* VS Code notification */
+.vscode-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--dark-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 12px 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-size: 13px;
+    color: var(--text-color);
+    display: flex;
+    align-items: flex-start;
+    width: 300px;
+    animation: slide-in 0.3s ease forwards;
+    z-index: 1000;
+}
+
+@keyframes slide-in {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.vscode-notification-icon {
+    margin-right: 12px;
+    font-size: 16px;
+}
+
+.vscode-notification-content {
+    flex: 1;
+}
+
+.vscode-notification-title {
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.vscode-notification-message {
+    color: var(--text-secondary);
+}
+
+.vscode-notification-actions {
+    margin-top: 8px;
+    display: flex;
+}
+
+.vscode-notification-action {
+    margin-right: 8px;
+    font-size: 12px;
+    color: var(--accent-color);
+    cursor: pointer;
+}
+
+.vscode-notification-action:hover {
+    text-decoration: underline;
+}
+
+.vscode-notification-close {
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 8px;
+    align-self: flex-start;
+}
+
+.vscode-notification-close:hover {
+    color: var(--text-color);
+}
+
+/* VS Code settings editor */
+.vscode-settings {
+    display: flex;
+    height: 100%;
+}
+
+.vscode-settings-sidebar {
+    width: 240px;
+    border-right: 1px solid var(--border-color);
+    padding: 16px 0;
+}
+
+.vscode-settings-content {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+}
+
+.vscode-settings-search {
+    padding: 0 16px 16px;
+}
+
+.vscode-settings-group {
+    margin-bottom: 24px;
+}
+
+.vscode-settings-group-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-color);
+    margin-bottom: 8px;
+    padding: 0 16px;
+}
+
+.vscode-settings-item {
+    padding: 8px 16px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color var(--transition-speed) ease;
+}
+
+.vscode-settings-item:hover {
+    background-color: rgba(90, 93, 94, 0.31);
+}
+
+.vscode-settings-item.active {
+    background-color: var(--selection-bg);
+}
+
+.vscode-setting {
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.vscode-setting-title {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.vscode-setting-description {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+/* Hover behavior for code examples */
+pre:hover .line-highlight {
+    background-color: var(--line-highlight);
+} 

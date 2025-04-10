@@ -1,0 +1,314 @@
+/* Retro Terminal Theme - Inspired by old computer terminals */
+:root {
+    --primary-color: #00ff00;
+    --secondary-color: #00cc00;
+    --accent-color: #33ff33;
+    --text-color: #33ff33;
+    --light-bg: #001100;
+    --dark-bg: #000800;
+    --border-radius: 0;
+    --box-shadow: 0 0 8px rgba(0, 255, 0, 0.5);
+    --transition-speed: 0.3s;
+    --card-padding: 1rem;
+    --success-color: #00ff00;
+    --warning-color: #ffcc00;
+    --danger-color: #ff3333;
+    --info-color: #00ccff;
+    --font-family: 'Courier New', Courier, monospace;
+    --scanline-color: rgba(0, 255, 0, 0.1);
+}
+
+body {
+    background-color: var(--dark-bg);
+    font-family: var(--font-family);
+    color: var(--text-color);
+    line-height: 1.6;
+    font-size: 1rem;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Scanlines effect */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        var(--scanline-color),
+        var(--scanline-color) 2px,
+        transparent 2px,
+        transparent 4px
+    );
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+}
+
+/* Cursor blink */
+@keyframes cursor-blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+}
+
+header {
+    background-color: var(--dark-bg);
+    border-bottom: 1px solid var(--primary-color);
+    box-shadow: none;
+    position: relative;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--primary-color);
+    font-family: var(--font-family);
+    letter-spacing: 0.5px;
+}
+
+h1::after, h2::after {
+    content: "_";
+    animation: cursor-blink 1s infinite;
+}
+
+p {
+    color: var(--text-color);
+    font-family: var(--font-family);
+}
+
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: color var(--transition-speed) ease;
+}
+
+a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+.card {
+    background-color: var(--dark-bg);
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    box-shadow: none;
+    padding: var(--card-padding);
+    position: relative;
+    overflow: hidden;
+    transition: all var(--transition-speed) ease;
+}
+
+.card:hover {
+    box-shadow: var(--box-shadow);
+}
+
+.card::before {
+    content: "> ";
+    color: var(--primary-color);
+}
+
+.card-title {
+    color: var(--primary-color);
+    border-bottom: 1px dashed var(--secondary-color);
+    padding-bottom: 0.5rem;
+}
+
+.btn {
+    background-color: var(--dark-bg);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    font-family: var(--font-family);
+    text-transform: uppercase;
+    padding: 0.5rem 1rem;
+    transition: all var(--transition-speed) ease;
+}
+
+.btn:hover, .btn:focus {
+    background-color: var(--primary-color);
+    color: var(--dark-bg);
+    box-shadow: 0 0 10px var(--primary-color);
+}
+
+.btn-primary {
+    background-color: var(--dark-bg);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: var(--primary-color);
+    color: var(--dark-bg);
+}
+
+.btn-secondary {
+    background-color: var(--dark-bg);
+    color: var(--secondary-color);
+    border: 1px solid var(--secondary-color);
+}
+
+.btn-secondary:hover, .btn-secondary:focus {
+    background-color: var(--secondary-color);
+    color: var(--dark-bg);
+}
+
+.social-link {
+    color: var(--text-color);
+    transition: color var(--transition-speed) ease;
+    margin: 0 0.5rem;
+}
+
+.social-link:hover {
+    color: var(--primary-color);
+    transform: scale(1.1);
+}
+
+/* Form elements */
+input, textarea, select {
+    background-color: var(--dark-bg);
+    color: var(--text-color);
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    padding: 0.5rem;
+    font-family: var(--font-family);
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    box-shadow: 0 0 5px var(--primary-color);
+}
+
+::placeholder {
+    color: rgba(0, 255, 0, 0.5);
+}
+
+/* Progress bars */
+.progress {
+    background-color: var(--dark-bg);
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    height: 20px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    background-color: var(--primary-color);
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 10px,
+        rgba(0, 0, 0, 0.1) 10px,
+        rgba(0, 0, 0, 0.1) 20px
+    );
+}
+
+/* Nav tabs */
+.nav-tabs {
+    border-bottom: 1px solid var(--primary-color);
+}
+
+.nav-tabs .nav-item .nav-link {
+    color: var(--secondary-color);
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+}
+
+.nav-tabs .nav-item .nav-link.active,
+.nav-tabs .nav-item .nav-link:hover {
+    color: var(--primary-color);
+    background-color: transparent;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+/* Selection styling */
+::selection {
+    background-color: var(--primary-color);
+    color: var(--dark-bg);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--dark-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: var(--border-radius);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-color);
+}
+
+/* Typewriter effect for page intro */
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+.intro-text {
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid var(--primary-color);
+    animation: 
+      typing 3.5s steps(40, end),
+      cursor-blink 0.75s step-end infinite;
+}
+
+/* Terminal-like container */
+.terminal-box {
+    background-color: var(--dark-bg);
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    font-family: var(--font-family);
+    position: relative;
+}
+
+.terminal-box::before {
+    content: "$ ";
+    color: var(--primary-color);
+}
+
+/* Table styling */
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table, th, td {
+    border: 1px solid var(--primary-color);
+}
+
+th, td {
+    padding: 0.5rem;
+    text-align: left;
+}
+
+th {
+    background-color: rgba(0, 255, 0, 0.1);
+}
+
+tr:hover {
+    background-color: rgba(0, 255, 0, 0.05);
+} 
