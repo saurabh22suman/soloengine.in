@@ -1461,29 +1461,34 @@ if ($is_logged_in) {
                 });
             }
             
-            // Education form handling
+            // Education form handling - this section isn't needed, removing it
             const addEducationItems = document.querySelectorAll('.add-education-item');
-            addEducationItems.forEach(button => {
-                button.addEventListener('click', function() {
-                    const container = this.closest('form').querySelector('.education-items-container');
-                    const index = container.children.length;
-                    
-                    const div = document.createElement('div');
-                    div.className = 'input-group mb-2';
-                    div.innerHTML = `
-                        <input type="text" class="form-control" name="education[description_items][]" placeholder="Education detail">
-                        <button type="button" class="btn btn-outline-danger remove-item">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    `;
-                    
-                    container.appendChild(div);
-                    
-                    div.querySelector('.remove-item').addEventListener('click', function() {
-                        div.remove();
+            if (addEducationItems.length > 0) {
+                console.log('Found education items buttons:', addEducationItems);
+                addEducationItems.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const container = this.closest('form').querySelector('.education-items-container');
+                        const index = container.children.length;
+                        
+                        const div = document.createElement('div');
+                        div.className = 'input-group mb-2';
+                        div.innerHTML = `
+                            <input type="text" class="form-control" name="education[description_items][]" placeholder="Education detail">
+                            <button type="button" class="btn btn-outline-danger remove-item">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        `;
+                        
+                        container.appendChild(div);
+                        
+                        div.querySelector('.remove-item').addEventListener('click', function() {
+                            div.remove();
+                        });
                     });
                 });
-            });
+            } else {
+                console.log('No .add-education-item elements found - this is expected');
+            }
             
             // Populate modal data for experience edit
             const experienceModals = document.querySelectorAll('.edit-experience-btn');
@@ -1538,19 +1543,26 @@ if ($is_logged_in) {
             const educationModals = document.querySelectorAll('.edit-education-btn');
             educationModals.forEach(button => {
                 button.addEventListener('click', function() {
+                    console.log('Education button clicked, dataset:', this.dataset);
+                    
                     const id = this.dataset.id;
                     const degree = this.dataset.degree;
                     const institution = this.dataset.institution;
-                    const startDate = this.dataset.startDate;
+                    // Convert kebab-case data attributes to camelCase for dataset
+                    // data-start-date becomes dataset.startDate
+                    const startDate = this.dataset.startDate; 
                     const endDate = this.dataset.endDate;
                     const location = this.dataset.location;
                     let description = [];
                     
                     try {
                         description = JSON.parse(this.dataset.description);
+                        console.log('Parsed description:', description);
                     } catch (e) {
                         console.error('Error parsing description:', e);
                     }
+                    
+                    console.log('Values:', {id, degree, institution, startDate, endDate, location});
                     
                     document.getElementById('edit_edu_id').value = id;
                     document.getElementById('edit_edu_degree').value = degree;
@@ -1560,6 +1572,7 @@ if ($is_logged_in) {
                     document.getElementById('edit_edu_location').value = location;
                     
                     const container = document.getElementById('edit_education_details_container');
+                    console.log('Container element:', container);
                     container.innerHTML = '';
                     
                     if (Array.isArray(description)) {
@@ -1574,20 +1587,26 @@ if ($is_logged_in) {
                             `;
                             
                             container.appendChild(div);
-                            
-                            div.querySelector('.remove-item').addEventListener('click', function() {
-                                div.remove();
-                            });
                         });
                     }
+                    
+                    // Add click event listeners to newly added remove buttons
+                    container.querySelectorAll('.remove-item').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            this.closest('.input-group').remove();
+                        });
+                    });
                 });
             });
             
             // Add event listener for adding education details
             const addEducationDetailBtn = document.getElementById('add_education_detail');
             if (addEducationDetailBtn) {
+                console.log('Found add education detail button:', addEducationDetailBtn);
                 addEducationDetailBtn.addEventListener('click', function() {
+                    console.log('Add education detail button clicked');
                     const container = document.getElementById('education_details_container');
+                    console.log('Container for education details:', container);
                     
                     const div = document.createElement('div');
                     div.className = 'input-group mb-2';
@@ -1604,13 +1623,18 @@ if ($is_logged_in) {
                         div.remove();
                     });
                 });
+            } else {
+                console.error('Add education detail button not found!');
             }
             
             // Add event listener for adding education details in edit modal
             const editAddEducationDetailBtn = document.getElementById('edit_add_education_detail');
             if (editAddEducationDetailBtn) {
+                console.log('Found edit add education detail button:', editAddEducationDetailBtn);
                 editAddEducationDetailBtn.addEventListener('click', function() {
+                    console.log('Edit add education detail button clicked');
                     const container = document.getElementById('edit_education_details_container');
+                    console.log('Container for edit education details:', container);
                     
                     const div = document.createElement('div');
                     div.className = 'input-group mb-2';
@@ -1627,6 +1651,8 @@ if ($is_logged_in) {
                         div.remove();
                     });
                 });
+            } else {
+                console.error('Edit add education detail button not found!');
             }
             
             // Delete confirmations
@@ -1662,6 +1688,115 @@ if ($is_logged_in) {
                 button.addEventListener('click', function() {
                     document.getElementById('delete_project_id').value = this.dataset.id;
                     document.getElementById('delete_project_title').textContent = this.dataset.title;
+                });
+            });
+            
+            // Populate modal data for achievement edit
+            const achievementModals = document.querySelectorAll('.edit-achievement-btn');
+            achievementModals.forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.dataset.id;
+                    const title = this.dataset.title;
+                    const description = this.dataset.description;
+                    const date = this.dataset.date;
+                    
+                    document.getElementById('edit_achievement_id').value = id;
+                    document.getElementById('edit_achievement_title').value = title;
+                    document.getElementById('edit_achievement_description').value = description;
+                    document.getElementById('edit_achievement_date').value = date;
+                });
+            });
+            
+            // Handle project technologies
+            const addTechnologyButton = document.getElementById('add_technology_item');
+            if (addTechnologyButton) {
+                addTechnologyButton.addEventListener('click', function() {
+                    const container = document.getElementById('technologies_container');
+                    
+                    const div = document.createElement('div');
+                    div.className = 'input-group mb-2';
+                    div.innerHTML = `
+                        <input type="text" class="form-control" name="project[technologies][]" placeholder="Technology name">
+                        <button type="button" class="btn btn-outline-danger remove-item">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    
+                    container.appendChild(div);
+                    
+                    div.querySelector('.remove-item').addEventListener('click', function() {
+                        div.remove();
+                    });
+                });
+            }
+            
+            // Edit project technologies
+            const editAddTechnologyButton = document.getElementById('edit_add_technology_item');
+            if (editAddTechnologyButton) {
+                editAddTechnologyButton.addEventListener('click', function() {
+                    const container = document.getElementById('edit_technologies_container');
+                    
+                    const div = document.createElement('div');
+                    div.className = 'input-group mb-2';
+                    div.innerHTML = `
+                        <input type="text" class="form-control" name="project[technologies][]" placeholder="Technology name">
+                        <button type="button" class="btn btn-outline-danger remove-item">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    
+                    container.appendChild(div);
+                    
+                    div.querySelector('.remove-item').addEventListener('click', function() {
+                        div.remove();
+                    });
+                });
+            }
+            
+            // Populate modal data for project edit
+            const projectModals = document.querySelectorAll('.edit-project-btn');
+            projectModals.forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.dataset.id;
+                    const title = this.dataset.title;
+                    const description = this.dataset.description;
+                    const link = this.dataset.link;
+                    const image = this.dataset.image;
+                    let technologies = [];
+                    
+                    try {
+                        technologies = JSON.parse(this.dataset.technologies);
+                    } catch (e) {
+                        console.error('Error parsing technologies:', e);
+                    }
+                    
+                    document.getElementById('edit_project_id').value = id;
+                    document.getElementById('edit_project_title').value = title;
+                    document.getElementById('edit_project_description').value = description;
+                    document.getElementById('edit_project_link').value = link;
+                    document.getElementById('edit_project_image').value = image;
+                    
+                    const container = document.getElementById('edit_technologies_container');
+                    container.innerHTML = '';
+                    
+                    if (Array.isArray(technologies)) {
+                        technologies.forEach(tech => {
+                            const div = document.createElement('div');
+                            div.className = 'input-group mb-2';
+                            div.innerHTML = `
+                                <input type="text" class="form-control" name="project[technologies][]" value="${tech.replace(/"/g, '&quot;')}" placeholder="Technology name">
+                                <button type="button" class="btn btn-outline-danger remove-item">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            `;
+                            
+                            container.appendChild(div);
+                            
+                            div.querySelector('.remove-item').addEventListener('click', function() {
+                                div.remove();
+                            });
+                        });
+                    }
                 });
             });
         });
