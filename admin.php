@@ -1534,6 +1534,101 @@ if ($is_logged_in) {
                 });
             });
             
+            // Populate modal data for education edit
+            const educationModals = document.querySelectorAll('.edit-education-btn');
+            educationModals.forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.dataset.id;
+                    const degree = this.dataset.degree;
+                    const institution = this.dataset.institution;
+                    const startDate = this.dataset.startDate;
+                    const endDate = this.dataset.endDate;
+                    const location = this.dataset.location;
+                    let description = [];
+                    
+                    try {
+                        description = JSON.parse(this.dataset.description);
+                    } catch (e) {
+                        console.error('Error parsing description:', e);
+                    }
+                    
+                    document.getElementById('edit_edu_id').value = id;
+                    document.getElementById('edit_edu_degree').value = degree;
+                    document.getElementById('edit_edu_institution').value = institution;
+                    document.getElementById('edit_edu_start_date').value = startDate;
+                    document.getElementById('edit_edu_end_date').value = endDate;
+                    document.getElementById('edit_edu_location').value = location;
+                    
+                    const container = document.getElementById('edit_education_details_container');
+                    container.innerHTML = '';
+                    
+                    if (Array.isArray(description)) {
+                        description.forEach(item => {
+                            const div = document.createElement('div');
+                            div.className = 'input-group mb-2';
+                            div.innerHTML = `
+                                <input type="text" class="form-control" name="education[description_items][]" value="${item.replace(/"/g, '&quot;')}" placeholder="Education detail">
+                                <button type="button" class="btn btn-outline-danger remove-item">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            `;
+                            
+                            container.appendChild(div);
+                            
+                            div.querySelector('.remove-item').addEventListener('click', function() {
+                                div.remove();
+                            });
+                        });
+                    }
+                });
+            });
+            
+            // Add event listener for adding education details
+            const addEducationDetailBtn = document.getElementById('add_education_detail');
+            if (addEducationDetailBtn) {
+                addEducationDetailBtn.addEventListener('click', function() {
+                    const container = document.getElementById('education_details_container');
+                    
+                    const div = document.createElement('div');
+                    div.className = 'input-group mb-2';
+                    div.innerHTML = `
+                        <input type="text" class="form-control" name="education[description_items][]" placeholder="Education detail">
+                        <button type="button" class="btn btn-outline-danger remove-item">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    
+                    container.appendChild(div);
+                    
+                    div.querySelector('.remove-item').addEventListener('click', function() {
+                        div.remove();
+                    });
+                });
+            }
+            
+            // Add event listener for adding education details in edit modal
+            const editAddEducationDetailBtn = document.getElementById('edit_add_education_detail');
+            if (editAddEducationDetailBtn) {
+                editAddEducationDetailBtn.addEventListener('click', function() {
+                    const container = document.getElementById('edit_education_details_container');
+                    
+                    const div = document.createElement('div');
+                    div.className = 'input-group mb-2';
+                    div.innerHTML = `
+                        <input type="text" class="form-control" name="education[description_items][]" placeholder="Education detail">
+                        <button type="button" class="btn btn-outline-danger remove-item">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    
+                    container.appendChild(div);
+                    
+                    div.querySelector('.remove-item').addEventListener('click', function() {
+                        div.remove();
+                    });
+                });
+            }
+            
             // Delete confirmations
             document.querySelectorAll('[data-bs-target="#deleteExperienceModal"]').forEach(button => {
                 button.addEventListener('click', function() {
