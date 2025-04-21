@@ -15,7 +15,8 @@
     .social-icon,
     .social-links-container,
     .profile-image-container .profile-socials,
-    .print-message {
+    .print-message,
+    #profile .skill-category {
         display: none !important;
     }
     
