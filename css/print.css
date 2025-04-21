@@ -31,7 +31,7 @@
     /* General Print Settings */
     body, body.is-printing, body.preparing-for-print {
         font-size: 10pt !important;
-        line-height: 1.3 !important;
+        line-height: 1.2 !important; /* Tighter line height */
         background: #fff !important;
         color: #000 !important;
         margin: 0 !important;
@@ -99,76 +99,123 @@
         padding: 0.1cm 0.2cm !important; /* Reduce padding */
     }
     
-    /* Compressing profile section */
+    /* Completely revised profile section positioning */
     #profile .row {
-        display: flex !important;
-        flex-direction: row !important;
-        align-items: flex-start !important;
+        position: relative !important;
+        display: block !important;
+        width: 100% !important;
+        height: auto !important;
     }
     
+    /* Force image column to right corner with !important on every property */
     #profile .col-md-3 {
-        width: 25% !important;
-        flex: 0 0 25% !important;
-        max-width: 25% !important;
-        padding-right: 0.3cm !important;
+        position: absolute !important;
+        top: 0 !important;
+        right: 0 !important;
+        left: auto !important; /* Override any left positioning */
+        bottom: auto !important;
+        float: right !important;
+        width: 2.5cm !important;
+        max-width: 2.5cm !important;
+        min-width: 2.5cm !important;
+        text-align: right !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        z-index: 10 !important;
+    }
+    
+    /* Force absolute position of inner container if needed */
+    .profile-image-container {
+        position: absolute !important;
+        top: 0 !important;
+        right: 0 !important;
+        left: auto !important;
+        max-width: 2.5cm !important;
+        max-height: 3cm !important;
+        width: 2.5cm !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border-radius: 4px !important;
+        overflow: hidden !important;
+        float: right !important;
+    }
+    
+    /* Extra specific selectors for image */
+    #profile .profile-img,
+    #profile .col-md-3 img,
+    .profile-image-container img {
+        position: relative !important;
+        max-width: 2.5cm !important;
+        width: 2.5cm !important;
+        max-height: 3cm !important;
+        height: auto !important;
+        object-fit: contain !important;
+        display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        border-radius: 4px !important;
+        float: right !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
     }
     
     #profile .col-md-9 {
-        width: 75% !important;
-        flex: 0 0 75% !important;
-        max-width: 75% !important;
+        width: calc(100% - 3cm) !important; /* Full width minus image width and spacing */
+        max-width: calc(100% - 3cm) !important;
+        padding-right: 0 !important;
+        text-align: left !important;
+        margin-right: 3cm !important; /* Space for image */
+    }
+    
+    #profile .card {
+        margin-bottom: 0.1cm !important;
+        border: none !important; /* Remove border */
+        padding: 0 !important;
+    }
+    
+    #profile .card-body {
+        padding: 0.1cm !important;
     }
     
     #profile .card-title {
-        display: block !important;
-        font-size: 16pt !important;
-        font-weight: bold !important;
-        margin-bottom: 0.1cm !important;
+        font-size: 14pt !important; /* Name size */
+        margin-bottom: 0.05cm !important; /* Tighter spacing */
+        line-height: 1.1 !important;
     }
     
     #profile h4.text-muted {
-        font-size: 11pt !important; /* Reduce font size */
-        margin-bottom: 0.2cm !important;
+        font-size: 10pt !important; /* Title size */
+        margin-bottom: 0.05cm !important;
+        line-height: 1.1 !important;
     }
     
     #profile .lead {
-        font-size: 10pt !important;
-        margin-bottom: 0.2cm !important;
-    }
-    
-    .profile-image-container {
-        max-width: 2.5cm !important; /* Smaller image */
-        margin: 0 auto !important;
-        border-radius: 8px !important;
-    }
-    
-    .profile-img {
-        max-width: 100% !important;
-        height: auto !important;
-        border: 1px solid #ccc !important;
-        padding: 2px !important;
-        border-radius: 8px !important;
+        font-size: 9pt !important; /* Description size */
+        margin-bottom: 0.05cm !important;
+        line-height: 1.2 !important;
     }
     
     /* Fix contact grid in print */
     .contact-info-grid {
         display: flex !important;
         flex-wrap: wrap !important;
-        gap: 0.1cm !important; /* Reduce gap */
-        margin-bottom: 0.2cm !important;
+        gap: 0 !important; /* Remove gap */
+        margin-bottom: 0.1cm !important;
     }
     
     .contact-item {
         width: 48% !important;
-        padding: 0.1cm !important;
+        padding: 0.05cm !important; /* Reduce padding */
         background: none !important;
-        margin-bottom: 0.1cm !important;
+        margin-bottom: 0.05cm !important; /* Reduce margin */
         display: flex !important;
         align-items: center !important;
+        font-size: 8pt !important; /* Smaller font */
     }
     
     .contact-icon {
-        margin-right: 0.2cm !important;
+        margin-right: 0.1cm !important; /* Smaller margin */
         color: #555 !important;
     }
     
@@ -496,8 +543,10 @@
     
     /* Ensure profile section still has proper spacing after removing header */
     #profile {
+        margin-top: 0.1cm !important;
+        margin-bottom: 0.1cm !important;
         padding-top: 0 !important;
-        margin-top: 0 !important;
+        padding-bottom: 0 !important;
     }
     
     /* Achievements & Conferences section specific fixes */
@@ -554,5 +603,24 @@
     #achievements .item-location {
         font-size: 8pt !important;
         color: #555 !important;
+    }
+    
+    /* Force a clear positioning context for the entire page */
+    body {
+        position: relative !important;
+    }
+    
+    /* Additional rule to force profile layout */
+    #profile {
+        position: relative !important;
+        overflow: visible !important;
+    }
+    
+    /* Ensure profile card takes full width with proper spacing */
+    #profile .card {
+        position: relative !important;
+        width: 100% !important;
+        display: block !important;
+        overflow: visible !important; /* Allow content to flow */
     }
 } 
