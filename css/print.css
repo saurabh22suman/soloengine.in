@@ -20,6 +20,11 @@
         display: none !important;
     }
     
+    /* Remove red underline below name in print view */
+    .card-title::after {
+        display: none !important;
+    }
+    
     /* Ensure everything with print-visible class is shown */
     .print-visible {
         display: block !important;
@@ -183,11 +188,6 @@
         font-size: 14pt !important; /* Name size */
         margin-bottom: 0.05cm !important; /* Tighter spacing */
         line-height: 1.1 !important;
-    }
-    
-    /* Remove the red underline beneath the name */
-    #profile .card-title::after {
-        display: none !important;
     }
     
     #profile h4.text-muted {
