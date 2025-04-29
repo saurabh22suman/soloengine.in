@@ -313,7 +313,7 @@
     /* Adjust timeline items */
     .timeline-item {
         padding-left: 0.4cm !important;
-        margin-bottom: 0.2cm !important;
+        margin-bottom: 0.1cm !important;
         border-left: 2px solid #007bff !important;
         break-inside: auto !important; /* Allow breaks */
         page-break-inside: auto !important;
@@ -559,7 +559,7 @@
     
     /* Achievements & Conferences section specific fixes */
     #achievements .card-body {
-        padding: 0.1cm !important;
+        padding: 0.05cm !important;
     }
     
     #achievements .row {
@@ -583,8 +583,8 @@
     
     #achievements .achievement-item,
     #achievements .conference-item {
-        margin-bottom: 0.15cm !important;
-        padding: 0.1cm !important;
+        margin-bottom: 0.08cm !important;
+        padding: 0.05cm !important;
         border-bottom: 1px dotted #ccc !important;
     }
     
@@ -597,14 +597,14 @@
     #achievements h6, 
     #achievements .item-title {
         font-size: 10pt !important;
-        margin-bottom: 0.05cm !important;
+        margin-bottom: 0.03cm !important;
         font-weight: bold !important;
     }
     
     #achievements p, 
     #achievements .item-description {
         font-size: 9pt !important;
-        margin-bottom: 0.05cm !important;
+        margin-bottom: 0.03cm !important;
     }
     
     #achievements .item-date,
