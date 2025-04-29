@@ -185,6 +185,11 @@
         line-height: 1.1 !important;
     }
     
+    /* Remove the red underline beneath the name */
+    #profile .card-title::after {
+        display: none !important;
+    }
+    
     #profile h4.text-muted {
         font-size: 10pt !important; /* Title size */
         margin-bottom: 0.05cm !important;

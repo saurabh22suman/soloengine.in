@@ -93,7 +93,6 @@ try {
         '--margin-bottom 10mm',
         '--margin-left 10mm',
         '--encoding UTF-8',
-        '--print-media-type',
         '--enable-local-file-access',
         '--no-stop-slow-scripts',
         '--javascript-delay 1000'
