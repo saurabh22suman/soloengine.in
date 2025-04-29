@@ -80,6 +80,17 @@ function initializeDatabase($pdo) {
         date TEXT
     )');
     
+    // Certificates and Conferences table
+    $pdo->exec('CREATE TABLE certificates_conferences (
+        id INTEGER PRIMARY KEY,
+        title TEXT,
+        description TEXT,
+        date TEXT,
+        type TEXT,
+        issuer TEXT,
+        url TEXT
+    )');
+    
     // Projects table
     $pdo->exec('CREATE TABLE projects (
         id INTEGER PRIMARY KEY,

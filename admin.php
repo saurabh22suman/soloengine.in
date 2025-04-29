@@ -214,6 +214,54 @@ if ($is_logged_in) {
         $message = "Education deleted successfully!";
     }
     
+    // Handle certificates and conferences operations
+    if (isset($_POST['add_certificate_conference'])) {
+        $stmt = $pdo->prepare('INSERT INTO certificates_conferences 
+            (title, description, date, type, issuer, url) 
+            VALUES (?, ?, ?, ?, ?, ?)');
+            
+        $stmt->execute([
+            $_POST['certificate_conference']['title'],
+            $_POST['certificate_conference']['description'],
+            $_POST['certificate_conference']['date'],
+            $_POST['certificate_conference']['type'],
+            $_POST['certificate_conference']['issuer'],
+            $_POST['certificate_conference']['url']
+        ]);
+        
+        $message = "Certificate/Conference added successfully!";
+    }
+    
+    if (isset($_POST['update_certificate_conference'])) {
+        $stmt = $pdo->prepare('UPDATE certificates_conferences SET 
+            title = ?, 
+            description = ?, 
+            date = ?, 
+            type = ?, 
+            issuer = ?, 
+            url = ?
+            WHERE id = ?');
+            
+        $stmt->execute([
+            $_POST['certificate_conference']['title'],
+            $_POST['certificate_conference']['description'],
+            $_POST['certificate_conference']['date'],
+            $_POST['certificate_conference']['type'],
+            $_POST['certificate_conference']['issuer'],
+            $_POST['certificate_conference']['url'],
+            $_POST['certificate_conference']['id']
+        ]);
+        
+        $message = "Certificate/Conference updated successfully!";
+    }
+    
+    if (isset($_POST['delete_certificate_conference'])) {
+        $stmt = $pdo->prepare('DELETE FROM certificates_conferences WHERE id = ?');
+        $stmt->execute([$_POST['certificate_conference_id']]);
+        
+        $message = "Certificate/Conference deleted successfully!";
+    }
+    
     // Handle skills operations
     if (isset($_POST['add_skill'])) {
         $stmt = $pdo->prepare('INSERT INTO skills 
@@ -459,6 +507,9 @@ if ($is_logged_in) {
                                     <button class="nav-link" id="achievements-tab" data-bs-toggle="tab" data-bs-target="#achievements-tab-pane" type="button" role="tab" aria-controls="achievements-tab-pane" aria-selected="false">Achievements</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="certificates-conferences-tab" data-bs-toggle="tab" data-bs-target="#certificates-conferences-tab-pane" type="button" role="tab" aria-controls="certificates-conferences-tab-pane" aria-selected="false">Certificates & Conferences</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="projects-tab" data-bs-toggle="tab" data-bs-target="#projects-tab-pane" type="button" role="tab" aria-controls="projects-tab-pane" aria-selected="false">Projects</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
@@ -700,6 +751,57 @@ if ($is_logged_in) {
                                             </div>
                                             <p class="mb-1"><?php echo htmlspecialchars($achievement['description']); ?></p>
                                             <small class="text-muted"><?php echo htmlspecialchars($achievement['date']); ?></small>
+                                        </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                </div>
+                                
+                                <!-- Certificates & Conferences Tab -->
+                                <div class="tab-pane fade" id="certificates-conferences-tab-pane" role="tabpanel" aria-labelledby="certificates-conferences-tab" tabindex="0">
+                                    <div class="d-flex justify-content-between mb-3">
+                                        <h4>Manage Certificates & Conferences</h4>
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCertificateConferenceModal">
+                                            <i class="fas fa-plus"></i> Add New
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="list-group">
+                                        <?php 
+                                        $stmt = $pdo->query('SELECT * FROM certificates_conferences ORDER BY date DESC');
+                                        $certificates_conferences = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                        foreach ($certificates_conferences as $item): 
+                                        ?>
+                                        <div class="list-group-item">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <h5 class="mb-1"><?php echo htmlspecialchars($item['title']); ?></h5>
+                                                <div>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary edit-certificate-conference-btn" 
+                                                        data-bs-toggle="modal" 
+                                                        data-bs-target="#editCertificateConferenceModal"
+                                                        data-id="<?php echo $item['id']; ?>"
+                                                        data-title="<?php echo htmlspecialchars($item['title']); ?>"
+                                                        data-description="<?php echo htmlspecialchars($item['description']); ?>"
+                                                        data-date="<?php echo htmlspecialchars($item['date']); ?>"
+                                                        data-type="<?php echo htmlspecialchars($item['type']); ?>"
+                                                        data-issuer="<?php echo htmlspecialchars($item['issuer']); ?>"
+                                                        data-url="<?php echo htmlspecialchars($item['url']); ?>">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-sm btn-outline-danger" 
+                                                        data-bs-toggle="modal" 
+                                                        data-bs-target="#deleteCertificateConferenceModal"
+                                                        data-id="<?php echo $item['id']; ?>"
+                                                        data-title="<?php echo htmlspecialchars($item['title']); ?>">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <p class="mb-1"><?php echo htmlspecialchars($item['description']); ?></p>
+                                            <small class="text-muted">
+                                                <?php echo htmlspecialchars($item['type']); ?> | 
+                                                <?php echo htmlspecialchars($item['issuer']); ?> | 
+                                                <?php echo htmlspecialchars($item['date']); ?>
+                                            </small>
                                         </div>
                                         <?php endforeach; ?>
                                     </div>
@@ -1378,6 +1480,123 @@ if ($is_logged_in) {
             </div>
         </div>
     </div>
+
+    <!-- Add Certificate/Conference Modal -->
+    <div class="modal fade" id="addCertificateConferenceModal" tabindex="-1" aria-labelledby="addCertificateConferenceModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCertificateConferenceModalLabel">Add New Certificate/Conference</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post" action="admin.php">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="title" name="certificate_conference[title]" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" id="description" name="certificate_conference[description]" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="date" class="form-label">Date</label>
+                            <input type="date" class="form-control" id="date" name="certificate_conference[date]" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="type" class="form-label">Type</label>
+                            <select class="form-select" id="type" name="certificate_conference[type]" required>
+                                <option value="certificate">Certificate</option>
+                                <option value="conference">Conference</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="issuer" class="form-label">Issuer/Organizer</label>
+                            <input type="text" class="form-control" id="issuer" name="certificate_conference[issuer]" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="url" class="form-label">URL (optional)</label>
+                            <input type="url" class="form-control" id="url" name="certificate_conference[url]">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" name="add_certificate_conference" class="btn btn-primary">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Certificate/Conference Modal -->
+    <div class="modal fade" id="editCertificateConferenceModal" tabindex="-1" aria-labelledby="editCertificateConferenceModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editCertificateConferenceModalLabel">Edit Certificate/Conference</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post" action="admin.php">
+                    <input type="hidden" name="certificate_conference[id]" id="edit_id">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="edit_title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="edit_title" name="certificate_conference[title]" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_description" class="form-label">Description</label>
+                            <textarea class="form-control" id="edit_description" name="certificate_conference[description]" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_date" class="form-label">Date</label>
+                            <input type="date" class="form-control" id="edit_date" name="certificate_conference[date]" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_type" class="form-label">Type</label>
+                            <select class="form-select" id="edit_type" name="certificate_conference[type]" required>
+                                <option value="certificate">Certificate</option>
+                                <option value="conference">Conference</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_issuer" class="form-label">Issuer/Organizer</label>
+                            <input type="text" class="form-control" id="edit_issuer" name="certificate_conference[issuer]" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_url" class="form-label">URL (optional)</label>
+                            <input type="url" class="form-control" id="edit_url" name="certificate_conference[url]">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" name="update_certificate_conference" class="btn btn-primary">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Certificate/Conference Modal -->
+    <div class="modal fade" id="deleteCertificateConferenceModal" tabindex="-1" aria-labelledby="deleteCertificateConferenceModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteCertificateConferenceModalLabel">Delete Certificate/Conference</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete "<span id="delete_title"></span>"?</p>
+                </div>
+                <div class="modal-footer">
+                    <form method="post" action="admin.php">
+                        <input type="hidden" name="certificate_conference_id" id="delete_id">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" name="delete_certificate_conference" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <?php endif; ?>
     
     <!-- Bootstrap JS Bundle -->
@@ -1797,6 +2016,28 @@ if ($is_logged_in) {
                             });
                         });
                     }
+                });
+            });
+
+            // Certificate/Conference modals
+            document.querySelectorAll('.edit-certificate-conference-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const modal = document.getElementById('editCertificateConferenceModal');
+                    modal.querySelector('#edit_id').value = this.dataset.id;
+                    modal.querySelector('#edit_title').value = this.dataset.title;
+                    modal.querySelector('#edit_description').value = this.dataset.description;
+                    modal.querySelector('#edit_date').value = this.dataset.date;
+                    modal.querySelector('#edit_type').value = this.dataset.type;
+                    modal.querySelector('#edit_issuer').value = this.dataset.issuer;
+                    modal.querySelector('#edit_url').value = this.dataset.url;
+                });
+            });
+
+            document.querySelectorAll('[data-bs-target="#deleteCertificateConferenceModal"]').forEach(button => {
+                button.addEventListener('click', function() {
+                    const modal = document.getElementById('deleteCertificateConferenceModal');
+                    modal.querySelector('#delete_id').value = this.dataset.id;
+                    modal.querySelector('#delete_title').textContent = this.dataset.title;
                 });
             });
         });
