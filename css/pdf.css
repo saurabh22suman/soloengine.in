@@ -226,12 +226,6 @@ a {
     font-weight: normal !important;
 }
 
-a.print-link:after {
-    content: " (" attr(href) ")" !important;
-    font-size: 8pt !important;
-    color: #666 !important;
-}
-
 /* Adjust skills section */
 #skills .card-body {
     columns: 1 !important; /* Single column layout as requested */
