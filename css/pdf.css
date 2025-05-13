@@ -3,7 +3,7 @@
 /* Basic page setup */
 @page {
     size: A4;
-    margin: 0.6cm;
+    margin: 0.4cm; /* Further reduced page margins */
 }
 
 /* Hide elements not needed for PDF */
@@ -32,8 +32,8 @@ footer,
 /* General PDF Settings */
 body {
     font-family: 'Arial', 'Helvetica', sans-serif;
-    font-size: 10pt !important;
-    line-height: 1.3 !important;
+    font-size: 10pt !important; /* Increased base font size from 9pt */
+    line-height: 1.2 !important; /* Adjusted line height */
     background: #fff !important;
     color: #333 !important;
     margin: 0 !important;
@@ -73,7 +73,7 @@ section {
     display: block !important;
     visibility: visible !important;
     overflow: visible !important;
-    margin-bottom: 0.15cm !important;
+    margin-bottom: 0.08cm !important; /* Further reduced margin */
     page-break-inside: auto !important;
     break-inside: auto !important;
 }
@@ -82,8 +82,8 @@ section {
 .card {
     box-shadow: none !important;
     border: 1px solid #e0e0e0 !important;
-    border-radius: 4px !important;
-    margin-bottom: 0.2cm !important;
+    border-radius: 2px !important; /* Smaller radius */
+    margin-bottom: 0.1cm !important; /* Further reduced margin */
     page-break-inside: auto !important;
     break-inside: auto !important;
     background-color: #fff !important;
@@ -93,12 +93,12 @@ section {
     background: #f8f9fa !important;
     color: #333 !important;
     border-bottom: 1px solid #eaeaea !important;
-    padding: 0.1cm 0.2cm !important;
-    margin-bottom: 0.05cm !important;
+    padding: 0.05cm 0.1cm !important; /* Further reduced padding */
+    margin-bottom: 0.02cm !important; /* Further reduced margin */
     break-after: avoid !important;
     page-break-after: avoid !important;
     font-weight: 600 !important;
-    letter-spacing: 0.01cm !important;
+    letter-spacing: 0 !important; /* Eliminated letter spacing */
 }
 
 .card-header::before {
@@ -106,7 +106,7 @@ section {
 }
 
 .card-body {
-    padding: 0.15cm 0.25cm !important;
+    padding: 0.08cm 0.1cm !important; /* Further reduced padding */
 }
 
 /* Override profile layout completely */
@@ -115,19 +115,19 @@ section {
     overflow: visible !important;
     width: 100% !important;
     margin-top: 0 !important;
-    margin-bottom: 0.1cm !important;
+    margin-bottom: 0.06cm !important; /* Further reduced margin */
     padding: 0 !important;
 }
 
 #profile .row {
-    position: static !important; /* Static positioning to avoid flex issues */
-    display: block !important; /* Block display instead of flex to avoid flex issues */
+    position: static !important;
+    display: block !important;
     width: 100% !important;
     height: auto !important;
-    min-height: 2.5cm !important;
+    min-height: 2cm !important; /* Reduced min-height */
     background-color: #f9f9f9 !important;
-    border-radius: 4px !important;
-    padding: 0.12cm !important;
+    border-radius: 3px !important;
+    padding: 0.08cm !important; /* Further reduced padding */
     margin: 0 !important;
 }
 
@@ -136,28 +136,28 @@ section {
 #profile div[class*="col-md-3"],
 #profile .profile-image-col {
     position: absolute !important;
-    top: 0.12cm !important; /* Match top padding */
-    right: 0.12cm !important; /* Match right padding */
-    width: 2.2cm !important;
-    max-width: 2.2cm !important;
-    min-width: 2.2cm !important;
+    top: 0.1cm !important;
+    right: 0.1cm !important;
+    width: 1.8cm !important; /* Smaller image width */
+    max-width: 1.8cm !important;
+    min-width: 1.8cm !important;
     height: auto !important;
     padding: 0 !important;
     margin: 0 !important;
     text-align: right !important;
     float: right !important;
-    z-index: 2 !important; /* Ensure it's above other content */
+    z-index: 2 !important;
 }
 
 /* Force image container styling for right alignment */
 #profile .profile-image-container {
     position: relative !important;
-    max-width: 2.2cm !important;
-    max-height: 2.5cm !important;
+    max-width: 1.8cm !important; /* Smaller image container */
+    max-height: 2cm !important; /* Reduced height */
     width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
-    border-radius: 4px !important;
+    border-radius: 3px !important;
     overflow: hidden !important;
     float: right !important;
 }
@@ -167,16 +167,16 @@ section {
 #profile .col-md-3 img,
 #profile .profile-image-container img {
     position: relative !important;
-    max-width: 2.2cm !important;
+    max-width: 1.8cm !important;
     width: 100% !important;
     height: auto !important;
-    max-height: 2.5cm !important;
+    max-height: 2cm !important; /* Reduced height */
     object-fit: cover !important;
     display: block !important;
     margin: 0 !important;
     padding: 0 !important;
     border: none !important;
-    border-radius: 4px !important;
+    border-radius: 3px !important;
     float: right !important;
 }
 
@@ -185,9 +185,9 @@ section {
 #profile div[class*="col-md-9"],
 #profile .profile-content-col {
     position: static !important;
-    width: calc(100% - 2.5cm) !important;
-    max-width: calc(100% - 2.5cm) !important;
-    padding-right: 2.5cm !important; /* Reserve space for the image */
+    width: calc(100% - 2cm) !important; /* Adjusted width */
+    max-width: calc(100% - 2cm) !important;
+    padding-right: 2cm !important; /* Adjusted padding */
     padding-left: 0 !important;
     margin: 0 !important;
     text-align: left !important;
@@ -210,22 +210,22 @@ section {
 #profile .card-title,
 #profile h1,
 #profile .profile-name {
-    font-size: 15pt !important;
+    font-size: 14pt !important; /* Increased from 13pt */
     margin-top: 0 !important;
     margin-bottom: 0 !important;
-    line-height: 1.1 !important;
+    line-height: 1 !important; /* Tighter line height */
     font-weight: 700 !important;
     color: #2c3e50 !important;
-    letter-spacing: 0.01cm !important;
+    letter-spacing: 0 !important; /* Eliminated letter spacing */
     text-align: left !important;
 }
 
 #profile h4.text-muted,
 #profile .profile-title {
-    font-size: 10pt !important;
+    font-size: 9.5pt !important; /* Increased from 8.5pt */
     margin-top: 0 !important;
-    margin-bottom: 0.05cm !important;
-    line-height: 1.1 !important;
+    margin-bottom: 0.02cm !important; /* Further reduced margin */
+    line-height: 1 !important;
     color: #3498db !important;
     font-weight: 600 !important;
     text-align: left !important;
@@ -233,9 +233,9 @@ section {
 
 #profile .lead,
 #profile .profile-summary {
-    font-size: 8pt !important;
+    font-size: 8pt !important; /* Increased from 7pt */
     margin-top: 0 !important;
-    margin-bottom: 0.08cm !important;
+    margin-bottom: 0.03cm !important; /* Further reduced margin */
     line-height: 1.1 !important;
     color: #555 !important;
     max-width: 100% !important;
@@ -249,8 +249,8 @@ section {
 .profile-contacts {
     display: flex !important;
     flex-wrap: wrap !important;
-    gap: 0.03cm !important;
-    margin-top: 0.05cm !important;
+    gap: 0.01cm !important; /* Further reduced gap */
+    margin-top: 0.02cm !important; /* Further reduced margin */
     margin-bottom: 0 !important;
     padding: 0 !important;
     width: 100% !important;
@@ -259,12 +259,12 @@ section {
 .contact-item,
 .profile-contact-item {
     width: 32% !important;
-    padding: 0.03cm 0 !important;
+    padding: 0.01cm 0 !important; /* Further reduced padding */
     background: none !important;
-    margin-bottom: 0.02cm !important;
+    margin-bottom: 0 !important; /* Eliminated margin */
     display: flex !important;
     align-items: center !important;
-    font-size: 7.5pt !important;
+    font-size: 7.5pt !important; /* Increased from 6.5pt */
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
@@ -280,16 +280,16 @@ section {
 }
 
 .contact-icon {
-    margin-right: 0.08cm !important;
+    margin-right: 0.03cm !important; /* Further reduced margin */
     color: #3498db !important;
-    font-size: 7.5pt !important;
+    font-size: 7.5pt !important; /* Increased from 6.5pt */
 }
 
 /* Add a condensed contact layout that places items inline */
 .contact-info-small {
     display: flex !important;
     flex-wrap: wrap !important;
-    font-size: 7pt !important;
+    font-size: 8pt !important; /* Increased from 7pt */
     color: #555 !important;
     margin-top: 0.03cm !important;
     margin-bottom: 0.03cm !important;
@@ -303,7 +303,7 @@ section {
 }
 
 .contact-info-small .contact-icon {
-    font-size: 7pt !important;
+    font-size: 8pt !important; /* Increased from 7pt */
     margin-right: 0.05cm !important;
 }
 
@@ -314,46 +314,46 @@ a {
     font-weight: normal !important;
 }
 
-/* Skills section - modern badge layout */
+/* Skills section - even more columns for extreme space saving */
 #skills .card-body {
-    columns: 1 !important;
-    column-gap: 0 !important;
-    padding: 0.1cm 0.15cm !important;
+    columns: 3 !important; /* Use 3 columns to save more space */
+    column-gap: 0.15cm !important; /* Reduced gap */
+    padding: 0.05cm 0.08cm !important; /* Further reduced padding */
 }
 
 .skill-category {
-    margin-bottom: 0.15cm !important;
+    margin-bottom: 0.08cm !important; /* Further reduced margin */
     break-inside: avoid !important;
     page-break-inside: avoid !important;
 }
 
 #skills h4 {
-    font-size: 10pt !important;
-    margin-top: 0.1cm !important;
-    margin-bottom: 0.1cm !important;
+    font-size: 9pt !important; /* Increased from 8pt */
+    margin-top: 0.05cm !important; /* Further reduced margin */
+    margin-bottom: 0.05cm !important; /* Further reduced margin */
     font-weight: 600 !important;
     color: #2c3e50 !important;
     border-bottom: 1px solid #eaeaea !important;
-    padding-bottom: 0.03cm !important;
-    line-height: 1.2 !important;
+    padding-bottom: 0.01cm !important; /* Further reduced padding */
+    line-height: 1.1 !important; /* Tighter line height */
 }
 
 .skill-tags {
     display: flex !important;
     flex-wrap: wrap !important;
-    gap: 0.08cm !important;
-    padding: 0.05cm 0 !important;
+    gap: 0.03cm !important; /* Further reduced gap */
+    padding: 0.02cm 0 !important; /* Further reduced padding */
 }
 
 /* Modern badge styling with subtle colors */
 #skills .badge {
-    font-size: 8pt !important;
-    padding: 0.08cm 0.15cm !important;
-    margin: 0.02cm !important;
+    font-size: 7.5pt !important; /* Increased from 6.5pt */
+    padding: 0.03cm 0.08cm !important; /* Further reduced padding */
+    margin: 0.01cm !important; /* Further reduced margin */
     background-color: #f8f9fa !important;
     color: #333 !important;
     border: 1px solid #e0e0e0 !important;
-    border-radius: 50px !important; /* Rounded badges */
+    border-radius: 50px !important;
     font-weight: normal !important;
 }
 
@@ -396,9 +396,9 @@ a {
 
 /* Modern timeline items with accent color */
 .timeline-item {
-    padding-left: 0.4cm !important;
-    margin-bottom: 0.15cm !important;
-    border-left: 1px solid #3498db !important;
+    padding-left: 0.25cm !important; /* Further reduced padding */
+    margin-bottom: 0.08cm !important; /* Further reduced margin */
+    border-left: 1px solid #3498db !important; /* Thinner border */
     break-inside: avoid !important;
     position: relative !important;
 }
@@ -406,60 +406,60 @@ a {
 .timeline-item::before {
     content: '' !important;
     position: absolute !important;
-    width: 8px !important;
-    height: 8px !important;
-    left: -5px !important;
-    top: 0.12cm !important;
+    width: 5px !important; /* Smaller bullet */
+    height: 5px !important; /* Smaller bullet */
+    left: -3px !important; /* Adjusted position */
+    top: 0.1cm !important;
     background-color: #3498db !important;
     border-radius: 50% !important;
 }
 
 .timeline-title {
-    font-size: 10pt !important;
-    margin-bottom: 0.05cm !important;
+    font-size: 9.5pt !important; /* Increased from 8.5pt */
+    margin-bottom: 0.02cm !important; /* Further reduced margin */
     font-weight: 600 !important;
     color: #2c3e50 !important;
-    line-height: 1.1 !important;
+    line-height: 1 !important; /* Tighter line height */
 }
 
 .timeline-subtitle {
-    font-size: 9pt !important;
+    font-size: 8.5pt !important; /* Increased from 7.5pt */
     font-weight: normal !important;
-    line-height: 1.1 !important;
+    line-height: 1 !important; /* Tighter line height */
     color: #3498db !important;
 }
 
 .timeline-date, .timeline-location {
-    font-size: 8pt !important;
+    font-size: 7.5pt !important; /* Increased from 6.5pt */
     display: inline-block !important;
-    margin-right: 0.2cm !important;
+    margin-right: 0.1cm !important; /* Further reduced margin */
     color: #7f8c8d !important;
 }
 
 .timeline-content ul {
-    margin: 0.05cm 0 !important;
-    padding-left: 0.4cm !important;
+    margin: 0.02cm 0 !important; /* Further reduced margin */
+    padding-left: 0.25cm !important; /* Further reduced padding */
 }
 
 .timeline-content li {
-    font-size: 8.5pt !important;
-    margin-bottom: 0.03cm !important;
-    line-height: 1.2 !important;
+    font-size: 8.5pt !important; /* Increased from 7.5pt */
+    margin-bottom: 0.01cm !important; /* Further reduced margin */
+    line-height: 1 !important; /* Further reduced line height */
     color: #555 !important;
 }
 
 /* Ensure all sections are shown and properly spaced */
-#profile, #experience, #education, #skills, #achievements, #projects {
+#profile, #experience, #education, #skills, #achievements, #projects, #certificates {
     display: block !important;
     visibility: visible !important;
-    margin-bottom: 0.15cm !important;
+    margin-bottom: 0.08cm !important; /* Consistent reduced margin */
     page-break-inside: auto !important;
     break-inside: auto !important;
     width: 100% !important;
 }
 
 /* Allow page breaks between major sections */
-#education, #experience, #skills, #achievements, #projects {
+#education, #experience, #skills, #achievements, #projects, #certificates {
     page-break-before: auto !important;
     break-before: auto !important;
     page-break-after: auto !important;
@@ -481,16 +481,16 @@ header {
     display: none !important;
 }
 
-/* Modern project cards */
+/* Modern project cards - even more compact */
 #projects .card-header {
-    margin-bottom: 0.03cm !important;
+    margin-bottom: 0.01cm !important; /* Further reduced margin */
     background-color: #f8f9fa !important;
-    padding: 0.08cm 0.12cm !important;
+    padding: 0.03cm 0.05cm !important; /* Further reduced padding */
     color: #2c3e50 !important;
 }
 
 #projects .card-body {
-    padding: 0.08cm !important;
+    padding: 0.03cm !important; /* Further reduced padding */
 }
 
 /* Space-optimized project cards with modern styling */
@@ -498,8 +498,8 @@ header {
     border: 1px solid #e0e0e0 !important;
     border-radius: 4px !important;
     box-shadow: none !important;
-    margin-bottom: 0.1cm !important;
-    padding: 0.08cm !important;
+    margin-bottom: 0.05cm !important; /* Further reduced margin */
+    padding: 0.03cm !important; /* Further reduced padding */
     break-inside: avoid !important;
     page-break-inside: avoid !important;
     background-color: #fff !important;
@@ -509,7 +509,7 @@ header {
 #projects .row {
     display: flex !important;
     flex-wrap: wrap !important;
-    margin: 0 -0.05cm !important;
+    margin: 0 -0.02cm !important; /* Further reduced margin */
 }
 
 #projects .col-md-6, 
@@ -518,8 +518,8 @@ header {
     width: 50% !important; /* Two columns layout */
     max-width: 50% !important;
     float: left !important;
-    padding: 0 0.05cm !important;
-    margin-bottom: 0.12cm !important;
+    padding: 0 0.02cm !important; /* Further reduced padding */
+    margin-bottom: 0.05cm !important; /* Further reduced margin */
     break-inside: avoid !important;
     page-break-inside: avoid !important;
 }
@@ -527,7 +527,7 @@ header {
 /* Compact project content layout */
 #projects .card-body {
     display: block !important;
-    padding: 0.08cm !important;
+    padding: 0.05cm !important; /* Further reduced padding */
     text-align: left !important;
     height: auto !important;
     min-height: 0 !important;
@@ -536,12 +536,12 @@ header {
 /* Modern project title styling */
 #projects h5.project-title {
     display: block !important;
-    font-size: 9pt !important;
+    font-size: 8.5pt !important; /* Increased from 7.5pt */
     font-weight: 600 !important;
-    margin: 0 0 0.05cm 0 !important;
-    padding: 0 !important;
-    padding-bottom: 0.05cm !important;
-    line-height: 1.2 !important;
+    margin: 0 0 0.02cm 0 !important; /* Further reduced margin */
+    padding: 0 0 0.02cm 0 !important; /* Further reduced padding */
+    padding-bottom: 0.02cm !important; /* Further reduced padding */
+    line-height: 1.1 !important; /* Tighter line height */
     border-bottom: 1px dotted #e0e0e0 !important;
     color: #2c3e50 !important;
 }
@@ -563,26 +563,26 @@ header {
 
 #projects .project-description {
     display: block !important;
-    font-size: 7.5pt !important;
-    margin: 0.05cm 0 !important;
+    font-size: 7.5pt !important; /* Increased from 6.5pt */
+    margin: 0.02cm 0 !important; /* Further reduced margin */
     padding: 0 !important;
-    line-height: 1.2 !important;
+    line-height: 1.1 !important; /* Tighter line height */
     color: #555 !important;
 }
 
 /* Modern tag styling for projects */
 #projects .project-tags {
-    margin: 0.05cm 0 0 0 !important;
+    margin: 0.02cm 0 0 0 !important; /* Further reduced margin */
     padding: 0 !important;
-    line-height: 1.2 !important;
+    line-height: 1.1 !important; /* Tighter line height */
     display: flex !important;
     flex-wrap: wrap !important;
-    gap: 0.05cm !important;
+    gap: 0.02cm !important; /* Further reduced gap */
 }
 
 #projects .badge {
-    font-size: 6.5pt !important;
-    padding: 0.03cm 0.08cm !important;
+    font-size: 6.5pt !important; /* Increased from 5.5pt */
+    padding: 0.01cm 0.03cm !important; /* Further reduced padding */
     margin: 0 !important;
     border: 1px solid #e0e0e0 !important;
     background-color: #f8f8f8 !important;
@@ -605,34 +605,35 @@ main > section:last-child {
 
 /* Modern typography improvements */
 h2, .card-title {
-    font-size: 12pt !important;
-    margin-bottom: 0.15cm !important;
+    font-size: 11pt !important; /* Increased from 10pt */
+    margin-bottom: 0.08cm !important; /* Further reduced margin */
     font-weight: 700 !important;
     color: #2c3e50 !important;
-    line-height: 1.1 !important;
+    line-height: 1 !important; /* Tighter line height */
 }
 
 h3 {
-    font-size: 11pt !important;
-    margin-bottom: 0.15cm !important;
+    font-size: 10pt !important; /* Increased from 9pt */
+    margin-bottom: 0.08cm !important; /* Further reduced margin */
     color: #2c3e50 !important;
     font-weight: 600 !important;
-    letter-spacing: 0.01cm !important;
-    line-height: 1.1 !important;
+    letter-spacing: 0 !important; /* Eliminated letter spacing */
+    line-height: 1 !important; /* Tighter line height */
 }
 
 h4 {
-    font-size: 10pt !important;
-    margin-bottom: 0.1cm !important;
+    font-size: 9.5pt !important; /* Increased from 8.5pt */
+    margin-bottom: 0.05cm !important; /* Further reduced margin */
     color: #2c3e50 !important;
     font-weight: 600 !important;
-    line-height: 1.1 !important;
+    line-height: 1 !important; /* Tighter line height */
 }
 
 p {
-    margin-bottom: 0.1cm !important;
+    margin-bottom: 0.05cm !important; /* Further reduced margin */
     color: #555 !important;
-    line-height: 1.2 !important;
+    line-height: 1.1 !important; /* Tighter line height */
+    font-size: 8.5pt !important; /* Added explicit font size for paragraphs */
 }
 
 /* Fix any floating elements */
@@ -659,60 +660,112 @@ p {
 
 /* Modern achievements & conferences section */
 #achievements .card-body {
-    padding: 0.12cm !important;
+    padding: 0.05cm !important;
+}
+
+/* First subrow heading for Achievements */
+#achievements .card-body::before {
+    content: "Achievements" !important;
+    display: block !important;
+    font-size: 8.5pt !important;
+    font-weight: 600 !important;
+    color: #2c3e50 !important;
+    margin-bottom: 0.05cm !important;
+    border-bottom: 1px solid #e0e0e0 !important;
+    padding-bottom: 0.02cm !important;
+    width: 100% !important;
+    clear: both !important;
+}
+
+/* Second subrow heading for Achievements */
+#achievements .card-body .achievement-divider {
+    content: "Olympiads & Competitions" !important;
+    display: block !important;
+    font-size: 8.5pt !important;
+    font-weight: 600 !important;
+    color: #2c3e50 !important;
+    margin: 0.1cm 0 0.05cm 0 !important;
+    border-bottom: 1px solid #e0e0e0 !important;
+    padding-bottom: 0.02cm !important;
+    width: 100% !important;
+    clear: both !important;
 }
 
 #achievements .row {
     display: flex !important;
     flex-wrap: wrap !important;
+    margin: 0 -0.02cm !important;
+    flex-direction: row !important;
 }
 
-#achievements .col-md-6, 
-#achievements .col-lg-4,
-#achievements .col-md-4,
-#achievements .col {
-    width: 100% !important;
-    max-width: 100% !important;
-    flex: 0 0 100% !important;
-    float: none !important;
-    display: block !important;
-    page-break-inside: auto !important;
-    break-inside: auto !important;
-    margin-bottom: 0.08cm !important;
-}
-
+/* Force 2×2 layout for achievements */
 #achievements .achievement-item,
 #achievements .conference-item {
-    margin-bottom: 0.1cm !important;
-    padding: 0.08cm !important;
-    border-bottom: 1px dotted #e0e0e0 !important;
+    width: 50% !important; /* 2 columns */
+    max-width: 50% !important;
+    float: left !important;
+    padding: 0 0.02cm !important;
+    margin-bottom: 0.05cm !important;
+    box-sizing: border-box !important;
+    flex: 0 0 50% !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    border: 1px solid #e0e0e0 !important;
+    border-radius: 2px !important;
+    box-shadow: none !important;
+    padding: 0.03cm !important;
+    background-color: #fff !important;
+    height: 2.2cm !important; /* Fixed height for subrow items */
+    overflow: hidden !important;
+    position: relative !important;
 }
 
-#achievements .achievement-item:last-child,
-#achievements .conference-item:last-child {
-    border-bottom: none !important;
+/* First subrow items (first 2) */
+#achievements .achievement-item:nth-child(-n+2) {
+    margin-bottom: 0.05cm !important;
+}
+
+/* Second subrow items (3rd and 4th) */
+#achievements .achievement-item:nth-child(n+3):nth-child(-n+4) {
+    margin-top: 0.05cm !important;
+}
+
+/* Hide items beyond the first 4 */
+#achievements .achievement-item:nth-child(n+5),
+#achievements .conference-item:nth-child(n+5) {
+    display: none !important;
 }
 
 #achievements h5, 
 #achievements h6, 
 #achievements .item-title {
-    font-size: 10pt !important;
-    margin-bottom: 0.05cm !important;
+    font-size: 9pt !important; /* Increased from 8pt */
+    margin-bottom: 0.02cm !important;
     font-weight: 600 !important;
     color: #2c3e50 !important;
+    line-height: 1.1 !important;
+    border-bottom: 1px dotted #e0e0e0 !important;
+    padding-bottom: 0.02cm !important;
 }
 
 #achievements p, 
 #achievements .item-description {
-    font-size: 9pt !important;
-    margin-bottom: 0.05cm !important;
+    font-size: 8pt !important; /* Increased from 7pt */
+    margin: 0.02cm 0 !important;
+    padding: 0 !important;
+    line-height: 1.1 !important;
     color: #555 !important;
+    max-height: 1.6cm !important; /* Adjusted for new height */
+    overflow: hidden !important;
 }
 
-#achievements .item-date,
-#achievements .badge {
-    font-size: 8pt !important;
+#achievements .item-date {
+    font-size: 7.5pt !important; /* Increased from 6.5pt */
     color: #7f8c8d !important;
+    font-style: italic !important;
+    position: absolute !important;
+    bottom: 0.03cm !important;
+    left: 0.03cm !important;
 }
 
 /* Modern section specific coloring */
@@ -741,7 +794,7 @@ p {
     border-color: #f3e5f5 !important;
 }
 
-#achievements {
+#certificates {
     border-color: #fce4ec !important;
 }
 
@@ -760,7 +813,7 @@ p {
     border: 1px solid #e0e0e0 !important;
     padding: 0.03cm 0.08cm !important;
     margin: 0.02cm !important;
-    font-size: 8pt !important;
+    font-size: 9pt !important; /* Increased from 8pt */
     font-weight: normal !important;
     text-transform: lowercase !important;
     border-radius: 50px !important; /* Rounded badges */
@@ -838,7 +891,7 @@ p {
 }
 
 .hobby-name {
-    font-size: 7pt !important;
+    font-size: 8pt !important; /* Increased from 7pt */
     text-align: center !important;
     color: #555 !important;
 }
@@ -868,7 +921,7 @@ p {
 }
 
 .social-text {
-    font-size: 8pt !important;
+    font-size: 9pt !important; /* Increased from 8pt */
     color: #555 !important;
 }
 
@@ -943,7 +996,7 @@ p {
 
 /* Create a compact summary option for very tight space requirements */
 .compact-summary {
-    font-size: 7.5pt !important;
+    font-size: 8.5pt !important; /* Increased from 7.5pt */
     line-height: 1.1 !important;
     max-height: 1.6cm !important;
     overflow: hidden !important;
@@ -989,11 +1042,11 @@ p {
 
 /* Make entire profile more compact */
 #profile .row {
-    padding: 0.12cm !important; /* Further reduced padding */
+    padding: 0.1cm !important; /* Further reduced padding */
 }
 
 #profile {
-    margin-bottom: 0.12cm !important; /* Further reduced margin */
+    margin-bottom: 0.1cm !important; /* Further reduced margin */
 }
 
 /* Add compact spacing for section titles */
@@ -1001,27 +1054,28 @@ section > h2,
 section > h3,
 section > .card-title,
 .section-title {
-    margin-top: 0.1cm !important;
-    margin-bottom: 0.1cm !important;
-    line-height: 1.1 !important;
+    margin-top: 0.08cm !important; /* Further reduced margin */
+    margin-bottom: 0.08cm !important; /* Further reduced margin */
+    line-height: 1 !important; /* Tighter line height */
 }
 
 /* Further optimize section cards */
 section > .card {
-    margin-top: 0.1cm !important;
-    margin-bottom: 0.15cm !important;
+    margin-top: 0.08cm !important; /* Further reduced margin */
+    margin-bottom: 0.12cm !important; /* Further reduced margin */
 }
 
 /* Reduce space between list items */
 ul, ol {
-    margin-top: 0.05cm !important;
-    margin-bottom: 0.05cm !important;
-    padding-left: 0.4cm !important;
+    margin-top: 0.03cm !important; /* Further reduced margin */
+    margin-bottom: 0.03cm !important; /* Further reduced margin */
+    padding-left: 0.35cm !important; /* Further reduced padding */
 }
 
 li {
-    margin-bottom: 0.03cm !important;
-    line-height: 1.2 !important;
+    margin-bottom: 0.02cm !important; /* Further reduced margin */
+    line-height: 1.1 !important; /* Tighter line height */
+    font-size: 8.5pt !important; /* Added explicit font size for list items */
 }
 
 /* Reduce space between paragraphs */
@@ -1031,21 +1085,471 @@ p + p {
 
 /* Optimize blockquotes and other text elements */
 blockquote {
-    margin: 0.1cm 0 !important;
-    padding: 0.08cm 0.15cm !important;
-    border-left: 2px solid #3498db !important;
-    font-size: 9pt !important;
-    line-height: 1.2 !important;
+    margin: 0.08cm 0 !important; /* Further reduced margin */
+    padding: 0.05cm 0.1cm !important; /* Further reduced padding */
+    border-left: 1px solid #3498db !important; /* Thinner border */
+    font-size: 9pt !important; /* Increased from 8pt */
+    line-height: 1.1 !important; /* Tighter line height */
 }
 
 /* Optimize table spacing */
 table {
-    margin: 0.1cm 0 !important;
+    margin: 0.08cm 0 !important; /* Further reduced margin */
     border-collapse: collapse !important;
 }
 
 th, td {
-    padding: 0.05cm 0.1cm !important;
+    padding: 0.03cm 0.08cm !important; /* Further reduced padding */
+    font-size: 9pt !important; /* Increased from 8pt */
+    line-height: 1.1 !important; /* Tighter line height */
+}
+
+/* Skills section - enable columns for better space usage */
+#skills .card-body {
+    columns: 2 !important; /* Use 2 columns to save space */
+    column-gap: 0.2cm !important;
+    padding: 0.08cm 0.12cm !important; /* Further reduced padding */
+}
+
+.skill-category {
+    margin-bottom: 0.12cm !important; /* Further reduced margin */
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+}
+
+#skills h4 {
+    font-size: 10pt !important; /* Increased from 9pt */
+    margin-top: 0.08cm !important; /* Further reduced margin */
+    margin-bottom: 0.08cm !important; /* Further reduced margin */
+    font-weight: 600 !important;
+    color: #2c3e50 !important;
+    border-bottom: 1px solid #eaeaea !important;
+    padding-bottom: 0.02cm !important; /* Further reduced padding */
+    line-height: 1.1 !important; /* Tighter line height */
+}
+
+.skill-tags {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.05cm !important; /* Further reduced gap */
+    padding: 0.03cm 0 !important; /* Further reduced padding */
+}
+
+/* Modern badge styling with subtle colors */
+#skills .badge {
+    font-size: 8pt !important; /* Increased from 7pt */
+    padding: 0.05cm 0.1cm !important; /* Further reduced padding */
+    margin: 0.01cm !important; /* Further reduced margin */
+    background-color: #f8f9fa !important;
+    color: #333 !important;
+    border: 1px solid #e0e0e0 !important;
+    border-radius: 50px !important;
+    font-weight: normal !important;
+}
+
+/* Timeline items optimization */
+.timeline-item {
+    padding-left: 0.35cm !important; /* Further reduced padding */
+    margin-bottom: 0.12cm !important; /* Further reduced margin */
+    border-left: 1px solid #3498db !important;
+    break-inside: avoid !important;
+    position: relative !important;
+}
+
+.timeline-item::before {
+    content: '' !important;
+    position: absolute !important;
+    width: 6px !important; /* Smaller bullet */
+    height: 6px !important; /* Smaller bullet */
+    left: -4px !important;
+    top: 0.1cm !important;
+    background-color: #3498db !important;
+    border-radius: 50% !important;
+}
+
+.timeline-title {
+    font-size: 9.5pt !important; /* Increased from 8.5pt */
+    margin-bottom: 0.03cm !important; /* Further reduced margin */
+    font-weight: 600 !important;
+    color: #2c3e50 !important;
+    line-height: 1 !important; /* Tighter line height */
+}
+
+.timeline-subtitle {
+    font-size: 8.5pt !important; /* Increased from 7.5pt */
+    font-weight: normal !important;
+    line-height: 1 !important; /* Tighter line height */
+    color: #3498db !important;
+}
+
+.timeline-date, .timeline-location {
+    font-size: 7.5pt !important; /* Increased from 6.5pt */
+    display: inline-block !important;
+    margin-right: 0.15cm !important; /* Further reduced margin */
+    color: #7f8c8d !important;
+}
+
+.timeline-content ul {
+    margin: 0.03cm 0 !important; /* Further reduced margin */
+    padding-left: 0.3cm !important; /* Further reduced padding */
+}
+
+.timeline-content li {
+    font-size: 8.5pt !important; /* Increased from 7.5pt */
+    margin-bottom: 0.02cm !important; /* Further reduced margin */
+    line-height: 1.1 !important; /* Tighter line height */
+    color: #555 !important;
+}
+
+/* Projects section - optimize for space */
+#projects .col-md-6, 
+#projects .col-lg-4 {
+    width: 50% !important; /* Two columns layout */
+    padding: 0 0.03cm !important; /* Further reduced padding */
+    margin-bottom: 0.08cm !important; /* Further reduced margin */
+}
+
+#projects .card-header {
+    margin-bottom: 0.02cm !important; /* Further reduced margin */
+    padding: 0.05cm 0.08cm !important; /* Further reduced padding */
+}
+
+#projects .card-body {
+    padding: 0.05cm !important; /* Further reduced padding */
+}
+
+#projects .project-card {
+    margin-bottom: 0.08cm !important; /* Further reduced margin */
+    padding: 0.05cm !important; /* Further reduced padding */
+}
+
+#projects h5.project-title {
+    font-size: 8.5pt !important; /* Increased from 7.5pt */
+    margin: 0 0 0.03cm 0 !important; /* Further reduced margin */
+    padding: 0 0 0.03cm 0 !important; /* Further reduced padding */
+    padding-bottom: 0.03cm !important; /* Further reduced padding */
+    line-height: 1.1 !important; /* Tighter line height */
+}
+
+#projects .project-description {
+    font-size: 7.5pt !important; /* Increased from 6.5pt */
+    margin: 0.03cm 0 !important; /* Further reduced margin */
+    line-height: 1.1 !important; /* Tighter line height */
+}
+
+#projects .project-tags {
+    margin: 0.03cm 0 0 0 !important; /* Further reduced margin */
+    gap: 0.03cm !important; /* Further reduced gap */
+}
+
+#projects .badge {
+    font-size: 6.5pt !important; /* Increased from 5.5pt */
+    padding: 0.02cm 0.05cm !important; /* Further reduced padding */
+}
+
+/* Certificates section with subrow layout */
+#certificates .card-body {
+    padding: 0.05cm !important;
+    clear: both !important;
+    margin-top: 0.1cm !important;
+}
+
+/* First subrow heading for Certificates */
+#certificates .card-body::before {
+    content: "Technical Certifications" !important;
+    display: block !important;
     font-size: 8.5pt !important;
+    font-weight: 600 !important;
+    color: #2c3e50 !important;
+    margin-bottom: 0.05cm !important;
+    border-bottom: 1px solid #e0e0e0 !important;
+    padding-bottom: 0.02cm !important;
+    width: 100% !important;
+    clear: both !important;
+}
+
+/* Second subrow heading for Certificates */
+#certificates .card-body .certificate-divider {
+    content: "Online Courses" !important;
+    display: block !important;
+    font-size: 8.5pt !important;
+    font-weight: 600 !important;
+    color: #2c3e50 !important;
+    margin: 0.1cm 0 0.05cm 0 !important;
+    border-bottom: 1px solid #e0e0e0 !important;
+    padding-bottom: 0.02cm !important;
+    width: 100% !important;
+    clear: both !important;
+}
+
+#certificates .row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    margin: 0 -0.02cm !important;
+    flex-direction: row !important;
+}
+
+/* Force 2×2 layout for certificates */
+#certificates .certificate-item {
+    width: 50% !important; /* 2 columns */
+    max-width: 50% !important;
+    float: left !important;
+    padding: 0 0.02cm !important;
+    margin-bottom: 0.05cm !important;
+    box-sizing: border-box !important;
+    flex: 0 0 50% !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    border: 1px solid #e0e0e0 !important;
+    border-radius: 2px !important;
+    box-shadow: none !important;
+    padding: 0.03cm !important;
+    background-color: #fff !important;
+    height: 2.2cm !important; /* Fixed height for subrow items */
+    overflow: hidden !important;
+    position: relative !important;
+}
+
+/* First subrow items (first 2) */
+#certificates .certificate-item:nth-child(-n+2) {
+    margin-bottom: 0.05cm !important;
+}
+
+/* Second subrow items (3rd and 4th) */
+#certificates .certificate-item:nth-child(n+3):nth-child(-n+4) {
+    margin-top: 0.05cm !important;
+}
+
+/* Hide items beyond the first 4 */
+#certificates .certificate-item:nth-child(n+5) {
+    display: none !important;
+}
+
+#certificates h5, 
+#certificates .certificate-title {
+    font-size: 9pt !important; /* Increased from 8pt */
+    margin: 0 0 0.02cm 0 !important;
+    font-weight: 600 !important;
+    color: #2c3e50 !important;
+    line-height: 1.1 !important;
+    border-bottom: 1px dotted #e0e0e0 !important;
+    padding-bottom: 0.02cm !important;
+}
+
+#certificates p, 
+#certificates .certificate-issuer {
+    font-size: 8pt !important; /* Increased from 7pt */
+    margin: 0.02cm 0 !important;
+    padding: 0 !important;
+    line-height: 1.1 !important;
+    color: #555 !important;
+    max-height: 1.6cm !important; /* Adjusted for new height */
+    overflow: hidden !important;
+}
+
+#certificates .certificate-date {
+    font-size: 7.5pt !important; /* Increased from 6.5pt */
+    font-style: italic !important;
+    color: #7f8c8d !important;
+    position: absolute !important;
+    bottom: 0.03cm !important;
+    left: 0.03cm !important;
+}
+
+/* Add divider styles for DOM insertion via JavaScript */
+.achievement-divider,
+.certificate-divider {
+    display: block !important;
+    width: 100% !important;
+    clear: both !important;
+    margin: 0.1cm 0 0.05cm 0 !important;
+}
+
+/* Fix for layout issues with floated elements */
+#certificates .row:after {
+    content: "" !important;
+    display: table !important;
+    clear: both !important;
+}
+
+/* Force page break between sections if needed */
+#certificates {
+    page-break-before: auto !important;
+    break-before: auto !important;
+    clear: both !important;
+}
+
+/* Reduce space between sections */
+#profile, #experience, #education, #skills, #achievements, #projects, #certificates {
+    margin-bottom: 0.08cm !important; /* Consistent reduced margin */
+}
+
+/* Even more aggressive page break behavior */
+#certificates,
+#achievements {
+    break-before: auto !important;
+    page-break-before: auto !important;
+}
+
+/* Set explicit section ordering for print */
+@media print {
+    main {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    
+    #profile { order: 1 !important; }
+    #experience { order: 2 !important; }
+    #education { order: 3 !important; }
+    #skills { order: 4 !important; }
+    #projects { order: 5 !important; }
+    #certificates { order: 6 !important; }
+    #achievements { order: 7 !important; }
+}
+
+/* Achievements & Certificates section overall styling */
+#achievements-certificates .card-header h3 {
+    font-size: 10pt !important;
+    font-weight: 700 !important;
+    margin-bottom: 0.08cm !important;
+    color: #2c3e50 !important;
+}
+
+/* Main section headers */
+#achievements-certificates h4 {
+    font-size: 9pt !important;
+    font-weight: 600 !important;
+    color: #2c3e50 !important;
+    margin-top: 0.1cm !important;
+    margin-bottom: 0.08cm !important;
+    padding-bottom: 0.02cm !important;
+    border-bottom: 1px solid #e0e0e0 !important;
+    width: 100% !important;
+    clear: both !important;
+}
+
+/* Achievement items layout */
+#achievements-certificates .row {
+    display: block !important;
+    width: 100% !important;
+    clear: both !important;
+}
+
+/* Achievement items - General styling */
+#achievements-certificates .achievement-item,
+#achievements-certificates .certificate-item,
+#achievements-certificates .conference-item {
+    width: 50% !important;
+    float: left !important;
+    padding: 0 0.02cm !important;
+    margin-bottom: 0.08cm !important;
+    box-sizing: border-box !important;
+    border: 1px solid #e0e0e0 !important;
+    border-radius: 2px !important;
+    background-color: #fff !important;
+    padding: 0.05cm !important;
+    height: 2.5cm !important;
+    overflow: hidden !important;
+    position: relative !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+}
+
+/* Clear after every second item */
+#achievements-certificates .achievement-item:nth-child(2n+1),
+#achievements-certificates .certificate-item:nth-child(2n+1),
+#achievements-certificates .conference-item:nth-child(2n+1) {
+    clear: left !important;
+}
+
+/* Title styling */
+#achievements-certificates .achievement-item h5,
+#achievements-certificates .certificate-item h5,
+#achievements-certificates .conference-item h5,
+#achievements-certificates .item-title,
+#achievements-certificates .certificate-title {
+    font-size: 9pt !important; /* Increased from 8pt */
+    font-weight: 600 !important;
+    color: #2c3e50 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0.03cm !important;
+    padding-bottom: 0.03cm !important;
+    border-bottom: 1px dotted #e0e0e0 !important;
     line-height: 1.2 !important;
+}
+
+/* Description styling */
+#achievements-certificates .achievement-item p,
+#achievements-certificates .certificate-item p,
+#achievements-certificates .conference-item p,
+#achievements-certificates .item-description,
+#achievements-certificates .certificate-issuer {
+    font-size: 8pt !important; /* Increased from 7pt */
+    color: #555 !important;
+    margin: 0.02cm 0 !important;
+    padding: 0 !important;
+    line-height: 1.2 !important;
+    max-height: 1.8cm !important;
+    overflow: hidden !important;
+}
+
+/* Date styling */
+#achievements-certificates .item-date,
+#achievements-certificates .certificate-date {
+    font-size: 7.5pt !important; /* Increased from 6.5pt */
+    color: #7f8c8d !important;
+    font-style: italic !important;
+    position: absolute !important;
+    bottom: 0.03cm !important;
+    left: 0.05cm !important;
+}
+
+/* View links */
+#achievements-certificates .view-link {
+    position: absolute !important;
+    bottom: 0.03cm !important;
+    right: 0.05cm !important;
+    font-size: 7.5pt !important; /* Increased from 6.5pt */
+    color: #3498db !important;
+}
+
+/* Handle the specific sections */
+/* First subsection - Achievements */
+#achievements-certificates h4:first-of-type {
+    margin-top: 0 !important;
+}
+
+#achievements-certificates h4:first-of-type + .achievement-item,
+#achievements-certificates h4:first-of-type + .achievement-item + .achievement-item,
+#achievements-certificates h4:first-of-type + .achievement-item + .achievement-item + .achievement-item,
+#achievements-certificates h4:first-of-type + .achievement-item + .achievement-item + .achievement-item + .achievement-item {
+    display: block !important;
+}
+
+/* Certificates section */
+#achievements-certificates h4:nth-of-type(2) {
+    margin-top: 0.2cm !important;
+    clear: both !important;
+}
+
+#achievements-certificates h4:nth-of-type(2) + .certificate-item,
+#achievements-certificates h4:nth-of-type(2) + .certificate-item + .certificate-item,
+#achievements-certificates h4:nth-of-type(2) + .certificate-item + .certificate-item + .certificate-item,
+#achievements-certificates h4:nth-of-type(2) + .certificate-item + .certificate-item + .certificate-item + .certificate-item {
+    display: block !important;
+}
+
+/* Hide excess items */
+#achievements-certificates .achievement-item:nth-of-type(n+7),
+#achievements-certificates .certificate-item:nth-of-type(n+7),
+#achievements-certificates .conference-item:nth-of-type(n+7) {
+    display: none !important;
+}
+
+/* Clear floats after sections */
+#achievements-certificates h4 + div:after,
+#achievements-certificates .row:after {
+    content: "" !important;
+    display: table !important;
+    clear: both !important;
 } 

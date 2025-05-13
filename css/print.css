@@ -2,7 +2,7 @@
 
 @page {
     size: A4;
-    margin: 0.8cm;
+    margin: 0.6cm;
 }
 
 @media print {
@@ -36,10 +36,10 @@
     
     /* General Print Settings */
     body, body.is-printing, body.preparing-for-print {
-        font-size: 10pt !important;
-        line-height: 1.3 !important; /* Slightly increased line height */
+        font-size: 9pt !important;
+        line-height: 1.2 !important;
         background: #fff !important;
-        color: #333 !important; /* Slightly darker text for better contrast */
+        color: #333 !important;
         margin: 0 !important;
         padding: 0 !important;
         width: 100% !important;
@@ -80,7 +80,7 @@
         display: block !important;
         visibility: visible !important;
         overflow: visible !important;
-        margin-bottom: 0.15cm !important;
+        margin-bottom: 0.1cm !important;
         page-break-inside: auto !important;
         break-inside: auto !important;
     }
@@ -90,7 +90,7 @@
         box-shadow: none !important;
         border: 1px solid #e0e0e0 !important;
         border-radius: 4px !important;
-        margin-bottom: 0.25cm !important;
+        margin-bottom: 0.15cm !important;
         page-break-inside: auto !important;
         break-inside: auto !important;
         background-color: #fff !important;
@@ -100,8 +100,8 @@
         background: #f8f9fa !important;
         color: #333 !important;
         border-bottom: 1px solid #eaeaea !important;
-        padding: 0.15cm 0.25cm !important;
-        margin-bottom: 0.1cm !important;
+        padding: 0.1cm 0.2cm !important;
+        margin-bottom: 0.05cm !important;
         break-after: avoid !important;
         page-break-after: avoid !important;
         font-weight: 600 !important;
@@ -113,7 +113,7 @@
     }
     
     .card-body {
-        padding: 0.15cm 0.25cm !important;
+        padding: 0.1cm 0.2cm !important;
     }
     
     /* Override profile layout completely */
@@ -127,8 +127,8 @@
     }
     
     #profile .row {
-        position: static !important; /* Static positioning to avoid flex issues */
-        display: block !important; /* Block display instead of flex to avoid flex issues */
+        position: static !important;
+        display: block !important;
         width: 100% !important;
         height: auto !important;
         min-height: 2.5cm !important;
@@ -143,8 +143,8 @@
     #profile div[class*="col-md-3"],
     #profile .profile-image-col {
         position: absolute !important;
-        top: 0.12cm !important; /* Match top padding */
-        right: 0.12cm !important; /* Match right padding */
+        top: 0.12cm !important;
+        right: 0.12cm !important;
         width: 2.2cm !important;
         max-width: 2.2cm !important;
         min-width: 2.2cm !important;
@@ -153,7 +153,7 @@
         margin: 0 !important;
         text-align: right !important;
         float: right !important;
-        z-index: 2 !important; /* Ensure it's above other content */
+        z-index: 2 !important;
     }
     
     /* Force image container styling for right alignment */
@@ -194,7 +194,7 @@
         position: static !important;
         width: calc(100% - 2.5cm) !important;
         max-width: calc(100% - 2.5cm) !important;
-        padding-right: 2.5cm !important; /* Reserve space for the image */
+        padding-right: 2.5cm !important;
         padding-left: 0 !important;
         margin: 0 !important;
         text-align: left !important;
@@ -220,7 +220,7 @@
         font-size: 15pt !important;
         margin-top: 0 !important;
         margin-bottom: 0 !important;
-        line-height: 1.1 !important;
+        line-height: 1 !important;
         font-weight: 700 !important;
         color: #2c3e50 !important;
         letter-spacing: 0.01cm !important;
@@ -231,8 +231,8 @@
     #profile .profile-title {
         font-size: 10pt !important;
         margin-top: 0 !important;
-        margin-bottom: 0.05cm !important;
-        line-height: 1.1 !important;
+        margin-bottom: 0.03cm !important;
+        line-height: 1 !important;
         color: #3498db !important;
         font-weight: 600 !important;
         text-align: left !important;
@@ -240,10 +240,10 @@
     
     #profile .lead,
     #profile .profile-summary {
-        font-size: 8pt !important;
+        font-size: 7pt !important;
         margin-top: 0 !important;
-        margin-bottom: 0.08cm !important;
-        line-height: 1.1 !important;
+        margin-bottom: 0.05cm !important;
+        line-height: 1 !important;
         color: #555 !important;
         max-width: 100% !important;
         display: block !important;
@@ -256,8 +256,8 @@
     .profile-contacts {
         display: flex !important;
         flex-wrap: wrap !important;
-        gap: 0.03cm !important;
-        margin-top: 0.05cm !important;
+        gap: 0.02cm !important;
+        margin-top: 0.03cm !important;
         margin-bottom: 0 !important;
         padding: 0 !important;
         width: 100% !important;
@@ -266,12 +266,12 @@
     .contact-item,
     .profile-contact-item {
         width: 32% !important;
-        padding: 0.03cm 0 !important;
+        padding: 0.02cm 0 !important;
         background: none !important;
-        margin-bottom: 0.02cm !important;
+        margin-bottom: 0.01cm !important;
         display: flex !important;
         align-items: center !important;
-        font-size: 7.5pt !important;
+        font-size: 7pt !important;
         white-space: nowrap !important;
         overflow: hidden !important;
         text-overflow: ellipsis !important;
@@ -279,44 +279,45 @@
     
     /* Skills section - modern badge layout */
     #skills .card-body {
-        columns: 1 !important;
-        column-gap: 0 !important;
+        columns: 2 !important;
+        column-gap: 0.15cm !important;
+        padding: 0.05cm 0.1cm !important;
     }
     
     .skill-category {
-        margin-bottom: 0.25cm !important;
+        margin-bottom: 0.15cm !important;
         break-inside: avoid !important;
         page-break-inside: avoid !important;
     }
     
     #skills h4 {
-        font-size: 11pt !important;
-        margin-top: 0.15cm !important;
-        margin-bottom: 0.15cm !important;
+        font-size: 10pt !important;
+        margin-top: 0.1cm !important;
+        margin-bottom: 0.1cm !important;
         break-after: avoid !important;
         page-break-after: avoid !important;
         font-weight: 600 !important;
         color: #2c3e50 !important;
         border-bottom: 1px solid #eaeaea !important;
-        padding-bottom: 0.05cm !important;
+        padding-bottom: 0.03cm !important;
     }
     
     .skill-tags {
         display: flex !important;
         flex-wrap: wrap !important;
-        gap: 0.1cm !important;
-        padding: 0.08cm 0 !important;
+        gap: 0.08cm !important;
+        padding: 0.05cm 0 !important;
     }
     
     /* Modern badge styling with subtle colors */
     #skills .badge {
-        font-size: 8pt !important;
-        padding: 0.08cm 0.15cm !important;
+        font-size: 7pt !important;
+        padding: 0.05cm 0.1cm !important;
         margin: 0 !important;
         background-color: #f8f8f8 !important;
         color: #333 !important;
         border: 1px solid #e0e0e0 !important;
-        border-radius: 50px !important; /* Rounded badges */
+        border-radius: 50px !important;
         display: inline-block !important;
         line-height: 1.1 !important;
         font-weight: normal !important;
@@ -360,9 +361,9 @@
     
     /* Modern timeline items with accent color */
     .timeline-item {
-        padding-left: 0.5cm !important;
-        margin-bottom: 0.2cm !important;
-        border-left: 2px solid #3498db !important; /* Blue accent color */
+        padding-left: 0.4cm !important;
+        margin-bottom: 0.15cm !important;
+        border-left: 2px solid #3498db !important;
         break-inside: auto !important;
         page-break-inside: auto !important;
         position: relative !important;
@@ -375,41 +376,43 @@
         height: 10px !important;
         left: -6px !important;
         top: 0.15cm !important;
-        background-color: #3498db !important; /* Blue accent color */
+        background-color: #3498db !important;
         border-radius: 50% !important;
         print-color-adjust: exact !important;
         -webkit-print-color-adjust: exact !important;
     }
     
     .timeline-title {
-        font-size: 11pt !important;
-        margin-bottom: 0.1cm !important;
+        font-size: 10pt !important;
+        margin-bottom: 0.05cm !important;
         font-weight: 600 !important;
         color: #2c3e50 !important;
+        line-height: 1.1 !important;
     }
     
     .timeline-subtitle {
-        font-size: 10pt !important;
+        font-size: 9pt !important;
         font-weight: normal !important;
-        color: #3498db !important; /* Blue accent color */
+        color: #3498db !important;
+        line-height: 1.1 !important;
     }
     
     .timeline-date, .timeline-location {
-        font-size: 9pt !important;
+        font-size: 8pt !important;
         display: inline-block !important;
-        margin-right: 0.3cm !important;
-        color: #7f8c8d !important; /* Subtle gray */
+        margin-right: 0.2cm !important;
+        color: #7f8c8d !important;
     }
     
     .timeline-content ul {
-        margin: 0.1cm 0 !important;
-        padding-left: 0.6cm !important;
+        margin: 0.05cm 0 !important;
+        padding-left: 0.5cm !important;
     }
     
     .timeline-content li {
-        font-size: 9pt !important;
-        margin-bottom: 0.05cm !important;
-        line-height: 1.3 !important;
+        font-size: 8pt !important;
+        margin-bottom: 0.03cm !important;
+        line-height: 1.2 !important;
         color: #555 !important;
     }
     
@@ -480,7 +483,7 @@
     #projects .col-md-6, 
     #projects .col-lg-4 {
         display: inline-block !important;
-        width: 50% !important; /* Two columns layout */
+        width: 50% !important;
         max-width: 50% !important;
         float: left !important;
         padding: 0 0.05cm !important;
@@ -552,13 +555,13 @@
         border: 1px solid #e0e0e0 !important;
         background-color: #f8f8f8 !important;
         color: #555 !important;
-        border-radius: 50px !important; /* Rounded badges */
+        border-radius: 50px !important;
         display: inline-block !important;
         font-style: normal !important;
     }
     
     #projects .badge:after {
-        content: "" !important; /* Remove comma */
+        content: "" !important;
     }
     
     /* Fix any element that might be causing page breaks */
@@ -574,22 +577,22 @@
     
     /* Modern typography improvements */
     h3 {
-        font-size: 13pt !important;
-        margin-bottom: 0.2cm !important;
-        color: #2c3e50 !important; /* Dark blue-gray */
+        font-size: 12pt !important;
+        margin-bottom: 0.15cm !important;
+        color: #2c3e50 !important;
         font-weight: 600 !important;
         letter-spacing: 0.02cm !important;
     }
     
     h4 {
-        font-size: 11pt !important;
-        margin-bottom: 0.15cm !important;
+        font-size: 10pt !important;
+        margin-bottom: 0.1cm !important;
         color: #2c3e50 !important;
         font-weight: 600 !important;
     }
     
     p {
-        margin-bottom: 0.15cm !important;
+        margin-bottom: 0.1cm !important;
         color: #555 !important;
     }
     
@@ -615,89 +618,255 @@
         margin-top: 0 !important;
     }
     
-    /* Modern achievements & conferences section */
+    /* Achievements section with subrow layout */
     #achievements .card-body {
-        padding: 0.15cm !important;
+        padding: 0.08cm !important;
+    }
+    
+    /* First subrow heading for Achievements */
+    #achievements .card-body::before {
+        content: "Achievements" !important;
+        display: block !important;
+        font-size: 10pt !important;
+        font-weight: 600 !important;
+        color: #2c3e50 !important;
+        margin-bottom: 0.08cm !important;
+        border-bottom: 1px solid #e0e0e0 !important;
+        padding-bottom: 0.03cm !important;
+        width: 100% !important;
+        clear: both !important;
+    }
+    
+    /* Second subrow heading for Achievements */
+    #achievements .card-body .achievement-divider {
+        content: "Olympiads & Competitions" !important;
+        display: block !important;
+        font-size: 10pt !important;
+        font-weight: 600 !important;
+        color: #2c3e50 !important;
+        margin: 0.15cm 0 0.08cm 0 !important;
+        border-bottom: 1px solid #e0e0e0 !important;
+        padding-bottom: 0.03cm !important;
+        width: 100% !important;
+        clear: both !important;
     }
     
     #achievements .row {
         display: flex !important;
         flex-wrap: wrap !important;
+        margin: 0 -0.05cm !important;
+        flex-direction: row !important;
     }
     
-    #achievements .col-md-6, 
-    #achievements .col-lg-4,
-    #achievements .col-md-4,
-    #achievements .col {
-        width: 100% !important;
-        max-width: 100% !important;
-        flex: 0 0 100% !important;
-        float: none !important;
-        display: block !important;
-        page-break-inside: auto !important;
-        break-inside: auto !important;
+    /* Force subrow layout for achievements */
+    #achievements .achievement-item,
+    #achievements .conference-item {
+        width: 50% !important; /* 2 columns */
+        max-width: 50% !important;
+        float: left !important;
+        padding: 0 0.05cm !important;
+        margin-bottom: 0.08cm !important;
+        box-sizing: border-box !important;
+        flex: 0 0 50% !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+        border: 1px solid #e0e0e0 !important;
+        border-radius: 4px !important;
+        box-shadow: none !important;
+        padding: 0.05cm !important;
+        background-color: #fff !important;
+        height: 3.0cm !important; /* Fixed height for subrow items */
+        overflow: hidden !important;
+        position: relative !important;
+    }
+    
+    /* First subrow items (first 2) */
+    #achievements .achievement-item:nth-child(-n+2) {
         margin-bottom: 0.1cm !important;
     }
     
-    #achievements .achievement-item,
-    #achievements .conference-item {
-        margin-bottom: 0.15cm !important;
-        padding: 0.08cm !important;
-        border-bottom: 1px dotted #e0e0e0 !important;
+    /* Second subrow items (3rd and 4th) */
+    #achievements .achievement-item:nth-child(n+3):nth-child(-n+4) {
+        margin-top: 0.05cm !important;
     }
     
-    #achievements .achievement-item:last-child,
-    #achievements .conference-item:last-child {
-        border-bottom: none !important;
+    /* Hide items beyond the first 4 */
+    #achievements .achievement-item:nth-child(n+5),
+    #achievements .conference-item:nth-child(n+5) {
+        display: none !important;
     }
     
     #achievements h5, 
     #achievements h6, 
     #achievements .item-title {
-        font-size: 10pt !important;
-        margin-bottom: 0.05cm !important;
+        font-size: 9.5pt !important;
+        margin-bottom: 0.03cm !important;
         font-weight: 600 !important;
         color: #2c3e50 !important;
+        line-height: 1.2 !important;
+        border-bottom: 1px dotted #e0e0e0 !important;
+        padding-bottom: 0.03cm !important;
     }
     
     #achievements p, 
     #achievements .item-description {
-        font-size: 9pt !important;
-        margin-bottom: 0.05cm !important;
+        font-size: 8.5pt !important;
+        margin-bottom: 0.03cm !important;
         color: #555 !important;
+        line-height: 1.2 !important;
+        max-height: 2.2cm !important; /* Limit content height */
+        overflow: hidden !important;
     }
     
-    #achievements .item-date,
-    #achievements .item-location {
-        font-size: 8pt !important;
-        color: #7f8c8d !important; /* Subtle gray */
+    #achievements .item-date {
+        font-size: 7.5pt !important;
+        color: #7f8c8d !important;
+        font-style: italic !important;
+        position: absolute !important;
+        bottom: 0.05cm !important;
+        left: 0.05cm !important;
     }
     
-    /* Force a clear positioning context for the entire page */
-    body {
+    /* Certificates section with subrow layout */
+    #certificates .card-body {
+        padding: 0.08cm !important;
+        clear: both !important;
+        margin-top: 0.15cm !important;
+    }
+    
+    /* First subrow heading for Certificates */
+    #certificates .card-body::before {
+        content: "Technical Certifications" !important;
+        display: block !important;
+        font-size: 10pt !important;
+        font-weight: 600 !important;
+        color: #2c3e50 !important;
+        margin-bottom: 0.08cm !important;
+        border-bottom: 1px solid #e0e0e0 !important;
+        padding-bottom: 0.03cm !important;
+        width: 100% !important;
+        clear: both !important;
+    }
+    
+    /* Second subrow heading for Certificates */
+    #certificates .card-body .certificate-divider {
+        content: "Online Courses" !important;
+        display: block !important;
+        font-size: 10pt !important;
+        font-weight: 600 !important;
+        color: #2c3e50 !important;
+        margin: 0.15cm 0 0.08cm 0 !important;
+        border-bottom: 1px solid #e0e0e0 !important;
+        padding-bottom: 0.03cm !important;
+        width: 100% !important;
+        clear: both !important;
+    }
+    
+    #certificates .row {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        margin: 0 -0.05cm !important;
+        flex-direction: row !important;
+    }
+    
+    /* Force subrow layout for certificates */
+    #certificates .certificate-item {
+        width: 50% !important; /* 2 columns */
+        max-width: 50% !important;
+        float: left !important;
+        padding: 0 0.05cm !important;
+        margin-bottom: 0.08cm !important;
+        box-sizing: border-box !important;
+        flex: 0 0 50% !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+        border: 1px solid #e0e0e0 !important;
+        border-radius: 4px !important;
+        box-shadow: none !important;
+        padding: 0.05cm !important;
+        background-color: #fff !important;
+        height: 3.0cm !important; /* Fixed height for subrow items */
+        overflow: hidden !important;
         position: relative !important;
     }
     
-    /* Set the order of sections */
-    #experience {
-        order: 2 !important;
+    /* First subrow items (first 2) */
+    #certificates .certificate-item:nth-child(-n+2) {
+        margin-bottom: 0.1cm !important;
     }
     
-    #education {
-        order: 3 !important;
+    /* Second subrow items (3rd and 4th) */
+    #certificates .certificate-item:nth-child(n+3):nth-child(-n+4) {
+        margin-top: 0.05cm !important;
     }
     
-    #skills {
-        order: 4 !important;
+    /* Hide items beyond the first 4 */
+    #certificates .certificate-item:nth-child(n+5) {
+        display: none !important;
     }
     
-    #projects {
-        order: 5 !important;
+    #certificates h5, 
+    #certificates .certificate-title {
+        font-size: 9.5pt !important;
+        margin-bottom: 0.03cm !important;
+        font-weight: 600 !important;
+        color: #2c3e50 !important;
+        line-height: 1.2 !important;
+        border-bottom: 1px dotted #e0e0e0 !important;
+        padding-bottom: 0.03cm !important;
     }
     
-    #achievements {
-        order: 6 !important;
+    #certificates p, 
+    #certificates .certificate-issuer {
+        font-size: 8.5pt !important;
+        margin-bottom: 0.03cm !important;
+        color: #555 !important;
+        line-height: 1.2 !important;
+        max-height: 2.2cm !important; /* Limit content height */
+        overflow: hidden !important;
     }
+    
+    #certificates .certificate-date {
+        font-size: 7.5pt !important;
+        font-style: italic !important;
+        color: #7f8c8d !important;
+        position: absolute !important;
+        bottom: 0.05cm !important;
+        left: 0.05cm !important;
+    }
+    
+    /* Add divider styles for DOM insertion via JavaScript */
+    .achievement-divider,
+    .certificate-divider {
+        display: block !important;
+        width: 100% !important;
+        clear: both !important;
+        margin: 0.15cm 0 0.08cm 0 !important;
+    }
+    
+    /* Fix for layout issues with floated elements */
+    #achievements .row:after,
+    #certificates .row:after {
+        content: "" !important;
+        display: table !important;
+        clear: both !important;
+    }
+    
+    /* Force page break between sections if needed */
+    #certificates {
+        page-break-before: auto !important;
+        break-before: auto !important;
+        clear: both !important;
+    }
+    
+    /* Ensure proper section ordering for print */
+    #profile { order: 1 !important; }
+    #experience { order: 2 !important; }
+    #education { order: 3 !important; }
+    #skills { order: 4 !important; }
+    #projects { order: 5 !important; }
+    #certificates { order: 6 !important; }
+    #achievements { order: 7 !important; }
     
     /* Force flex display on the main container to respect order */
     .container .row .col-md-10 {
@@ -713,7 +882,7 @@
         border: 1px solid #e0e0e0 !important;
         background-color: #f8f9fa !important;
         color: #555 !important;
-        border-radius: 50px !important; /* Rounded badges */
+        border-radius: 50px !important;
         print-color-adjust: exact !important;
         -webkit-print-color-adjust: exact !important;
         font-weight: normal !important;
@@ -799,7 +968,7 @@
     
     /* Modern section header with accent color line */
     .section-header {
-        border-bottom: 2px solid #3498db !important; /* Blue accent color */
+        border-bottom: 2px solid #3498db !important;
         padding-bottom: 0.1cm !important;
         margin-bottom: 0.15cm !important;
     }
@@ -863,7 +1032,7 @@
     .ultra-compact-profile .profile-image-container {
         max-width: 1.8cm !important;
         max-height: 2.2cm !important;
-        margin-left: 0.1cm !important; /* Add slight left margin */
+        margin-left: 0.1cm !important;
     }
     
     .ultra-compact-profile .profile-img,
@@ -896,10 +1065,157 @@
     
     /* Make entire profile more compact */
     #profile .row {
-        padding: 0.12cm !important; /* Further reduced padding */
+        padding: 0.12cm !important;
     }
     
     #profile {
-        margin-bottom: 0.12cm !important; /* Further reduced margin */
+        margin-bottom: 0.12cm !important;
+    }
+    
+    /* Achievements & Certificates section overall styling */
+    #achievements-certificates .card-header h3 {
+        font-size: 12pt !important;
+        font-weight: 700 !important;
+        margin-bottom: 0.12cm !important;
+        color: #2c3e50 !important;
+    }
+    
+    /* Main section headers */
+    #achievements-certificates h4 {
+        font-size: 10pt !important;
+        font-weight: 600 !important;
+        color: #2c3e50 !important;
+        margin-top: 0.15cm !important;
+        margin-bottom: 0.1cm !important;
+        padding-bottom: 0.03cm !important;
+        border-bottom: 1px solid #e0e0e0 !important;
+        width: 100% !important;
+        clear: both !important;
+    }
+    
+    /* Achievement items layout */
+    #achievements-certificates .row {
+        display: block !important;
+        width: 100% !important;
+        clear: both !important;
+    }
+    
+    /* Achievement items - General styling */
+    #achievements-certificates .achievement-item,
+    #achievements-certificates .certificate-item,
+    #achievements-certificates .conference-item {
+        width: 50% !important;
+        float: left !important;
+        padding: 0 0.05cm !important;
+        margin-bottom: 0.1cm !important;
+        box-sizing: border-box !important;
+        border: 1px solid #e0e0e0 !important;
+        border-radius: 4px !important;
+        background-color: #fff !important;
+        padding: 0.08cm !important;
+        height: 3.5cm !important;
+        overflow: hidden !important;
+        position: relative !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+    }
+    
+    /* Clear after every second item */
+    #achievements-certificates .achievement-item:nth-child(2n+1),
+    #achievements-certificates .certificate-item:nth-child(2n+1),
+    #achievements-certificates .conference-item:nth-child(2n+1) {
+        clear: left !important;
+    }
+    
+    /* Title styling */
+    #achievements-certificates .achievement-item h5,
+    #achievements-certificates .certificate-item h5,
+    #achievements-certificates .conference-item h5,
+    #achievements-certificates .item-title,
+    #achievements-certificates .certificate-title {
+        font-size: 10pt !important;
+        font-weight: 600 !important;
+        color: #2c3e50 !important;
+        margin-top: 0 !important;
+        margin-bottom: 0.05cm !important;
+        padding-bottom: 0.05cm !important;
+        border-bottom: 1px dotted #e0e0e0 !important;
+        line-height: 1.2 !important;
+    }
+    
+    /* Description styling */
+    #achievements-certificates .achievement-item p,
+    #achievements-certificates .certificate-item p,
+    #achievements-certificates .conference-item p,
+    #achievements-certificates .item-description,
+    #achievements-certificates .certificate-issuer {
+        font-size: 9pt !important;
+        color: #555 !important;
+        margin: 0.05cm 0 !important;
+        padding: 0 !important;
+        line-height: 1.2 !important;
+        max-height: 2.5cm !important;
+        overflow: hidden !important;
+    }
+    
+    /* Date styling */
+    #achievements-certificates .item-date,
+    #achievements-certificates .certificate-date {
+        font-size: 8pt !important;
+        color: #7f8c8d !important;
+        font-style: italic !important;
+        position: absolute !important;
+        bottom: 0.05cm !important;
+        left: 0.08cm !important;
+    }
+    
+    /* View links */
+    #achievements-certificates .view-link {
+        position: absolute !important;
+        bottom: 0.05cm !important;
+        right: 0.08cm !important;
+        font-size: 8pt !important;
+        color: #3498db !important;
+    }
+    
+    /* Handle the specific sections */
+    /* First subsection - Achievements */
+    #achievements-certificates h4:first-of-type {
+        margin-top: 0 !important;
+    }
+    
+    #achievements-certificates h4:first-of-type + .achievement-item,
+    #achievements-certificates h4:first-of-type + .achievement-item + .achievement-item,
+    #achievements-certificates h4:first-of-type + .achievement-item + .achievement-item + .achievement-item,
+    #achievements-certificates h4:first-of-type + .achievement-item + .achievement-item + .achievement-item + .achievement-item {
+        display: block !important;
+    }
+    
+    /* Certificates section */
+    #achievements-certificates h4:nth-of-type(2) {
+        margin-top: 0.3cm !important;
+        clear: both !important;
+    }
+    
+    #achievements-certificates h4:nth-of-type(2) + .certificate-item,
+    #achievements-certificates h4:nth-of-type(2) + .certificate-item + .certificate-item,
+    #achievements-certificates h4:nth-of-type(2) + .certificate-item + .certificate-item + .certificate-item,
+    #achievements-certificates h4:nth-of-type(2) + .certificate-item + .certificate-item + .certificate-item + .certificate-item {
+        display: block !important;
+    }
+    
+    /* Hide excess items */
+    #achievements-certificates .achievement-item:nth-of-type(n+7),
+    #achievements-certificates .certificate-item:nth-of-type(n+7),
+    #achievements-certificates .conference-item:nth-of-type(n+7) {
+        display: none !important;
+    }
+    
+    /* Clear floats after sections */
+    #achievements-certificates h4 + div:after,
+    #achievements-certificates .row:after {
+        content: "" !important;
+        display: table !important;
+        clear: both !important;
     }
 } 
