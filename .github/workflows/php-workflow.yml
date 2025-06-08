@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
@@ -36,12 +36,12 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
     - name: Setup Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
-        node-version: 16
+        node-version: 18
     
     - name: Install stylelint
       run: |
@@ -71,7 +71,7 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
@@ -138,17 +138,37 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
     - name: Create build artifact
       run: |
+        echo "Creating build directory structure..."
         mkdir -p build/data
-        cp -r assets css includes js index.php admin.php init_db.php reset_db.php generate-pdf-wk.php build/ || true
-        cp *.md build/ || true
+        
+        echo "Copying main PHP files..."
+        cp -v *.php build/ || echo "Some PHP files may be missing"
+        
+        echo "Copying directories..."
+        [ -d "assets" ] && cp -rv assets build/ || echo "Assets directory missing"
+        [ -d "css" ] && cp -rv css build/ || echo "CSS directory missing"  
+        [ -d "includes" ] && cp -rv includes build/ || echo "Includes directory missing"
+        [ -d "js" ] && cp -rv js build/ || echo "JS directory missing"
+        
+        echo "Copying documentation and config files..."
+        cp -v *.md build/ || echo "Some documentation files may be missing"
+        [ -f "composer.json" ] && cp -v composer.json build/ || echo "composer.json missing"
+        [ -f "composer.lock" ] && cp -v composer.lock build/ || echo "composer.lock missing"
+        [ -f ".htaccess" ] && cp -v .htaccess build/ || echo ".htaccess missing"
+        
+        echo "Setting proper permissions..."
+        chmod -R 755 build/
         chmod 755 build/data
         
+        echo "Build artifact contents:"
+        ls -la build/
+        
     - name: Upload build artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: website-build
         path: build/
