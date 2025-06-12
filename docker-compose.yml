@@ -4,16 +4,22 @@ services:
   php:
     build:
       context: .docker/php
+    container_name: portfolio-phpcode-znf1sp-php-1
     volumes:
       - ./:/var/www/html
     networks:
       - dokploy-network
+    expose:
+      - 9000
 
   nginx:
     image: nginx:latest
+    container_name: portfolio-nginx
     volumes:
       - ./:/var/www/html
       - ./.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "80:80"
     depends_on:
       - php
     networks:
