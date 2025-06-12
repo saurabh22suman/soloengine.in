@@ -41,6 +41,7 @@ RUN echo '#!/bin/bash' > /entrypoint.sh && \
     echo '# Fix permissions for mounted directories' >> /entrypoint.sh && \
     echo 'chmod 755 /var/www/html/data || true' >> /entrypoint.sh && \
     echo '# Start PHP built-in server' >> /entrypoint.sh && \
+    echo 'cd  /var/www/html' >> /entrypoint.sh && \
     echo 'exec php -S 0.0.0.0:80 -t /var/www/html' >> /entrypoint.sh && \
     chmod +x /entrypoint.sh
 
