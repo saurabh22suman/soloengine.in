@@ -196,7 +196,35 @@ The site offers PDF resume generation using wkhtmltopdf, which ensures the expor
 
 ## 🚀 Deployment Guide
 
-### Deploying to a Fresh Server
+### Docker Deployment (Recommended)
+
+**Prerequisites**: Docker and Docker Compose
+
+1. **Quick Start**:
+   ```bash
+   git clone https://github.com/prakersh/prakersh.in.git
+   cd prakersh.in
+   ./build.sh build && ./build.sh run
+   ```
+
+2. **Access**:
+   - Website: http://localhost:8080
+   - Admin: http://localhost:8080/admin.php (admin/admin123)
+
+3. **Management Commands**:
+   ```bash
+   ./build.sh help        # Show all commands
+   ./build.sh dev         # Development mode with live reload
+   ./build.sh logs        # View application logs
+   ./build.sh status      # Check container status
+   ./build.sh stop        # Stop the application
+   ```
+
+For detailed Docker instructions, see [DOCKER.md](DOCKER.md).
+
+### Traditional Deployment
+
+#### Deploying to a Fresh Server
 
 1. **Server Requirements**:
    - PHP 7.0 or higher

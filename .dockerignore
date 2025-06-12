@@ -1,0 +1,50 @@
+# Git
+.git
+.gitignore
+
+# Documentation (will be copied selectively)
+*.md
+!README.md
+!DATABASE_README.md
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+job-logs.txt
+wget-log.*
+
+# Development files
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node.js (if any)
+node_modules/
+npm-debug.log*
+
+# Composer vendor (if any)
+vendor/
+
+# Local development files
+docker-compose.dev.yml
+
+# CI/CD specific
+.github/
+
+# Build artifacts
+build/
+
+# Backup files
+*.bak
+*.backup
+
+# Environment files
+.env
+.env.local

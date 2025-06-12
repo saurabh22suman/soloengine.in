@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  portfolio:
+    build: .
+    container_name: portfolio
+    ports:
+      - "8080:80"
+    volumes:
+      # Mount data directory for database persistence
+      - ./data:/var/www/html/data
+      # Optional: Mount for development (uncomment for live editing)
+      # - .:/var/www/html
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html
+    restart: unless-stopped
+    networks:
+      - portfolio-network
+
+  # Optional: Add a reverse proxy for production deployment
+  # nginx:
+  #   image: nginx:alpine
+  #   container_name: portfolio-nginx
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./nginx.conf:/etc/nginx/nginx.conf:ro
+  #     - ./ssl:/etc/nginx/ssl:ro
+  #   depends_on:
+  #     - portfolio
+  #   networks:
+  #     - portfolio-network
+
+networks:
+  portfolio-network:
+    driver: bridge
+
+volumes:
+  portfolio-data:
+    driver: local
