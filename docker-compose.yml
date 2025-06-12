@@ -1,10 +1,10 @@
-version: "3.8"
+# Remove 'version' attribute as it's obsolete according to Dokploy
 
 services:
   php:
     build:
       context: .docker/php
-    container_name: portfolio-phpcode-znf1sp-php-1
+    # Remove hardcoded container names - let Dokploy handle naming
     volumes:
       - ./:/var/www/html
     networks:
@@ -14,12 +14,13 @@ services:
 
   nginx:
     image: nginx:latest
-    container_name: portfolio-nginx
     volumes:
       - ./:/var/www/html
       - ./.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
-    ports:
-      - "80:80"
+    # Let Traefik handle port exposure instead of direct port binding
+    # This prevents port conflicts when multiple services run on the same host
+    expose:
+      - 80
     depends_on:
       - php
     networks:
