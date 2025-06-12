@@ -1,0 +1,49 @@
+version: "3.8"
+
+services:
+  php:
+    build:
+      context: .docker/php
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - dokploy-network
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./:/var/www/html
+      - ./.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+    networks:
+      - dokploy-network
+    labels:
+      - traefik.enable=true
+
+      # HTTP router to redirect to HTTPS
+      - traefik.http.routers.prakersh-in-http.rule=Host(`me.soloengine.in`)
+      - traefik.http.routers.prakersh-in-http.entrypoints=web
+      - traefik.http.routers.prakersh-in-http.middlewares=redirect-to-https
+
+      # HTTPS router serving traffic
+      - traefik.http.routers.prakersh-in-https.rule=Host(`me.soloengine.in`)
+      - traefik.http.routers.prakersh-in-https.entrypoints=websecure
+      - traefik.http.routers.prakersh-in-https.tls.certresolver=letsencrypt
+      - traefik.http.routers.prakersh-in-https.service=prakersh-in-service
+
+      # Service definition
+      - traefik.http.services.prakersh-in-service.loadbalancer.server.port=80
+
+      # Middleware to redirect HTTP to HTTPS
+      - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
+
+  wkhtmltopdf:
+    build:
+      context: .docker/wkhtmltopdf
+    networks:
+      - dokploy-network
+
+networks:
+  dokploy-network:
+    external: true

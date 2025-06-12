@@ -1,0 +1,12 @@
+# Ignore the following files and directories when building Docker images
+.git
+node_modules
+npm-debug.log
+Dockerfile
+docker-compose.yml
+README.md
+data/
+assets/images/
+css/
+js/
+includes/
