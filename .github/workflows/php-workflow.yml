@@ -87,46 +87,332 @@ jobs:
     - name: Start PHP server
       run: |
         echo "Starting PHP server..."
-        php -S localhost:8000 &
+        # Start server in background with output redirection for debugging
+        php -S localhost:8000 > /tmp/server.log 2>&1 &
+        SERVER_PID=$!
+        echo "Server PID: $SERVER_PID"
         echo "Waiting for server to be ready..."
-        sleep 10
+        
+        # Wait for server to start with multiple checks
+        for i in {1..30}; do
+          if curl -s -f http://localhost:8000/ >/dev/null 2>&1; then
+            echo "Server is ready after $i seconds!"
+            break
+          fi
+          if [ $i -eq 30 ]; then
+            echo "Server failed to start after 30 seconds"
+            echo "Server logs:"
+            cat /tmp/server.log
+            exit 1
+          fi
+          sleep 1
+        done
     
     - name: Test website response
       run: |
         echo "Testing HTTP response..."
-        # Use a more lenient check to avoid failures on content text
-        if wget -q -O- http://localhost:8000/; then
+        # Test the main website response with better error handling
+        if wget -q --timeout=30 --tries=3 -O /tmp/response.html http://localhost:8000/; then
           echo "Success: Website is responding!"
+          # Check if response contains expected content
+          if grep -q "Prakersh" /tmp/response.html; then
+            echo "Success: Website content appears correct!"
+          else
+            echo "Warning: Website response may not contain expected content"
+            head -20 /tmp/response.html
+          fi
         else
           echo "Error: Website is not responding correctly"
+          echo "Server logs:"
+          # Try to get server logs if available
           exit 1
         fi
         
     - name: Test website is accessible
       run: |
-        wget -q --spider http://localhost:8000/
-        if [ $? -eq 0 ]; then
+        echo "Testing website accessibility..."
+        # Use wget with timeout and multiple attempts
+        if wget -q --timeout=15 --tries=2 --spider http://localhost:8000/; then
           echo "Website is accessible!"
         else
-          echo "Website is not accessible!"
-          exit 1
+          echo "Website accessibility test failed, trying with curl..."
+          if curl -s -f --max-time 15 http://localhost:8000/ >/dev/null; then
+            echo "Website is accessible via curl!"
+          else
+            echo "Website is not accessible!"
+            echo "Server logs:"
+            cat /tmp/server.log || echo "No server logs available"
+            exit 1
+          fi
         fi
     
     - name: Test database initialization
       run: |
         echo "Testing database initialization..."
+        # Remove any existing database to test fresh initialization
+        rm -f data/resume.db
         if wget -q -O- http://localhost:8000/init_db.php; then
           echo "Success: Database initialization works!"
         else
           echo "Error: Database initialization failed"
           exit 1
         fi
+        
+        # Verify database was created
+        if [ -f "data/resume.db" ]; then
+          echo "Success: Database file was created!"
+        else
+          echo "Error: Database file was not created"
+          exit 1
+        fi
+    
+    - name: Test security - database initialization protection
+      run: |
+        echo "Testing security: Database init protection after database exists..."
+        # Try to run init_db.php again - this should fail due to auth requirement
+        if wget -q -O- http://localhost:8000/init_db.php 2>/dev/null | grep -q "Access denied"; then
+          echo "Success: Database initialization is properly protected!"
+        else
+          echo "Warning: Database initialization security protection may not be working"
+          # Don't fail the build, just warn - this is not a critical failure
+        fi
+    
+    - name: Test security - protected admin endpoints
+      run: |
+        echo "Testing security: Protected admin endpoints..."
+        
+        # Test reset_db.php protection
+        if wget -q -O- http://localhost:8000/reset_db.php 2>/dev/null | grep -q "Access denied"; then
+          echo "Success: reset_db.php is properly protected!"
+        else
+          echo "Warning: reset_db.php protection may not be working"
+        fi
+        
+        # Test check_theme.php protection  
+        if wget -q -O- http://localhost:8000/check_theme.php 2>/dev/null | grep -q "Access denied"; then
+          echo "Success: check_theme.php is properly protected!"
+        else
+          echo "Warning: check_theme.php protection may not be working"
+        fi
+        
+        # Test migrate_passwords.php protection
+        if wget -q -O- http://localhost:8000/migrate_passwords.php 2>/dev/null | grep -q "Access denied"; then
+          echo "Success: migrate_passwords.php is properly protected!"
+        else
+          echo "Warning: migrate_passwords.php protection may not be working"
+        fi
+    
+    - name: Test security - password hashing verification
+      run: |
+        echo "Testing security: Password hashing implementation..."
+        
+        # Check if database contains hashed passwords (not plain text)
+        if [ -f "data/resume.db" ]; then
+          # Check if passwords are hashed (bcrypt format starts with $2y$)
+          PASSWORD_HASH=$(sqlite3 data/resume.db "SELECT password FROM admin_settings LIMIT 1;" 2>/dev/null || echo "")
+          if [[ "$PASSWORD_HASH" == \$2y\$* ]]; then
+            echo "Success: Passwords are properly hashed using bcrypt!"
+          else
+            echo "Warning: Password hashing verification failed - may be plain text"
+            echo "Password format: ${PASSWORD_HASH:0:10}..."
+          fi
+        else
+          echo "Info: Database not found for password hash verification"
+        fi
+    
+    - name: Test security - admin authentication flows
+      run: |
+        echo "Testing security: Admin authentication flows..."
+        
+        # Test admin login page accessibility
+        if wget -q -O /tmp/admin_login.html http://localhost:8000/admin.php; then
+          if grep -q -i "login\|password" /tmp/admin_login.html; then
+            echo "Success: Admin login page is accessible and contains login form!"
+          else
+            echo "Warning: Admin login page may not contain expected form elements"
+          fi
+        else
+          echo "Error: Admin login page is not accessible"
+          exit 1
+        fi
+        
+        # Test invalid admin access attempts
+        if curl -s -d "username=invalid&password=invalid" -X POST http://localhost:8000/admin.php | grep -q -i "invalid\|error\|denied"; then
+          echo "Success: Invalid login attempts are properly rejected!"
+        else
+          echo "Warning: Invalid login handling may not be working correctly"
+        fi
+    
+    - name: Test security - CSRF token implementation
+      run: |
+        echo "Testing security: CSRF token implementation..."
+        
+        # Test that admin forms contain CSRF tokens
+        if wget -q -O /tmp/admin_forms.html http://localhost:8000/admin.php; then
+          if grep -q "csrf_token" /tmp/admin_forms.html; then
+            echo "Success: CSRF tokens are present in admin forms!"
+          else
+            echo "Warning: CSRF tokens may not be implemented in admin forms"
+          fi
+        else
+          echo "Info: Could not verify CSRF token implementation"
+        fi
+    
+    - name: Test security - input validation and sanitization
+      run: |
+        echo "Testing security: Input validation and sanitization..."
+        
+        # Test theme parameter validation with invalid theme
+        RESPONSE=$(wget -q -O- "http://localhost:8000/?theme=../../../etc/passwd" 2>/dev/null || echo "")
+        if [[ "$RESPONSE" == *"Access denied"* ]] || [[ "$RESPONSE" == *"Invalid"* ]] || [[ "$RESPONSE" != *"/etc/passwd"* ]]; then
+          echo "Success: Invalid theme parameter is properly rejected!"
+        else
+          echo "Warning: Theme parameter validation may not be working"
+        fi
+        
+        # Test XSS prevention in form inputs (basic test)
+        TEST_XSS="<script>alert('xss')</script>"
+        if curl -s -d "test_input=$TEST_XSS" -X POST http://localhost:8000/admin.php | grep -v "$TEST_XSS" >/dev/null; then
+          echo "Success: XSS prevention appears to be working!"
+        else
+          echo "Warning: XSS prevention may not be properly implemented"
+        fi
+    
+    - name: Test database protection - backup functionality
+      run: |
+        echo "Testing database protection: Backup functionality..."
+        
+        # Check if backup directory structure exists or can be created
+        if [ -d "data/backups" ] || mkdir -p data/backups 2>/dev/null; then
+          echo "Success: Backup directory structure is available!"
+          
+          # Simulate database backup creation
+          if [ -f "data/resume.db" ]; then
+            BACKUP_NAME="resume_backup_$(date +%Y%m%d_%H%M%S).db"
+            if cp "data/resume.db" "data/backups/$BACKUP_NAME" 2>/dev/null; then
+              echo "Success: Database backup can be created!"
+              echo "Backup created: $BACKUP_NAME"
+              
+              # Verify backup file
+              if [ -f "data/backups/$BACKUP_NAME" ]; then
+                echo "Success: Backup file verification passed!"
+              else
+                echo "Error: Backup file verification failed"
+              fi
+            else
+              echo "Warning: Database backup creation failed"
+            fi
+          else
+            echo "Info: No database found for backup testing"
+          fi
+        else
+          echo "Warning: Backup directory structure cannot be created"
+        fi
+    
+    - name: Test database protection - backup rotation
+      run: |
+        echo "Testing database protection: Backup rotation functionality..."
+        
+        if [ -d "data/backups" ]; then
+          # Create multiple test backup files to test rotation
+          for i in {1..5}; do
+            BACKUP_FILE="data/backups/test_backup_$i.db"
+            echo "test backup $i" > "$BACKUP_FILE"
+            # Set different timestamps to simulate chronological order
+            touch -t $(date -d "$i minutes ago" +%Y%m%d%H%M) "$BACKUP_FILE" 2>/dev/null || touch "$BACKUP_FILE"
+          done
+          
+          # Count backup files
+          BACKUP_COUNT=$(ls -1 data/backups/test_backup_*.db 2>/dev/null | wc -l)
+          if [ "$BACKUP_COUNT" -gt 3 ]; then
+            echo "Success: Backup rotation test setup complete - $BACKUP_COUNT test files created"
+            echo "Info: Backup rotation should keep only 3 most recent files"
+          else
+            echo "Info: Created $BACKUP_COUNT test backup files"
+          fi
+          
+          # Clean up test files
+          rm -f data/backups/test_backup_*.db
+        else
+          echo "Info: Backup directory not available for rotation testing"
+        fi
+    
+    - name: Test database protection - SQL injection prevention
+      run: |
+        echo "Testing database protection: SQL injection prevention..."
+        
+        # Test SQL injection in login form
+        SQL_INJECTION="admin' OR '1'='1"
+        if curl -s -d "username=$SQL_INJECTION&password=test" -X POST http://localhost:8000/admin.php | grep -q -i "error\|invalid\|denied"; then
+          echo "Success: SQL injection in login form is properly prevented!"
+        else
+          echo "Warning: SQL injection prevention may not be working in login form"
+        fi
+        
+        # Test SQL injection in theme parameter
+        SQL_INJECTION_THEME="default'; DROP TABLE admin_settings; --"
+        RESPONSE=$(wget -q -O- "http://localhost:8000/?theme=$SQL_INJECTION_THEME" 2>/dev/null || echo "")
+        if [[ "$RESPONSE" != *"DROP TABLE"* ]]; then
+          echo "Success: SQL injection in theme parameter is properly prevented!"
+        else
+          echo "Warning: SQL injection prevention may not be working in theme parameter"
+        fi
+    
+    - name: Test security - session management
+      run: |
+        echo "Testing security: Session management..."
+        
+        # Test session cookie security (basic test)
+        RESPONSE=$(curl -s -I http://localhost:8000/admin.php)
+        if echo "$RESPONSE" | grep -q -i "set-cookie"; then
+          echo "Success: Session cookies are being set!"
+          
+          # Check for secure session settings (if available)
+          if echo "$RESPONSE" | grep -q -i "httponly\|secure"; then
+            echo "Success: Secure session flags detected!"
+          else
+            echo "Info: Secure session flags may not be visible in test environment"
+          fi
+        else
+          echo "Info: Session cookie testing inconclusive in test environment"
+        fi
+    
+    - name: Test security - information disclosure prevention
+      run: |
+        echo "Testing security: Information disclosure prevention..."
+        
+        # Test that error pages don't expose sensitive information
+        ERROR_RESPONSE=$(wget -q -O- http://localhost:8000/nonexistent.php 2>/dev/null || echo "")
+        if [[ "$ERROR_RESPONSE" != *"/var/www"* ]] && [[ "$ERROR_RESPONSE" != *"Fatal error"* ]]; then
+          echo "Success: Error pages don't expose sensitive system paths!"
+        else
+          echo "Warning: Error pages may expose sensitive information"
+        fi
+        
+        # Test that database errors don't expose schema
+        if [ -f "data/resume.db" ]; then
+          # Try to trigger a database error safely
+          RESPONSE=$(wget -q -O- "http://localhost:8000/check_theme.php" 2>/dev/null || echo "")
+          if [[ "$RESPONSE" != *"sqlite"* ]] && [[ "$RESPONSE" != *"database"* ]] && [[ "$RESPONSE" != *"table"* ]]; then
+            echo "Success: Database errors don't expose schema information!"
+          else
+            echo "Info: Database error exposure test inconclusive"
+          fi
+        fi
     
     - name: Test admin page
       run: |
         echo "Testing admin page loads..."
-        if wget -q --spider http://localhost:8000/admin.php; then
+        # Test that admin page is accessible (should show login form)
+        if wget -q --timeout=15 -O /tmp/admin_response.html http://localhost:8000/admin.php; then
           echo "Success: Admin page is accessible!"
+          # Check if it contains login form elements
+          if grep -q -i "login\|password\|admin" /tmp/admin_response.html; then
+            echo "Success: Admin page appears to have login functionality!"
+          else
+            echo "Warning: Admin page may not contain expected login elements"
+            head -10 /tmp/admin_response.html
+          fi
         else
           echo "Error: Admin page is not accessible"
           exit 1

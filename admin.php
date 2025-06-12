@@ -5,6 +5,15 @@ session_start();
 // Include the database connection
 require_once 'includes/db_connect.php';
 
+// CSRF Protection
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+function validateCsrfToken($token) {
+    return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
+}
+
 // Authentication logic using database
 $is_logged_in = false;
 $login_error = '';
@@ -16,14 +25,50 @@ if (isset($_POST['login'])) {
     $stmt->execute([$_POST['username']]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     
-    if ($user && $_POST['password'] == $user['password']) { // In production, use password_verify()
+    // Backward compatible authentication - supports both plain text (for migration) and hashed passwords
+    $passwordValid = false;
+    
+    if ($user) {
+        // Check if password is hashed (bcrypt hashes start with $2y$)
+        if (password_get_info($user['password'])['algo']) {
+            // Password is hashed, use password_verify
+            $passwordValid = password_verify($_POST['password'], $user['password']);
+        } else {
+            // Password is plain text (legacy), use direct comparison
+            $passwordValid = ($_POST['password'] === $user['password']);
+            
+            // Auto-migrate plain text password to hashed version on successful login
+            if ($passwordValid) {
+                $hashedPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
+                $updateStmt = $pdo->prepare('UPDATE admin_settings SET password = ? WHERE id = ?');
+                $updateStmt->execute([$hashedPassword, $user['id']]);
+                error_log("Auto-migrated plain text password to hashed format for user: " . $user['username']);
+            }
+        }
+    }
+    
+    if ($passwordValid) {
         $_SESSION['admin_logged_in'] = true;
         $_SESSION['admin_username'] = $user['username'];
+        $_SESSION['last_activity'] = time(); // Add session timeout tracking
         $is_logged_in = true;
+        
+        // Log successful login
+        error_log("Admin login successful for user: " . $user['username'] . " from IP: " . ($_SERVER['REMOTE_ADDR'] ?? 'unknown'));
     } else {
         $login_error = "Invalid credentials";
+        
+        // Log failed login attempt
+        error_log("Failed admin login attempt for username: " . ($_POST['username'] ?? 'unknown') . " from IP: " . ($_SERVER['REMOTE_ADDR'] ?? 'unknown'));
     }
 } elseif (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true) {
+    // Check session timeout (30 minutes)
+    if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 1800)) {
+        session_destroy();
+        header('Location: admin.php?timeout=1');
+        exit;
+    }
+    $_SESSION['last_activity'] = time();
     $is_logged_in = true;
 }
 
@@ -39,18 +84,37 @@ $message = '';
 if ($is_logged_in) {
     $pdo = getDbConnection();
     
+    // Validate CSRF token for all POST requests (except login)
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['login'])) {
+        if (!isset($_POST['csrf_token']) || !validateCsrfToken($_POST['csrf_token'])) {
+            error_log("CSRF token validation failed for admin user: " . ($_SESSION['admin_username'] ?? 'unknown'));
+            http_response_code(403);
+            die('Security validation failed. Please refresh the page and try again.');
+        }
+    }
+    
     // Change Theme
     if (isset($_POST['change_theme'])) {
-        $stmt = $pdo->prepare('UPDATE admin_settings SET theme = ? WHERE id = 1');
-        $stmt->execute([$_POST['theme']]);
-        $message = "Theme updated successfully!";
+        $theme = filter_var($_POST['theme'], FILTER_SANITIZE_STRING);
+        if (in_array($theme, ['light', 'dark', 'blue', 'green'])) { // Whitelist allowed themes
+            $stmt = $pdo->prepare('UPDATE admin_settings SET theme = ? WHERE id = 1');
+            $stmt->execute([$theme]);
+            $message = "Theme updated successfully!";
+        } else {
+            $message = "Invalid theme selected.";
+        }
     }
     
     // Also handle the new save_theme button name
     if (isset($_POST['save_theme'])) {
-        $stmt = $pdo->prepare('UPDATE admin_settings SET theme = ? WHERE id = 1');
-        $stmt->execute([$_POST['theme']]);
-        $message = "Theme updated successfully!";
+        $theme = filter_var($_POST['theme'], FILTER_SANITIZE_STRING);
+        if (in_array($theme, ['light', 'dark', 'blue', 'green'])) { // Whitelist allowed themes
+            $stmt = $pdo->prepare('UPDATE admin_settings SET theme = ? WHERE id = 1');
+            $stmt->execute([$theme]);
+            $message = "Theme updated successfully!";
+        } else {
+            $message = "Invalid theme selected.";
+        }
     }
     
     // Change Password
@@ -59,19 +123,34 @@ if ($is_logged_in) {
         $stmt->execute();
         $admin = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        if ($_POST['current_password'] == $admin['password']) {
+        // Backward compatible current password verification
+        $currentPasswordValid = false;
+        if (password_get_info($admin['password'])['algo']) {
+            // Password is hashed, use password_verify
+            $currentPasswordValid = password_verify($_POST['current_password'], $admin['password']);
+        } else {
+            // Password is plain text (legacy), use direct comparison
+            $currentPasswordValid = ($_POST['current_password'] === $admin['password']);
+        }
+        
+        if ($currentPasswordValid) {
             if ($_POST['new_password'] == $_POST['confirm_password']) {
-                if (strlen($_POST['new_password']) >= 6) {
+                if (strlen($_POST['new_password']) >= 8) { // Increased minimum length
+                    // Hash the new password
+                    $hashedPassword = password_hash($_POST['new_password'], PASSWORD_DEFAULT);
                     $stmt = $pdo->prepare('UPDATE admin_settings SET password = ? WHERE id = 1');
-                    $stmt->execute([$_POST['new_password']]);
+                    $stmt->execute([$hashedPassword]);
                     $password_message = "Password updated successfully! Please log in again.";
+                    
+                    // Log password change
+                    error_log("Admin password changed for user: " . ($_SESSION['admin_username'] ?? 'unknown'));
                     
                     // Force re-login for security
                     session_destroy();
                     header('Location: admin.php?password_changed=1');
                     exit;
                 } else {
-                    $password_message = "New password must be at least 6 characters long.";
+                    $password_message = "New password must be at least 8 characters long.";
                 }
             } else {
                 $password_message = "New password and confirmation do not match.";
@@ -466,6 +545,9 @@ if ($is_logged_in) {
                             <?php endif; ?>
                             <?php if (isset($_GET['password_changed'])): ?>
                                 <div class="alert alert-success">Password updated successfully! Please log in with your new password.</div>
+                            <?php endif; ?>
+                            <?php if (isset($_GET['timeout'])): ?>
+                                <div class="alert alert-warning">Your session has expired for security reasons. Please log in again.</div>
                             <?php endif; ?>
                             <form method="post" action="admin.php">
                                 <div class="mb-3">
@@ -925,6 +1007,7 @@ if ($is_logged_in) {
                                         </div>
                                         <div class="card-body">
                                             <form method="post" action="admin.php">
+                                                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
                                                 <div class="mb-3">
                                                     <label for="current_password" class="form-label">Current Password</label>
                                                     <input type="password" class="form-control" id="current_password" name="current_password" required>
@@ -932,7 +1015,7 @@ if ($is_logged_in) {
                                                 <div class="mb-3">
                                                     <label for="new_password" class="form-label">New Password</label>
                                                     <input type="password" class="form-control" id="new_password" name="new_password" required>
-                                                    <div class="form-text">Password must be at least 6 characters long.</div>
+                                                    <div class="form-text">Password must be at least 8 characters long.</div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="confirm_password" class="form-label">Confirm New Password</label>

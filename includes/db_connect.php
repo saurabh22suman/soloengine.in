@@ -109,8 +109,11 @@ function initializeDatabase($pdo) {
         theme TEXT DEFAULT "light"
     )');
     
-    // Insert default admin account
-    $pdo->exec("INSERT INTO admin_settings (id, username, password, theme) VALUES (1, 'admin', 'admin123', 'light')");
+    // Insert default admin account with hashed password
+    $defaultPassword = 'admin123';
+    $hashedPassword = password_hash($defaultPassword, PASSWORD_DEFAULT);
+    $stmt = $pdo->prepare("INSERT INTO admin_settings (id, username, password, theme) VALUES (1, 'admin', ?, 'light')");
+    $stmt->execute([$hashedPassword]);
 }
 
 // This function will be implemented in populate_db.php

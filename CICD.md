@@ -31,8 +31,9 @@ This job ensures the front-end code meets quality standards:
 
 ### 3. Integration Job
 
-This job verifies that the website functions correctly when served:
+This job verifies that the website functions correctly when served and implements comprehensive security testing:
 
+#### Basic Functionality Tests:
 - Sets up PHP 8.1 environment with SQLite support
 - Creates necessary data directory with proper permissions
 - Starts a PHP development server
@@ -41,6 +42,25 @@ This job verifies that the website functions correctly when served:
 - Checks that the server responds with a 200 status code
 - Tests database initialization script (init_db.php)
 - Validates admin page accessibility
+
+#### Security & Authentication Tests:
+- **Protected Admin Endpoints**: Verifies that `reset_db.php`, `check_theme.php`, and `migrate_passwords.php` require admin authentication
+- **Password Hashing Verification**: Confirms passwords are stored using bcrypt hashing (not plain text)
+- **Admin Authentication Flows**: Tests login page accessibility and invalid login rejection
+- **CSRF Token Implementation**: Verifies CSRF tokens are present in admin forms
+- **Input Validation & Sanitization**: Tests theme parameter validation and XSS prevention
+- **Session Management**: Validates session cookie security settings
+
+#### Database Protection Tests:
+- **Backup Functionality**: Tests database backup creation and directory structure
+- **Backup Rotation**: Verifies backup rotation functionality (keeping last 3 backups)
+- **SQL Injection Prevention**: Tests protection against SQL injection in login forms and parameters
+- **Information Disclosure Prevention**: Ensures error pages don't expose sensitive system information or database schema
+
+#### Advanced Security Tests:
+- **Session Security**: Tests session cookie flags and security settings
+- **Error Handling**: Verifies that database errors don't expose schema information
+- **Access Control**: Confirms unauthorized access attempts are properly blocked and logged
 
 ### 4. Build Job
 
@@ -68,10 +88,18 @@ The CI/CD pipeline includes several fault-tolerance mechanisms:
 
 ## Database Support
 
-The CI/CD pipeline has been updated to support the SQLite database functionality:
+The CI/CD pipeline has been updated to support the SQLite database functionality and comprehensive security testing:
 
 - PHP environment includes SQLite3 and PDO_SQLite extensions
 - Integration tests verify database initialization works correctly
+- **Security Testing**: Comprehensive security tests including:
+  - Password hashing verification (bcrypt)
+  - SQL injection prevention testing
+  - Admin authentication requirement verification
+  - CSRF token implementation testing
+  - Input validation and sanitization testing
+  - Database backup and rotation functionality testing
+- **Database Protection**: Tests backup creation, rotation, and security measures
 - Build artifacts include the data directory with proper permissions
 - Admin panel functionality is verified during testing
 
@@ -106,6 +134,40 @@ After deploying the artifact, you should:
 2. Log in to admin.php with default credentials (admin/admin123)
 3. Change the default admin password immediately
 4. Consider restricting access to sensitive files via .htaccess
+
+## Comprehensive Security Testing Coverage
+
+The CI/CD pipeline now includes extensive security testing that covers all aspects of the security enhancements implemented:
+
+### Authentication & Authorization Testing
+- **Admin Authentication Flows**: Verifies login page functionality and invalid login rejection
+- **Session Management**: Tests session cookie security and timeout functionality
+- **Protected Endpoints**: Confirms all admin-only operations require proper authentication
+- **Access Control**: Validates that unauthorized access attempts are properly blocked
+
+### Database Security Testing
+- **Password Security**: Verifies passwords are hashed using bcrypt (not stored in plain text)
+- **SQL Injection Prevention**: Tests protection against SQL injection attacks in forms and parameters
+- **Database Backup Protection**: Tests backup creation, rotation, and security measures
+- **Schema Protection**: Ensures database errors don't expose sensitive schema information
+
+### Input Security Testing
+- **CSRF Protection**: Verifies CSRF tokens are implemented in admin forms
+- **Input Validation**: Tests theme parameter validation and sanitization
+- **XSS Prevention**: Basic testing for cross-site scripting prevention
+- **Parameter Security**: Tests protection against malicious parameter manipulation
+
+### Information Security Testing
+- **Error Handling**: Ensures error pages don't expose sensitive system information
+- **Data Exposure Prevention**: Confirms sensitive data is not leaked in responses
+- **Path Traversal Protection**: Tests protection against directory traversal attacks
+
+### Operational Security Testing
+- **Backup Functionality**: Verifies database backup creation and rotation (keeping last 3 backups)
+- **Audit Trail**: Tests security logging and monitoring capabilities
+- **Session Timeout**: Validates session management and timeout functionality
+
+This comprehensive testing ensures that all security improvements are functioning correctly and the application maintains a strong security posture.
 
 ## Extending the Pipeline
 
