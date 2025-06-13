@@ -1,16 +1,16 @@
-[phases.setup]
-nixPkgs = ["php82", "php82Packages.composer", "nginx"]
-
-[phases.build]
-cmds = ["composer install --no-dev --optimize-autoloader"]
-
-[phases.start]
-cmds = [
-  "mkdir -p /var/log/nginx /var/cache/nginx",
-  "envsubst '$$NIXPACKS_PHP_ROOT_DIR' < nginx.template.conf > nginx.conf",
-  "nginx -c nginx.conf"
-]
+[build]
+builder = "nixpacks"
 
 [variables]
-# Serve from your public folder (replace if needed)
-NIXPACKS_PHP_ROOT_DIR = "/app/public"
+NIXPACKS_PHP_ROOT_DIR = "/app"
+
+[phases.setup]
+nixPkgs = ["gettext"]
+
+[phases.build]
+cmds = [
+  "envsubst '$NIXPACKS_PHP_ROOT_DIR' < nginx.template.conf > nginx.conf"
+]
+
+[start]
+cmd = "nginx -c $(pwd)/nginx.conf"
