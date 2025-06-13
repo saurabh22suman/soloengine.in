@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   php:
     build:
@@ -8,6 +10,7 @@ services:
       - dokploy-network
     expose:
       - 9000
+    restart: unless-stopped
 
   nginx:
     image: nginx:latest
@@ -24,27 +27,30 @@ services:
       - traefik.enable=true
 
       # HTTP router to redirect to HTTPS
-      - traefik.http.routers.prakersh-in-http.rule=Host(`me.soloengine.in`)
-      - traefik.http.routers.prakersh-in-http.entrypoints=web
-      - traefik.http.routers.prakersh-in-http.middlewares=redirect-to-https
+      - traefik.http.routers.me-http.rule=Host(`me.soloengine.in`)
+      - traefik.http.routers.me-http.entrypoints=web
+      - traefik.http.routers.me-http.middlewares=redirect-to-https
 
       # HTTPS router serving traffic
-      - traefik.http.routers.prakersh-in-https.rule=Host(`me.soloengine.in`)
-      - traefik.http.routers.prakersh-in-https.entrypoints=websecure
-      - traefik.http.routers.prakersh-in-https.tls.certresolver=letsencrypt
-      - traefik.http.routers.prakersh-in-https.service=prakersh-in-service
+      - traefik.http.routers.me-https.rule=Host(`me.soloengine.in`)
+      - traefik.http.routers.me-https.entrypoints=websecure
+      - traefik.http.routers.me-https.tls.certresolver=letsencrypt
+      - traefik.http.routers.me-https.service=me-service
 
       # Service definition
-      - traefik.http.services.prakersh-in-service.loadbalancer.server.port=80
+      - traefik.http.services.me-service.loadbalancer.server.port=80
 
       # Middleware to redirect HTTP to HTTPS
       - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
+
+    restart: unless-stopped
 
   wkhtmltopdf:
     build:
       context: .docker/wkhtmltopdf
     networks:
       - dokploy-network
+    restart: unless-stopped
 
 networks:
   dokploy-network:
