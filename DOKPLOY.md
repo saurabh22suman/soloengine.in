@@ -1,68 +1,84 @@
-# Deploying with Dokploy
+# Deploying with Dokploy UI
 
-This document provides instructions for deploying this PHP portfolio application using Dokploy and Docker Compose.
+This document provides instructions for deploying this PHP portfolio application using Dokploy UI and Docker Compose.
+
+## Overview
+
+This project is configured to work seamlessly with Dokploy UI, which uses Traefik as a reverse proxy for handling HTTPS and routing. The configuration eliminates the need for a separate nginx container, as Dokploy handles the web server functionality.
 
 ## Prerequisites
 
-- Dokploy installed on your server
+- Dokploy UI installed (following [Dokploy documentation](https://docs.dokploy.com/docs/core/installation))
 - Docker and Docker Compose installed
-- External Traefik instance running for handling HTTPS and routing
+- Domain configured to point to your Dokploy server
 
 ## Deployment Steps
 
-1. **Network Setup**
+1. **Prepare the docker-compose.yml file**
    
-   Ensure the `dokploy-network` external network exists:
+   Replace the old docker-compose.yml with the new version:
    ```bash
-   docker network create dokploy-network
+   mv docker-compose.yml.new docker-compose.yml
    ```
 
-2. **Port Conflicts**
+2. **Deploy using Dokploy UI**
 
-   This application is configured to work with Traefik as a reverse proxy. Make sure:
-   - Port 80 is not directly bound by other containers
-   - Traefik is properly configured to handle the `me.soloengine.in` domain
+   - Access your Dokploy UI dashboard
+   - Add a new application
+   - Connect to your Git repository or upload your project files
+   - Select the repository and branch
+   - Click "Deploy"
 
-3. **Deployment Command**
-
-   Deploy using Dokploy:
+   Alternatively, deploy using the CLI:
    ```bash
-   dokploy up
+   dokploy deploy
    ```
+
+## Configuration Details
+
+### Web Service
+
+The `web` service is configured as a PHP-FPM application with the following features:
+- FastCGI protocol on port 9000
+- Automatic HTTPS with Let's Encrypt certificates
+- HTTP to HTTPS redirection
+- Security headers for enhanced protection
+- Document root set to `/var/www/html`
+
+### WKHTMLtoPDF Service
+
+The `wkhtmltopdf` service is available for PDF generation needs.
+
+## Environment Variables
+
+Dokploy provides several environment variables that are used in the docker-compose.yml:
+- `${DOKPLOY_PROJECT_NAME}` - Automatically set by Dokploy for consistent naming
 
 ## Troubleshooting
 
-### Port Already Allocated
+### Deployment Failures
 
-If you see an error like:
+If deployment fails, check:
+1. Dokploy logs: `dokploy logs`
+2. Docker logs: `docker logs [container-name]`
+3. Domain DNS configuration
+4. Firewall settings for ports 80 and 443
+
+### Database Issues
+
+This project uses SQLite. Ensure the database file has proper permissions:
+```bash
+dokploy exec web chmod 664 /var/www/html/database.sqlite
 ```
-Error response from daemon: Bind for 0.0.0.0:80 failed: port is already allocated
-```
-
-Solutions:
-- Check which process is using port 80: `netstat -tuln | grep :80`
-- Stop the process or service using port 80
-- Use a different port in your configuration if needed
-
-### Container Naming Issues
-
-If you experience issues with container names:
-- Avoid hardcoding container names in your docker-compose.yml
-- Let Dokploy handle container naming
-- Make sure your nginx configuration uses the service name (`php`) for the fastcgi_pass directive
-
-## Configuration Notes
-
-- The `version` attribute in docker-compose.yml is obsolete and should be removed
-- Container naming should be managed by Dokploy, not hardcoded
-- For HTTP to HTTPS redirects, use Traefik labels instead of direct port binding
-- Always test your configuration locally before deploying
 
 ## Security Considerations
 
 - HTTPS is enforced through Traefik
-- Let's Encrypt is used for SSL certificates
-- Traffic is redirected from HTTP to HTTPS
+- Security headers are configured for browser protection:
+  - XSS protection
+  - Content type protections
+  - Strict Transport Security (HSTS)
+- All admin routes require authentication as specified in the PHP code
 
 ## Monitoring
 
@@ -76,5 +92,13 @@ dokploy logs -f
 To update your deployment:
 ```bash
 git pull
-dokploy up
+dokploy deploy
+```
+
+## Backup
+
+Backup your SQLite database regularly:
+```bash
+dokploy exec web "sqlite3 /var/www/html/database.sqlite .dump > /var/www/html/backup_$(date +%Y%m%d).sql"
+dokploy cp web:/var/www/html/backup_*.sql ./backups/
 ```
