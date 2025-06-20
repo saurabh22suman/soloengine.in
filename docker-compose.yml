@@ -11,4 +11,5 @@ services:
       traefik.enable: true
       traefik.http.routers.me_soloengine_in.rule: Host(`me.soloengine.in`)
       traefik.http.routers.me_soloengine_in.entrypoints: web
+      traefik.http.routers.me_soloengine_in.tls: false
       traefik.http.services.me_soloengine_in.loadbalancer.server.port: 80
