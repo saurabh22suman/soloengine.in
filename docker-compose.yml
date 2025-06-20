@@ -1,19 +1,31 @@
 # Dokploy-compatible configuration optimized for PHP application
 
-services:
-  web:
+services:  web:
     build:
       context: .docker/php
       dockerfile: Dockerfile
     volumes:
       - ./:/var/www/html
+      - ./.docker/dokploy-web.conf:/etc/dokploy/web.conf
     restart: unless-stopped
+    environment:
+      - PHP_MAX_EXECUTION_TIME=120
+      - PHP_MEMORY_LIMIT=256M
+      - PHP_UPLOAD_MAX_FILESIZE=32M
+      - PHP_POST_MAX_SIZE=32M
+    healthcheck:
+      test: ["CMD", "php", "-v"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
     labels:
       - dokploy.enable=true
       - dokploy.type=web
       - dokploy.port=9000
       - dokploy.protocol=fastcgi
       - dokploy.documentRoot=/var/www/html
+      - dokploy.timeout=120
+      - dokploy.maxBodySize=32m
       - traefik.enable=true
       - traefik.http.routers.${DOKPLOY_PROJECT_NAME}-web.rule=Host(`me.soloengine.in`)
       - traefik.http.routers.${DOKPLOY_PROJECT_NAME}-web.entrypoints=websecure

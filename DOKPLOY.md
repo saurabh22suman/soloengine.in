@@ -6,6 +6,23 @@ This document provides instructions for deploying this PHP portfolio application
 
 This project is configured to work seamlessly with Dokploy UI, which uses Traefik as a reverse proxy for handling HTTPS and routing. The configuration eliminates the need for a separate nginx container, as Dokploy handles the web server functionality.
 
+## Recent Changes to Fix Gateway Timeout
+
+We've updated the configuration to address gateway timeout issues:
+
+1. **Optimized PHP-FPM Configuration**
+   - Increased max execution time to 120 seconds
+   - Adjusted PHP memory limits and buffer sizes
+   - Added explicit timeout configuration for Dokploy
+
+2. **Added Health Checks**
+   - Implemented health.php endpoint for monitoring
+   - Added Docker healthcheck configuration
+
+3. **Improved Resource Management**
+   - Optimized PHP-FPM process management
+   - Added environment variables for easier configuration
+
 ## Prerequisites
 
 - Dokploy UI installed (following [Dokploy documentation](https://docs.dokploy.com/docs/core/installation))
