@@ -5,6 +5,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    command: >
+      bash -c "chown -R www-data:www-data /var/www/html &&
+               chmod -R 755 /var/www/html &&
+               apache2-foreground"
     volumes:
       - .:/var/www/html
     networks:
