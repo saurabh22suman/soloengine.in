@@ -1,61 +1,70 @@
 <?php
 // This script populates the database with default values
 
-function populateDatabase($pdo) {
-    // Populate profile data
+function populateDatabase($pdo) {    // Populate profile data
     $stmt = $pdo->prepare('INSERT INTO profile 
         (id, name, job_title, summary, email, phone, location, linkedin, website, github, profile_image) 
         VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
     
     $stmt->execute([
-        'Prakersh Maheshwari',
-        'Software Engineer',
-        'I am seeking a position within a professional and dynamic firm where I can leverage my skills and knowledge to contribute to organizational objectives while continuously growing and advancing in my career.',
-        'prakersh@live.com',
-        '+91 9993556000',
+        'Saurabh Suman',
+        'Data Engineer',
+        'Data Engineer with 6+ years of experience in building large-scale data pipelines, ELT processes, and data warehouse solutions. Utilized technologies like Python, SQL, PySpark, Databricks to develop multi-terabyte scalable big data solutions.',
+        'soloengine007@gmail.com',
+        '',
         'Pune, India',
-        'linkedin.com/in/prakersh',
-        'prakersh.in',
-        'github.com/prakersh',
+        'linkedin.com/in/saurabh22suman',
+        'soloengine.in',
+        'github.com/saurabh22suman',
         'assets/images/profile.jpg'
     ]);
-    
-    // Populate experiences
+      // Populate experiences
     $experiences = [
         [
-            'Specialist - Software Engineering',
-            'LTIMindtree - Microsoft',
-            '07/2024',
+            'Application Developer',
+            'Fujitsu India Pvt. Ltd.',
+            '01/2025',
             'Present',
             'Pune, India',
             json_encode([
-                'Worked on Automating and streamlining deployment workflows for HwDiagLnx. Wrote Deployment docs for team to follow.',
-                'Deployed released version across clusters and Validate GDCO tickets it created.',
-                'Integrated Intel QAT build and sign process in HwDiagLnx. Validated, Tested and End to end integrated Fieldiag for H100, A100 and Jasper.',
-                'Created Pipeline for signing kernel modules and rpms for GB200 on Azure Linux 3.',
-                'Worked on improving and streamlining build process and restructuring.',
-                'Did multiple Linux and Windows deployments.',
-                'Worked on implementing PDB diag module in HwDiagLnx.',
-                'Worked on analyzing and Implementing fault codes in HwDiagLnx.'
+                'Developed Azure Logic Apps to automatically detect and respond to pipeline failures, enhancing system resilience and reducing manual intervention.',
+                'Designed an optimized data processing workflow from Self-Hosted integration to the gold layer, reducing average latency by 10 hours and operational costs by 15%.',
+                'Developed Script to automatically fetch the incremental API data without need to know number of Pages to reduce the pipeline failure and incorrect data capture.'
             ])
         ],
         [
-            'Member Technical Staff',
-            'Coriolis Technologies Pvt. Ltd.',
-            '06/2018',
-            '02/2024',
+            'Technical Lead- I',
+            'Citiustech Healthcare Technology',
+            '09/2024',
+            '01/2025',
             'Pune, India',
             json_encode([
-                'Created .rpm/.deb package for the product. Created required install, upgrade and uninstall scripts.',
-                'Created systemd/sysvinit service for the product. Managed dependency and service ordering of product.service with dependent services.',
-                'Integrated product with redhat pacemaker and wrote pacemaker resource agent to provide high availability for product.',
-                'Automated workflows in Linux using python and bash scripts.',
-                'Integrated product with Terraform provider. Worked on implementing CTE functionality in Ciphertrust terraform provider.',
-                'Developed Multinode execution framework using Redis pub sub and key value store.',
-                'Worked on adding additional functionality to existing c binaries based on client requirements.',
-                'Implemented upgrade on reboot feature ensuring zero downtime and clean upgraded build post reboot.',
-                'Wrote build.sh for products to simplify long build process.',
-                'Led Scrum team for Program Increment, facilitating sprint retrospectives and PI evaluations.'
+                'Led onboarding of on-premise carrier data to the bronze and silver layers of the data lake, ensuring accurate and compliant ingestion.'
+            ])
+        ],
+        [
+            'Data Scientist',
+            'Tiger Analytics',
+            '06/2022',
+            '09/2024',
+            'Chennai, India',
+            json_encode([
+                'Collaborated closely with business teams to translate requirements into scalable ETL solutions, delivering high-impact data products.',
+                'Reduced region-specific solution development time by 30% through modular and reusable code design.',
+                'Enhanced pipeline reliability by 60% via robust validation checks across all stages of data flow, and implemented alerting mechanisms for data anomalies.',
+                'Led a team with a focus on delivery excellence, mentorship, and knowledge sharing to uplift overall team productivity.'
+            ])
+        ],
+        [
+            'Specialist Programmer',
+            'Infosys',
+            '06/2018',
+            '06/2022',
+            'Pune, India',
+            json_encode([
+                'Delivered automated ETL pipelines across diverse domains including Subscription Services and Banking, ensuring data quality and timely availability.',
+                'Developed a Python-based automation tool for background check document generation, reducing manual effort by 85%.',
+                'Recognized with multiple Infosys Insta Awards; fast-tracked through three promotions for consistent high performance.'
             ])
         ]
     ];
@@ -67,18 +76,17 @@ function populateDatabase($pdo) {
     foreach ($experiences as $exp) {
         $stmt->execute($exp);
     }
-    
-    // Populate education (example data - adjust based on actual content)
+      // Populate education (example data - adjust based on actual content)
     $education = [
         [
-            'B.Tech in Computer Science & Engineering',
-            'RGPV University',
+            'Bachelor of Engineering in Information Technology',
+            'Jabalpur Engineering College',
             '2014',
             '2018',
-            'Bhopal, India',
+            'Jabalpur, M.P.',
             json_encode([
-                'Graduated with First Class Honors',
-                'Specialized in Software Development and System Administration'
+                'Graduated with Honors',
+                'Specialized in Information Technology'
             ])
         ]
     ];
@@ -90,30 +98,32 @@ function populateDatabase($pdo) {
     foreach ($education as $edu) {
         $stmt->execute($edu);
     }
-    
-    // Populate skills
+      // Populate skills
     $technicalSkills = [
-        ['Technical Skills', 'Python', 5],
-        ['Technical Skills', 'Shell Scripting', 5],
-        ['Technical Skills', 'REDIS', 4],
-        ['Technical Skills', 'Systemd', 4],
-        ['Technical Skills', 'Automation', 5],
-        ['Technical Skills', 'C/C++', 4],
-        ['Technical Skills', 'Golang', 3],
-        ['Technical Skills', 'REST API', 4],
-        ['Technical Skills', 'Git', 4],
-        ['Technical Skills', 'SVN', 3]
+        ['Programming & Data Analysis', 'Python', 5],
+        ['Programming & Data Analysis', 'SQL', 5],
+        ['Big Data Technologies', 'PySpark', 5],
+        ['Big Data Technologies', 'Spark SQL', 4],
+        ['Cloud Computing', 'ADF', 5],
+        ['Cloud Computing', 'Databricks', 5],
+        ['Cloud Computing', 'ADLS', 4],
+        ['Cloud Computing', 'Synapse', 4],
+        ['Cloud Computing', 'Logic Apps', 4],
+        ['Data Engineering', 'ETL/ELT Pipeline', 5]
     ];
     
     $platformSkills = [
-        ['Platforms & Tools', 'Ansible', 4],
-        ['Platforms & Tools', 'PSSH', 4],
-        ['Platforms & Tools', 'MySQL', 3],
-        ['Platforms & Tools', 'RHEL/CentOS', 5],
-        ['Platforms & Tools', 'Ubuntu', 4],
-        ['Platforms & Tools', 'Pacemaker', 4],
-        ['Platforms & Tools', 'Linux Networking', 4],
-        ['Platforms & Tools', 'System Administration', 5]
+        ['Tools & Platforms', 'MS Excel', 4],
+        ['Tools & Platforms', 'VSCode', 5],
+        ['Tools & Platforms', 'SSMS', 4],
+        ['Tools & Platforms', 'Linux', 4],
+        ['Tools & Platforms', 'Windows', 4],
+        ['Tools & Platforms', 'Azure DevOps', 5],
+        ['Tools & Platforms', 'Data Modeling', 4],
+        ['Familiar', 'PowerBI', 3],
+        ['Familiar', 'Spark Streaming', 3],
+        ['Familiar', 'FastAPI', 3],
+        ['Familiar', 'GenAI', 3]
     ];
     
     $stmt = $pdo->prepare('INSERT INTO skills 
@@ -123,28 +133,27 @@ function populateDatabase($pdo) {
     foreach (array_merge($technicalSkills, $platformSkills) as $skill) {
         $stmt->execute($skill);
     }
-    
-    // Populate achievements with actual data
+      // Populate achievements with actual data
     $achievements = [
         [
-            'Indian Association of Physics Teachers (2013 - 2014)',
-            'Certificate of Merit for being in national top 1% in national standard examination in physics',
-            '2014'
+            'Databricks Certified Data Engineer Associate',
+            'Professional certification validating expertise in building and optimizing data engineering solutions with Databricks',
+            'Jan 2026'
         ],
         [
-            'International Mathematics Olympiad (2013)',
-            'International Rank: 8, State Rank: 2',
-            '2013'
+            'Microsoft Certified: Fabric Data Engineer Associate',
+            'Certification demonstrating proficiency in designing and implementing Microsoft Fabric data engineering solutions',
+            'Mar 2026'
+        ],
+        [
+            'Microsoft Certified: Azure Data Fundamentals',
+            'Certification validating foundational knowledge of core data concepts and Azure data services',
+            'Dec 2025'
         ],
         [
             'National Science Olympiad (2013)',
             'International Rank: 9, State Rank: 3',
             '2013'
-        ],
-        [
-            'PyCon India (10/2015)',
-            'Python developer community - The premier conference in India on using and developing the Python programming language',
-            '2015'
         ]
     ];
     
@@ -155,49 +164,48 @@ function populateDatabase($pdo) {
     foreach ($achievements as $achievement) {
         $stmt->execute($achievement);
     }
-    
-    // Populate projects with actual data
+      // Populate projects with actual data
     $projects = [
         [
-            'Reader Writer Lock',
-            'A C-based implementation of a reader-writer lock for file sharing over NFS. Supports multiple concurrent readers with exclusive writer access.',
-            json_encode(['C', 'NFS', 'POSIX']),
-            'https://github.com/prakersh/reader-writer-lock',
+            'Data Lake Architecture',
+            'Designed and implemented a scalable data lake architecture using Azure Data Lake Storage and Databricks Delta Lake, implementing medallion architecture patterns.',
+            json_encode(['Azure', 'Databricks', 'Delta Lake']),
+            'https://github.com/saurabh22suman/data-lake-architecture',
             ''
         ],
         [
-            'encr - Encryption Tool',
-            'A Shell-based wrapper over OpenSSL that provides an easy-to-use interface for file encryption and decryption with simple command line parameters.',
-            json_encode(['Shell', 'OpenSSL', 'Bash']),
-            'https://github.com/prakersh/encr',
+            'ETL Pipeline Framework',
+            'Built a reusable ETL framework on PySpark that handles incremental loads, data validation, and error handling with configurable pipeline stages.',
+            json_encode(['PySpark', 'Python', 'Data Engineering']),
+            'https://github.com/saurabh22suman/etl-pipeline-framework',
             ''
         ],
         [
-            'Python Progress Bar',
-            'An implementation example of progress bars in Python for providing visual feedback to users during long-running operations.',
-            json_encode(['Python', 'CLI', 'Utility']),
-            'https://github.com/prakersh/progressbar-python',
+            'Data Quality Monitor',
+            'Created an automated data quality monitoring tool that validates data integrity, completeness, and consistency across various data pipeline stages.',
+            json_encode(['Python', 'SQL', 'Data Quality']),
+            'https://github.com/saurabh22suman/data-quality-monitor',
             ''
         ],
         [
-            'ShortTouch',
-            'A Python utility that enables quick interactions with your system through customizable shortcuts and automation features.',
-            json_encode(['Python', 'Automation', 'Utility']),
-            'https://github.com/prakersh/shorttouch',
+            'API Data Ingestion',
+            'Developed a robust system for incremental API data ingestion with automatic pagination handling and fault tolerance capabilities.',
+            json_encode(['Python', 'REST API', 'Azure Logic Apps']),
+            'https://github.com/saurabh22suman/api-data-ingestion',
             ''
         ],
         [
-            'Open Source Point of Sale',
-            'A PHP web application using CodeIgniter for managing inventory, sales, and customers with a responsive interface.',
-            json_encode(['PHP', 'CodeIgniter', 'MySQL']),
-            'https://github.com/prakersh/opensourcepos',
+            'Spark Performance Optimization',
+            'Implemented performance optimization techniques for Spark applications, reducing job execution time by 40% through partition tuning and caching strategies.',
+            json_encode(['Spark', 'Performance Tuning', 'Big Data']),
+            'https://github.com/saurabh22suman/spark-optimization',
             ''
         ],
         [
             'Portfolio Website',
             'A responsive PHP portfolio/resume website with print functionality. Features modern design with Bootstrap and comprehensive resume sections.',
             json_encode(['CSS', 'PHP', 'Bootstrap']),
-            'https://github.com/prakersh/prakersh.in',
+            'https://github.com/saurabh22suman/soloengine.in',
             ''
         ]
     ];
