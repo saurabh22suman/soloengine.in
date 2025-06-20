@@ -418,8 +418,86 @@ jobs:
           exit 1
         fi
     
-  build:
+  docker:
     needs: [test, lint, integration]
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    
+    - name: Test Docker build
+      run: |
+        echo "Testing Docker build process..."
+        docker build -t portfolio-test .
+        
+    - name: Test Docker run
+      run: |
+        echo "Testing Docker container startup..."
+        # Start container in background
+        docker run -d --name portfolio-test-container -p 8081:80 portfolio-test
+        
+        # Wait for container to be ready
+        echo "Waiting for container to start..."
+        for i in {1..30}; do
+          if docker ps | grep portfolio-test-container | grep -q "(healthy)"; then
+            echo "Container is healthy after $i seconds!"
+            break
+          fi
+          if [ $i -eq 30 ]; then
+            echo "Container failed to become healthy"
+            docker logs portfolio-test-container
+            exit 1
+          fi
+          sleep 1
+        done
+        
+        # Test basic connectivity (wait a bit more for PHP server to be ready)
+        sleep 5
+        
+        # Test home page
+        if curl -f http://localhost:8081/ >/dev/null 2>&1; then
+          echo "Success: Home page is accessible!"
+        else
+          echo "Error: Home page not accessible"
+          docker logs portfolio-test-container
+          exit 1
+        fi
+        
+        # Test admin page
+        if curl -f http://localhost:8081/admin.php >/dev/null 2>&1; then
+          echo "Success: Admin page is accessible!"
+        else
+          echo "Error: Admin page not accessible"
+          docker logs portfolio-test-container
+          exit 1
+        fi
+        
+        # Cleanup
+        docker stop portfolio-test-container
+        docker rm portfolio-test-container
+        
+        echo "Docker tests completed successfully!"
+        
+    - name: Test build.sh script
+      run: |
+        echo "Testing build.sh script functionality..."
+        
+        # Test help command
+        chmod +x build.sh
+        ./build.sh help
+        
+        # Test that script recognizes Docker
+        if ./build.sh build 2>&1 | grep -q "Building Docker image"; then
+          echo "Success: build.sh properly detects Docker operations!"
+        else
+          echo "Warning: build.sh may not be working correctly"
+        fi
+
+  build:
+    needs: [test, lint, integration, docker]
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     
@@ -445,6 +523,12 @@ jobs:
         [ -f "composer.json" ] && cp -v composer.json build/ || echo "composer.json missing"
         [ -f "composer.lock" ] && cp -v composer.lock build/ || echo "composer.lock missing"
         [ -f ".htaccess" ] && cp -v .htaccess build/ || echo ".htaccess missing"
+        
+        echo "Copying Docker files..."
+        [ -f "Dockerfile" ] && cp -v Dockerfile build/ || echo "Dockerfile missing"
+        [ -f "docker-compose.yml" ] && cp -v docker-compose.yml build/ || echo "docker-compose.yml missing"
+        [ -f "build.sh" ] && cp -v build.sh build/ && chmod +x build/build.sh || echo "build.sh missing"
+        [ -f ".dockerignore" ] && cp -v .dockerignore build/ || echo ".dockerignore missing"
         
         echo "Setting proper permissions..."
         chmod -R 755 build/

@@ -1,0 +1,16 @@
+[build]
+builder = "nixpacks"
+
+[variables]
+NIXPACKS_PHP_ROOT_DIR = "/app"
+
+[phases.setup]
+nixPkgs = ["gettext"]
+
+[phases.build]
+cmds = [
+  "envsubst '$NIXPACKS_PHP_ROOT_DIR' < nginx.template.conf > nginx.conf"
+]
+
+[start]
+cmd = "nginx -c $(pwd)/nginx.conf"
