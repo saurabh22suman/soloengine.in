@@ -73,8 +73,19 @@ This job creates a deployable artifact of the website:
   - PHP files (index.php, admin.php, init_db.php, reset_db.php, etc.)
   - Asset directories (css, js, includes, assets)
   - Documentation files (.md)
+  - Docker files (Dockerfile, docker-compose.yml, build.sh)
 - Sets proper permissions for the data directory
 - Creates and uploads a build artifact that can be accessed from GitHub Actions
+
+### 5. Docker Job (Future Enhancement)
+
+*Note: Docker testing can be added to enhance the CI/CD pipeline:*
+
+- Build Docker image to ensure containerization works
+- Test application startup in Docker environment
+- Verify all endpoints are accessible in containerized setup
+- Test database operations in Docker container
+- Validate that build.sh script commands work correctly
 
 ## Fault Tolerance
 
