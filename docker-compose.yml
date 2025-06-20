@@ -1,6 +1,7 @@
 # Dokploy-compatible configuration optimized for PHP application
 
-services:  web:
+services:
+  web:
     build:
       context: .docker/php
       dockerfile: Dockerfile

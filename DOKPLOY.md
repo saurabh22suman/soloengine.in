@@ -6,11 +6,16 @@ This document provides instructions for deploying this PHP portfolio application
 
 This project is configured to work seamlessly with Dokploy UI, which uses Traefik as a reverse proxy for handling HTTPS and routing. The configuration eliminates the need for a separate nginx container, as Dokploy handles the web server functionality.
 
-## Recent Changes to Fix Gateway Timeout
+## Recent Changes to Fix Gateway Timeout and YAML Syntax Issues
 
-We've updated the configuration to address gateway timeout issues:
+We've updated the configuration to address gateway timeout issues and fixed YAML syntax errors:
 
-1. **Optimized PHP-FPM Configuration**
+1. **Fixed YAML Indentation**
+   - Corrected indentation in docker-compose.yml
+   - Added validation script to catch YAML errors
+   - Created YAML_SYNTAX_GUIDE.md for reference
+
+2. **Optimized PHP-FPM Configuration**
    - Increased max execution time to 120 seconds
    - Adjusted PHP memory limits and buffer sizes
    - Added explicit timeout configuration for Dokploy
@@ -31,11 +36,16 @@ We've updated the configuration to address gateway timeout issues:
 
 ## Deployment Steps
 
-1. **Prepare the docker-compose.yml file**
+1. **Validate the docker-compose.yml file**
    
-   Replace the old docker-compose.yml with the new version:
+   Always validate the YAML syntax before deployment:
    ```bash
-   mv docker-compose.yml.new docker-compose.yml
+   ./validate-compose.sh
+   ```
+   
+   Or use the Docker Compose built-in validation:
+   ```bash
+   docker-compose -f docker-compose.yml config
    ```
 
 2. **Deploy using Dokploy UI**
