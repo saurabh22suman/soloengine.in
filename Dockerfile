@@ -8,8 +8,10 @@ RUN apt-get update && apt-get install -y \
     libxext6 \
     && rm -rf /var/lib/apt/lists/*
 
-# Enable Apache mod_rewrite (optional but recommended for PHP apps)
+# Enable mod_rewrite for Apache
 RUN a2enmod rewrite
 
-# Working directory (where your index.php is)
+# Set DirectoryIndex so Apache knows to use index.php
+RUN echo 'DirectoryIndex index.php index.html' >> /etc/apache2/apache2.conf
+
 WORKDIR /var/www/html
