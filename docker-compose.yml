@@ -1,57 +1,14 @@
-# Dokploy-compatible configuration optimized for PHP application
+version: "3.8"
 
 services:
-  web:
+  php:
     build:
-      context: .docker/php
+      context: .
       dockerfile: Dockerfile
     volumes:
-      - ./:/var/www/html
-      - ./.docker/dokploy-web.conf:/etc/dokploy/web.conf
-    restart: unless-stopped
-    environment:
-      - PHP_MAX_EXECUTION_TIME=120
-      - PHP_MEMORY_LIMIT=256M
-      - PHP_UPLOAD_MAX_FILESIZE=32M
-      - PHP_POST_MAX_SIZE=32M
-    healthcheck:
-      test: ["CMD", "php", "-v"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
+      - .:/var/www/html
     labels:
-      - dokploy.enable=true
-      - dokploy.type=web
-      - dokploy.port=9000
-      - dokploy.protocol=fastcgi
-      - dokploy.documentRoot=/var/www/html
-      - dokploy.timeout=120
-      - dokploy.maxBodySize=32m
-      - traefik.enable=true
-      - traefik.http.routers.${DOKPLOY_PROJECT_NAME}-web.rule=Host(`me.soloengine.in`)
-      - traefik.http.routers.${DOKPLOY_PROJECT_NAME}-web.entrypoints=websecure
-      - traefik.http.routers.${DOKPLOY_PROJECT_NAME}-web.tls=true
-      - traefik.http.routers.${DOKPLOY_PROJECT_NAME}-web.tls.certresolver=letsencrypt
-      # HTTP to HTTPS redirect
-      - traefik.http.routers.${DOKPLOY_PROJECT_NAME}-web-http.rule=Host(`me.soloengine.in`)
-      - traefik.http.routers.${DOKPLOY_PROJECT_NAME}-web-http.entrypoints=web
-      - traefik.http.routers.${DOKPLOY_PROJECT_NAME}-web-http.middlewares=${DOKPLOY_PROJECT_NAME}-web-redirect
-      - traefik.http.middlewares.${DOKPLOY_PROJECT_NAME}-web-redirect.redirectscheme.scheme=https
-      - traefik.http.middlewares.${DOKPLOY_PROJECT_NAME}-web-redirect.redirectscheme.permanent=true
-      # Security headers
-      - traefik.http.middlewares.${DOKPLOY_PROJECT_NAME}-security-headers.headers.browserXssFilter=true
-      - traefik.http.middlewares.${DOKPLOY_PROJECT_NAME}-security-headers.headers.contentTypeNosniff=true
-      - traefik.http.middlewares.${DOKPLOY_PROJECT_NAME}-security-headers.headers.forceSTSHeader=true
-      - traefik.http.middlewares.${DOKPLOY_PROJECT_NAME}-security-headers.headers.stsIncludeSubdomains=true
-      - traefik.http.middlewares.${DOKPLOY_PROJECT_NAME}-security-headers.headers.stsPreload=true
-      - traefik.http.middlewares.${DOKPLOY_PROJECT_NAME}-security-headers.headers.stsSeconds=31536000
-      - traefik.http.routers.${DOKPLOY_PROJECT_NAME}-web.middlewares=${DOKPLOY_PROJECT_NAME}-security-headers
-
-  wkhtmltopdf:
-    build:
-      context: .docker/wkhtmltopdf
-    restart: unless-stopped
-    labels:
-      - dokploy.enable=true
-
-# No need to define networks - Dokploy handles this automatically
+      traefik.enable: true
+      traefik.http.routers.me_soloengine_in.rule: Host(`me.soloengine.in`)
+      traefik.http.routers.me_soloengine_in.entrypoints: web
+      traefik.http.services.me_soloengine_in.loadbalancer.server.port: 80
