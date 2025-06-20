@@ -1,6 +1,6 @@
 FROM php:8.2-apache
 
-# Install wkhtmltopdf and dependencies
+# Install required dependencies for wkhtmltopdf
 RUN apt-get update && apt-get install -y \
     wkhtmltopdf \
     libxrender1 \
@@ -8,10 +8,8 @@ RUN apt-get update && apt-get install -y \
     libxext6 \
     && rm -rf /var/lib/apt/lists/*
 
-# Enable mod_rewrite for Apache
+# Enable Apache mod_rewrite (if needed for routing)
 RUN a2enmod rewrite
 
-# Set DirectoryIndex so Apache knows to use index.php
-RUN echo 'DirectoryIndex index.php index.html' >> /etc/apache2/apache2.conf
-
+# Set working directory
 WORKDIR /var/www/html
