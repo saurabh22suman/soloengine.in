@@ -4,7 +4,8 @@ services:
   web:
     build:
       context: .
-      dockerfile: Dockerfile    command: >
+      dockerfile: Dockerfile    
+    command: >
       bash -c "mkdir -p /var/www/html/data &&
                mkdir -p /var/www/html/backup &&
                chmod +x /var/www/html/db_manager.sh &&
