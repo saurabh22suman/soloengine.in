@@ -4,13 +4,19 @@ services:
   web:
     build:
       context: .
-      dockerfile: Dockerfile
-    command: >
-      bash -c "chown -R www-data:www-data /var/www/html &&
+      dockerfile: Dockerfile    command: >
+      bash -c "mkdir -p /var/www/html/data &&
+               mkdir -p /var/www/html/backup &&
+               chmod +x /var/www/html/db_manager.sh &&
+               /var/www/html/db_manager.sh check &&
+               chown -R www-data:www-data /var/www/html &&
                chmod -R 755 /var/www/html &&
+               chmod -R 777 /var/www/html/data &&
+               chmod -R 777 /var/www/html/backup &&
                apache2-foreground"
     volumes:
       - .:/var/www/html
+      - portfolio_database:/var/www/html/data
     networks:
       - dokploy-network
     deploy:
@@ -20,6 +26,10 @@ services:
         - "traefik.http.routers.me_soloengine_in.entrypoints=web"
         - "traefik.http.routers.me_soloengine_in.tls=false"
         - "traefik.http.services.me_soloengine_in.loadbalancer.server.port=80"
+
+volumes:
+  portfolio_database:
+    name: portfolio_database_data
 
 networks:
   dokploy-network:

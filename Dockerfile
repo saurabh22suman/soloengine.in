@@ -6,7 +6,11 @@ RUN apt-get update && apt-get install -y \
     libxrender1 \
     libfontconfig1 \
     libxext6 \
+    sqlite3 \
     && rm -rf /var/lib/apt/lists/*
+
+# Install SQLite PDO extension
+RUN docker-php-ext-install pdo_sqlite
 
 # Enable mod_rewrite for Apache
 RUN a2enmod rewrite
