@@ -1,17 +1,17 @@
-version: "3.8"
-
 services:
   web:
     build:
       context: .
       dockerfile: Dockerfile
     command: >
-      bash -c "chown -R www-data:www-data /var/www/html &&
+      bash -c "mkdir -p /var/www/html/data &&
+               chown -R www-data:www-data /var/www/html &&
                chmod -R 755 /var/www/html &&
+               chmod 777 /var/www/html/data &&
                apache2-foreground"
     volumes:
-      - ./data:/var/www/html/data
       - .:/var/www/html
+      - portfolio-data:/var/www/html/data
     networks:
       - dokploy-network
     deploy:

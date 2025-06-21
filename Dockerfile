@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y \
     libfontconfig1 \
     libxext6 \
     sqlite3 \
+    libsqlite3-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Install SQLite PDO extension
@@ -28,5 +29,8 @@ RUN echo '<Directory /var/www/html/>\n\
 # Set working directory
 WORKDIR /var/www/html
 
-# Ensure correct ownership for web root — ***THIS FIXES YOUR PERMISSIONS ISSUE***
+# Copy custom PHP configuration
+COPY php.ini /usr/local/etc/php/conf.d/custom.ini
+
+# Ensure correct ownership for web root
 RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
