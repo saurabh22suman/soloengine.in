@@ -75,6 +75,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="#projects"><i class="fas fa-code me-1"></i>Projects</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="chat.php"><i class="fas fa-robot me-1"></i>Chat</a>
+                            </li>
                             <li class="nav-item d-none d-print-none">
                                 <button class="btn btn-print ms-2" aria-label="Print Resume"><i class="fas fa-print me-1"></i>Print</button>
                             </li>

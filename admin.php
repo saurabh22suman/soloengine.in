@@ -595,6 +595,9 @@ if ($is_logged_in) {
                                     <button class="nav-link" id="projects-tab" data-bs-toggle="tab" data-bs-target="#projects-tab-pane" type="button" role="tab" aria-controls="projects-tab-pane" aria-selected="false">Projects</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="rag-tab" data-bs-toggle="tab" data-bs-target="#rag-tab-pane" type="button" role="tab" aria-controls="rag-tab-pane" aria-selected="false">Chat RAG</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings-tab-pane" type="button" role="tab" aria-controls="settings-tab-pane" aria-selected="false">Settings</button>
                                 </li>
                             </ul>
@@ -951,6 +954,95 @@ if ($is_logged_in) {
                                 </div>
                                 
                                 <!-- Settings Tab -->
+                                <!-- RAG Chat Management Tab -->
+                                <div class="tab-pane fade" id="rag-tab-pane" role="tabpanel" aria-labelledby="rag-tab" tabindex="0">
+                                    <h4 class="mb-3">RAG Chat Management</h4>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="card mb-4">
+                                                <div class="card-header">
+                                                    <h5 class="mb-0">RAG System</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="list-group">
+                                                        <a href="rag_admin.php" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                                            <div>
+                                                                <h6 class="mb-1">RAG Document Management</h6>
+                                                                <p class="mb-1 small text-muted">Add, edit, and manage knowledge base documents</p>
+                                                            </div>
+                                                            <span class="btn btn-sm btn-primary">Open</span>
+                                                        </a>
+                                                        <a href="verify_rag_db.php" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                                            <div>
+                                                                <h6 class="mb-1">Database Verification</h6>
+                                                                <p class="mb-1 small text-muted">Verify and create RAG database tables</p>
+                                                            </div>
+                                                            <span class="btn btn-sm btn-secondary">Verify</span>
+                                                        </a>
+                                                        <a href="test_env.php" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                                            <div>
+                                                                <h6 class="mb-1">Environment Configuration</h6>
+                                                                <p class="mb-1 small text-muted">Test environment variables for the RAG system</p>
+                                                            </div>
+                                                            <span class="btn btn-sm btn-secondary">Test</span>
+                                                        </a>
+                                                        <a href="test_embedding.php" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                                            <div>
+                                                                <h6 class="mb-1">Embedding API Test</h6>
+                                                                <p class="mb-1 small text-muted">Test Hugging Face embedding generation</p>
+                                                            </div>
+                                                            <span class="btn btn-sm btn-secondary">Test</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6">
+                                            <div class="card mb-4">
+                                                <div class="card-header">
+                                                    <h5 class="mb-0">Chat Interface</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p>The RAG chat system enables your website to answer questions based on your portfolio content.</p>
+                                                    
+                                                    <div class="mb-3">
+                                                        <h6>How it works:</h6>
+                                                        <ol class="small">
+                                                            <li>Add documents to the knowledge base</li>
+                                                            <li>Documents are automatically chunked and embedded</li>
+                                                            <li>User questions are matched with relevant content</li>
+                                                            <li>AI generates responses based on your portfolio data</li>
+                                                        </ol>
+                                                    </div>
+                                                    
+                                                    <a href="chat.php" target="_blank" class="btn btn-primary">
+                                                        <i class="fas fa-external-link-alt me-1"></i> Open Chat Interface
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h5 class="mb-0">Documentation</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p class="small">Review the README files for detailed information about the RAG system.</p>
+                                                    <div class="list-group">
+                                                        <a href="DATABASE_README.md" target="_blank" class="list-group-item list-group-item-action small">
+                                                            <i class="fas fa-database me-1"></i> Database Structure
+                                                        </a>
+                                                        <a href="#" class="list-group-item list-group-item-action small" onclick="alert('RAG documentation is coming soon.'); return false;">
+                                                            <i class="fas fa-brain me-1"></i> RAG System Documentation
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="tab-pane fade" id="settings-tab-pane" role="tabpanel" aria-labelledby="settings-tab" tabindex="0">
                                     <h4 class="mb-3">Admin Settings</h4>
                                     
