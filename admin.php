@@ -649,18 +649,39 @@ if ($is_logged_in) {
                                 <div class="tab-pane fade" id="experience-tab-pane" role="tabpanel" aria-labelledby="experience-tab" tabindex="0">
                                     <div class="d-flex justify-content-between mb-3">
                                         <h4>Manage Experience</h4>
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addExperienceModal">
-                                            <i class="fas fa-plus"></i> Add New
-                                        </button>
+                                        <div>
+                                            <button type="button" id="saveExperienceOrder" class="btn btn-success me-2" style="display: none;">
+                                                <i class="fas fa-save"></i> Save Order
+                                            </button>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addExperienceModal">
+                                                <i class="fas fa-plus"></i> Add New
+                                            </button>
+                                        </div>
                                     </div>
                                     
-                                    <div class="list-group">
-                                        <?php foreach ($experiences as $exp): 
+                                    <div class="alert alert-info mb-3">
+                                        <i class="fas fa-info-circle me-2"></i> Drag and drop items to reorder your experience. Click "Save Order" when finished.
+                                    </div>
+                                    
+                                    <div class="list-group" id="sortableExperience">
+                                        <?php 
+                                        // Sort experiences by order_index if available, otherwise by id
+                                        usort($experiences, function($a, $b) {
+                                            if (isset($a['order_index']) && isset($b['order_index'])) {
+                                                return $b['order_index'] - $a['order_index']; // Descending order
+                                            }
+                                            return $a['id'] - $b['id']; // Fallback to id
+                                        });
+                                        
+                                        foreach ($experiences as $exp): 
                                             $items = json_decode($exp['description'], true);
                                         ?>
-                                        <div class="list-group-item">
+                                        <div class="list-group-item" data-id="<?php echo $exp['id']; ?>">
                                             <div class="d-flex justify-content-between align-items-center">
-                                                <h5 class="mb-1"><?php echo htmlspecialchars($exp['job_title']); ?></h5>
+                                                <h5 class="mb-1">
+                                                    <i class="fas fa-grip-vertical me-2 drag-handle" style="cursor: grab; color: #aaa;"></i>
+                                                    <?php echo htmlspecialchars($exp['job_title']); ?>
+                                                </h5>
                                                 <div>
                                                     <button type="button" class="btn btn-sm btn-outline-primary edit-experience-btn" 
                                                         data-bs-toggle="modal" 
@@ -2143,6 +2164,101 @@ if ($is_logged_in) {
                     modal.querySelector('#delete_title').textContent = this.dataset.title;
                 });
             });
+            
+            // Experience drag and drop functionality
+            if (document.getElementById('sortableExperience')) {
+                // Check if Sortable library exists, if not, dynamically load it
+                if (typeof Sortable === 'undefined') {
+                    const script = document.createElement('script');
+                    script.src = 'https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js';
+                    script.integrity = 'sha256-bTX/zRsTABDSXV3WS1+x2QeQx8iQZPwP+eMj23jVBX4=';
+                    script.crossOrigin = 'anonymous';
+                    script.onload = initSortable;
+                    document.head.appendChild(script);
+                } else {
+                    initSortable();
+                }
+                
+                function initSortable() {
+                    // Initialize Sortable on the experience list
+                    const sortable = new Sortable(document.getElementById('sortableExperience'), {
+                        animation: 150,
+                        handle: '.drag-handle',
+                        ghostClass: 'sortable-ghost',
+                        chosenClass: 'sortable-chosen',
+                        dragClass: 'sortable-drag',
+                        onEnd: function() {
+                            // Show the save button when items are reordered
+                            document.getElementById('saveExperienceOrder').style.display = 'inline-block';
+                        }
+                    });
+                    
+                    // Handle the save order button click
+                    document.getElementById('saveExperienceOrder').addEventListener('click', function() {
+                        // Get all experience item IDs in their current order
+                        const items = Array.from(document.querySelectorAll('#sortableExperience .list-group-item'));
+                        const order = items.map(item => item.getAttribute('data-id'));
+                        
+                        // Save button visual feedback
+                        const saveBtn = this;
+                        saveBtn.disabled = true;
+                        saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+                        
+                        // Send the order to the server via AJAX
+                        fetch('admin/save_experience_order.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                order: order,
+                                csrf_token: '<?php echo $_SESSION['csrf_token']; ?>'
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Success feedback
+                                saveBtn.className = 'btn btn-success me-2';
+                                saveBtn.innerHTML = '<i class="fas fa-check"></i> Saved!';
+                                
+                                // Reset button after delay
+                                setTimeout(() => {
+                                    saveBtn.className = 'btn btn-success me-2';
+                                    saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Order';
+                                    saveBtn.disabled = false;
+                                    saveBtn.style.display = 'none';
+                                }, 2000);
+                            } else {
+                                // Error feedback
+                                saveBtn.className = 'btn btn-danger me-2';
+                                saveBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error!';
+                                alert('Error: ' + data.message);
+                                
+                                // Reset button after delay
+                                setTimeout(() => {
+                                    saveBtn.className = 'btn btn-success me-2';
+                                    saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Order';
+                                    saveBtn.disabled = false;
+                                }, 2000);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error saving experience order:', error);
+                            saveBtn.className = 'btn btn-danger me-2';
+                            saveBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error!';
+                            alert('Error saving order. Please try again.');
+                            
+                            // Reset button after delay
+                            setTimeout(() => {
+                                saveBtn.className = 'btn btn-success me-2';
+                                saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Order';
+                                saveBtn.disabled = false;
+                            }, 2000);
+                        });
+                    });
+                }
+            }
         });
     </script>
 </body>

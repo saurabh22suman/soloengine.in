@@ -85,30 +85,11 @@ if (!isset($skillsByCategory)) {
                         </div>
                     </div>
                     
-                    <?php foreach ($skillsByCategory as $category => $categorySkills): ?>
-                    <div class="skill-category mb-2">
-                        <h5 class="skill-heading"><?php echo htmlspecialchars($category); ?></h5>
-                        <div class="d-flex flex-wrap">
-                            <?php foreach ($categorySkills as $skill): 
-                                $bgClass = 'bg-primary';
-                                switch($skill['level']) {
-                                    case 5: $bgClass = 'bg-success'; break;
-                                    case 4: $bgClass = 'bg-primary'; break;
-                                    case 3: $bgClass = 'bg-info'; break;
-                                    case 2: $bgClass = 'bg-warning'; break;
-                                    case 1: $bgClass = 'bg-secondary'; break;
-                                }
-                            ?>
-                            <span class="badge <?php echo $bgClass; ?> me-2 mb-2"><?php echo htmlspecialchars($skill['name']); ?></span>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-                    <?php endforeach; ?>
                     
                     <div class="mt-4 d-flex justify-content-end d-print-none">
-                        <button class="btn btn-outline-primary download-resume" id="download-resume-btn" aria-label="Download Resume PDF">
+                        <!-- <button class="btn btn-outline-primary download-resume" id="download-resume-btn" aria-label="Download Resume PDF">
                             <i class="fas fa-download me-2"></i>Download Resume
-                        </button>
+                        </button> -->
                         <button class="btn btn-print ms-2" id="print-resume-btn" aria-label="Print Resume">
                             <i class="fas fa-print me-2"></i>Print
                         </button>
