@@ -6,8 +6,20 @@ if (!isset($pdo)) {
 }
 
 // Fetch experience data
-$stmt = $pdo->query('SELECT * FROM experience ORDER BY start_date DESC');
+// Ensure experience items are ordered by start date in descending order (newest first)
+// SQLite doesn't handle date strings well, so we'll get all records and sort in PHP
+$stmt = $pdo->query('SELECT * FROM experience');
 $experiences = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Sort experiences by start date (newest first)
+usort($experiences, function($a, $b) {
+    // Convert MM/YYYY format to timestamps for comparison
+    $dateA = strtotime(str_replace('/', '-01-', $a['start_date']) . '-01');
+    $dateB = strtotime(str_replace('/', '-01-', $b['start_date']) . '-01');
+    
+    // Sort in descending order (newest first)
+    return $dateB - $dateA;
+});
 ?>
 
 <section id="experience" class="mb-5">
